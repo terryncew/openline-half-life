@@ -142,7 +142,7 @@ def run() -> dict:
     )
     report = {
         "schema": "openline.half-life.release-verification.v5",
-        "version": "0.2.0rc4-review-candidate",
+        "version": "0.2.0rc5-review-candidate",
         "release_tag_authorized": False,
         "passed": bool(
             pytest.returncode == 0

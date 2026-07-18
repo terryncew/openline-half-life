@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0rc5 review candidate
+
+- Fix clean CI wheel construction by installing the declared setuptools build backend in the development environment used by the offline `--no-build-isolation` packaging test.
+- Preserve full Ed25519 creation and verification across all 10,000 seeded histories.
+- Supersedes rc4, which passed the compaction gate but failed the clean packaging test because the build backend was only available in the authoring environment.
+
 ## 0.2.0rc4 review candidate
 
 - Removes the sampled cryptographic fast path from the 10,000-history release gate. Every seeded history now receives full Ed25519 chain creation, signature verification, parent continuity verification, and signed-anchor completeness verification.
