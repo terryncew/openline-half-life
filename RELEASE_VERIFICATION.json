@@ -1,0 +1,119 @@
+{
+  "boundaries": {
+    "automatic_compaction_authorized": false,
+    "automatic_retirement_authorized": false,
+    "causation_inferred_from_repetition_or_correlation": false,
+    "complete_artifact_manifest_signed": true,
+    "extension_signer_continuity_required": true,
+    "independent_full_history_replay": true,
+    "offline_deterministic_default": true,
+    "provider_required_for_tests": false,
+    "receiver_approval_separately_signed": true,
+    "rehydration_policy_pin_required": true,
+    "source_receipts_permanently_deleted": false,
+    "universal_threshold_claimed": false
+  },
+  "canonical_source": {
+    "actual_sha256": "0fd92bdfed08107a6826f03131fe6f076744deaad2785b4177c56f484cb35d12",
+    "expected_sha256": "0fd92bdfed08107a6826f03131fe6f076744deaad2785b4177c56f484cb35d12",
+    "unchanged": true,
+    "valid": true
+  },
+  "demo": {
+    "active_size_ratio_micros": 93451,
+    "archived_receipt_count": 65,
+    "comparison_passed": true,
+    "decision_equivalence_passed": true,
+    "error_reduction_micros": 428571,
+    "execution_returncode": 0,
+    "full_history_errors": 7,
+    "legitimate_task_completion_preserved": true,
+    "passed": true,
+    "retirement_turn": 61,
+    "same_exam_verified": true,
+    "share_card_statements_present": true,
+    "verified_residue_errors": 4
+  },
+  "passed": true,
+  "policy_trust": {
+    "compaction_receiver_pin_required": true,
+    "demo_keys_production_trustworthy": false,
+    "demo_source_and_approval_private_keys_distributed": true,
+    "policy_private_keys_distributed": false,
+    "succession_receiver_pin_required": true,
+    "trusted_compaction_public_keys": [
+      "34b4d9043156cb6dcf0beb0a2949b7559c940d2bcb6dbe8c53a9b30278e3a746"
+    ],
+    "trusted_succession_public_keys": [
+      "d810f13ea0d000c1c3a201cc568c1774b60f240a709f2f5220fec474254015af"
+    ]
+  },
+  "receipt_verification": {
+    "chain": {
+      "chain_digest": "e869a9f9b52d998b55f61d261aff712222f0139e63c0426f4c7e77425ef31d5f",
+      "count": 67,
+      "errors": [],
+      "tail_hash": "013ab0caa0c5a7ae3d8ad0ec89f78aac34f6f5715a36adf05056ea68a200f970",
+      "valid": true
+    },
+    "compaction": {
+      "active_size_ratio_micros": 93451,
+      "archive_receipt_count": 65,
+      "decision_equivalence_passed": true,
+      "errors": [],
+      "extension": {
+        "count": 2,
+        "errors": [],
+        "tail_hash": "013ab0caa0c5a7ae3d8ad0ec89f78aac34f6f5715a36adf05056ea68a200f970",
+        "valid": true
+      },
+      "source_chain": {
+        "chain_digest": "0e072017602025a6e6782ab34146295ebb691561400d1344bb71c9368da3d34e",
+        "count": 65,
+        "errors": [],
+        "tail_hash": "099aad33663b35834cb81d5504a8ded4e3be81c2e998110b695b5b5ecefa3d58",
+        "valid": true
+      },
+      "valid": true
+    },
+    "errors": [],
+    "policy_hash": "b3f812fd107b65479f628edb2d9ab7f2f93aa490ddd9e5bb173aec6089736437",
+    "policy_public_key": "d810f13ea0d000c1c3a201cc568c1774b60f240a709f2f5220fec474254015af",
+    "retirement_turn": 61,
+    "valid": true
+  },
+  "release_tag_authorized": false,
+  "schema": "openline.half-life.release-verification.v5",
+  "seeded_compaction_gate": {
+    "command": "python scripts/compaction_release_gate.py",
+    "execution_returncode": 0,
+    "result": {
+      "all_histories_cryptographically_verified": true,
+      "archive_recovery_failure_count": 0,
+      "archived_receipt_count": 135451,
+      "automatic_retirement_authorized": false,
+      "chain_verification_failure_count": 0,
+      "compression_size_history_count": 1000,
+      "cryptographically_verified_history_count": 10000,
+      "decision_mismatch_count": 0,
+      "independently_replayed_history_count": 10000,
+      "maximum_allowed_median_ratio_micros": 200000,
+      "median_active_size_ratio_micros": 120292,
+      "passed": true,
+      "schema": "openline.half-life.compaction-release-gate.v2",
+      "seeded_history_count": 10000,
+      "successful_tombstone_replay_count": 0,
+      "worker_count": 4
+    },
+    "stderr": ""
+  },
+  "single_documented_command": "python scripts/release_check.py",
+  "tests": {
+    "command": "python -m pytest -q",
+    "count": 62,
+    "passed": true,
+    "stderr": "",
+    "stdout": "..............................................................           [100%]\n"
+  },
+  "version": "0.2.0rc4-review-candidate"
+}
