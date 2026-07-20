@@ -1,0 +1,11 @@
+{
+  "active_state_percent": 9,
+  "break_even_turn": 23,
+  "compact_errors": 4,
+  "compact_tokens": 1653,
+  "decision_mismatches": 0,
+  "error_reduction_percent": 43,
+  "full_history_errors": 7,
+  "full_history_tokens": 10468,
+  "retirement_turn": 61
+}

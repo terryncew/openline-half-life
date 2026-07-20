@@ -1,6 +1,8 @@
 # Claim boundary
 
-OpenLine Half-Life is a deterministic, synthetic harness for verified succession and receiver-governed receipt compaction.
+OpenLine is positioned as a cross-platform save file for AI agents. In this repository, that means a deterministic, synthetic harness for carrying disclosed verified job state across a successor handoff. "Same point" means the same commitments, constraints, evidence, confirmed outcomes, unresolved questions, contradictions, and receiver decisions. It does not mean model weights, hidden thoughts, private chain of thought, or provider-internal memory.
+
+OpenLine Half-Life is the compaction and succession component of that larger save-file stack.
 
 The succession claim remains narrow: on the disclosed held-out exam and deterministic adapter, the verified-residue handoff makes fewer errors than the full-history condition while preserving legitimate completion.
 

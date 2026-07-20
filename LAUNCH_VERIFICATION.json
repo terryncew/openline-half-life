@@ -1,0 +1,71 @@
+{
+  "claim_boundary": "Cross-platform save-file means disclosed verified job-state continuity, not transfer of model weights, hidden thoughts, private chain of thought, or provider-internal memory. PyPI publication and fresh GitHub CI remain external release gates.",
+  "correctness": {
+    "durable_break_even_algorithm": "single_backward_pass_O_n",
+    "free_compute_price_rejected": true,
+    "free_fixed_overhead_rejected": true,
+    "large_horizon_regression_turns": 50000,
+    "license_metadata": {
+      "text": "MIT"
+    },
+    "setuptools_floor_editable_install": true,
+    "setuptools_floor_no_build_isolation": true,
+    "setuptools_floor_packaging_tests_passed": true,
+    "setuptools_floor_version": "68.1.2"
+  },
+  "distribution": {
+    "pipx_local_wheel_demo": true,
+    "published_package_smoke_workflow_present": true,
+    "sdist": {
+      "name": "openline_half_life-0.3.0rc4.tar.gz",
+      "sha256": "d97ddf3604449edf56167de2c0b126a9081475867cfdf774765a6d09544759c1",
+      "twine_check": true
+    },
+    "setuptools_floor_ci_job_present": true,
+    "trusted_publishing_workflow_present": true,
+    "uvx_local_wheel_demo": true,
+    "wheel": {
+      "name": "openline_half_life-0.3.0rc4-py3-none-any.whl",
+      "sha256": "539fef9a2d460d8d2331946260c2812338ccafd9ba9c51208cd78f57e18ef937",
+      "twine_check": true
+    },
+    "wheel_installed_demo_outside_checkout": true,
+    "wheel_installed_verify_outside_checkout": true
+  },
+  "launch_surface": {
+    "github_pages_workflow_present": true,
+    "human_cli_receipt": true,
+    "json_flag": true,
+    "landing_page_generated_from_artifacts": true,
+    "positioning_boundary_present": true,
+    "public_active_state_percent": 9,
+    "reference_cards_attributed": true
+  },
+  "passed": true,
+  "pypi_published": false,
+  "reference_run": {
+    "active_size_ratio_micros": 93451,
+    "active_state_percent": 9,
+    "canonical_break_even_turn": 23,
+    "decision_mismatch_count": 0,
+    "error_reduction_micros": 428571,
+    "full_history_errors": 7,
+    "retirement_turn": 61,
+    "verified_residue_errors": 4
+  },
+  "release_gate": {
+    "archive_recovery_failure_count": 0,
+    "chain_verification_failure_count": 0,
+    "cryptographically_verified_history_count": 10000,
+    "decision_mismatch_count": 0,
+    "median_active_size_ratio_micros": 120292,
+    "seeded_history_count": 10000,
+    "successful_tombstone_replay_count": 0,
+    "test_count": 88,
+    "tests_passed": true
+  },
+  "release_tag_authorized": false,
+  "schema": "openline.half-life.launch-verification.v1",
+  "timestamp": "2026-07-20T23:22:05.950108Z",
+  "version": "0.3.0rc4"
+}

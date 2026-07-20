@@ -12,18 +12,39 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
       - name: Install exact development dependencies
         run: python -m pip install -e '.[dev]'
-      - name: Run complete audit, tamper, compaction, and 10k release gate
+      - name: Run complete audit, tamper, compaction, economics, and 10k release gate
         run: PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python scripts/release_check.py
       - name: Verify packaged demo outputs
         run: |
-          python -m openline_half_life demo --out build/demo --replay-latency-micros 75000
+          python -m openline_half_life demo --out build/demo --replay-latency-micros 75000 --json
           python -m openline_half_life verify build/demo \
             --policy-public-key policy/succession_policy_public_key.hex \
             --compaction-policy-public-key policy/compaction_policy_public_key.hex
+      - name: Build launch page from the verified reference run
+        run: python scripts/build_landing_page.py
+      - name: Build and inspect distributions
+        run: |
+          python -m build
+          python -m twine check dist/*
+
+  packaging-floor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install declared build-backend floor
+        run: python -m pip install "setuptools==68.1.2" wheel pytest "cryptography>=42"
+      - name: Prove editable install at the declared floor
+        run: python -m pip install --no-build-isolation --no-deps -e .
+      - name: Re-run packaging tests at the declared floor
+        run: PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest -q tests/test_packaging.py

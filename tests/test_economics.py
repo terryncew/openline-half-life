@@ -2,12 +2,14 @@ from __future__ import annotations
 
 import copy
 import re
+from time import perf_counter
 from pathlib import Path
 
 import pytest
 
 from openline_half_life.economics import (
     EconomicsError,
+    _durable_break_even,
     INPUT_SCHEMA,
     render_break_even_card,
     run_break_even_benchmark,
@@ -84,7 +86,7 @@ def test_long_task_crosses_and_stays_below():
 
 
 def test_more_declared_verification_cost_moves_break_even_later():
-    _, low, _ = _run(_declared(horizon=200, fixed=0, canonical_runtime=10_000), runtime=500_000)
+    _, low, _ = _run(_declared(horizon=200, fixed=1, canonical_runtime=10_000), runtime=500_000)
     _, high, _ = _run(_declared(horizon=200, fixed=500_000, canonical_runtime=500_000), runtime=10_000)
     assert low["dollar_durable_break_even_turn"] < high["dollar_durable_break_even_turn"]
 
@@ -190,3 +192,34 @@ def test_break_even_graph_uses_one_shared_vertical_scale(tmp_path: Path):
     assert full_last_y < compact_last_y
     assert "one shared vertical scale" in html
     assert f"break-even: turn {report['dollar_durable_break_even_turn']}" in html
+
+
+def test_durable_break_even_large_horizon_is_linear_and_fast():
+    horizon = 50_000
+    curve = [
+        {
+            "future_turn": turn,
+            "compact_total_usd_micros": 2 if turn < 25_000 else 1,
+            "full_history_total_usd_micros": 1,
+        }
+        for turn in range(1, horizon + 1)
+    ]
+    started = perf_counter()
+    result = _durable_break_even(curve, "compact_total_usd_micros")
+    elapsed = perf_counter() - started
+    assert result == 25_000
+    assert elapsed < 1.0
+
+
+@pytest.mark.parametrize(
+    ("field", "message"),
+    [
+        ("deterministic_compute_price_usd_micros_per_second", "deterministic compute price must be positive"),
+        ("fixed_verification_overhead_usd_micros", "fixed verification overhead must be positive"),
+    ],
+)
+def test_complete_pricing_rejects_free_verification(field, message):
+    declared = _declared()
+    declared[field] = 0
+    with pytest.raises(EconomicsError, match=message):
+        _run(declared)

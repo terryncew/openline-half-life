@@ -84,6 +84,8 @@ def validate_cost_assumptions_input(value: Mapping[str, Any]) -> dict[str, Any]:
     source = value["pricing_source"]
     if pricing_complete:
         _require(int(model_price) > 0, "model input price must be positive with complete pricing")
+        _require(int(compute_price) > 0, "deterministic compute price must be positive with complete pricing")
+        _require(int(fixed) > 0, "fixed verification overhead must be positive with complete pricing")
         _require(isinstance(effective, str) and effective, "pricing_effective_date is required with complete pricing")
         try:
             date.fromisoformat(effective)
@@ -112,19 +114,24 @@ def _compute_cost(runtime_micros: int, rate_per_second: int) -> int:
 
 
 def _durable_break_even(curve: Sequence[Mapping[str, Any]], field: str) -> int | None:
-    for index, row in enumerate(curve):
+    """Return the first turn after which compact stays at or below full history.
+
+    A single backward pass records the last row that violates durability. This
+    preserves the previous semantics while avoiding a quadratic suffix scan.
+    """
+    full_field = field.replace("compact_", "full_history_")
+    last_failure_index = -1
+    for index in range(len(curve) - 1, -1, -1):
+        row = curve[index]
         compact = row.get(field)
-        full = row.get(field.replace("compact_", "full_history_"))
+        full = row.get(full_field)
         if compact is None or full is None or compact > full:
-            continue
-        if all(
-            later.get(field) is not None
-            and later.get(field.replace("compact_", "full_history_")) is not None
-            and later[field] <= later[field.replace("compact_", "full_history_")]
-            for later in curve[index:]
-        ):
-            return int(row["future_turn"])
-    return None
+            last_failure_index = index
+            break
+    candidate_index = last_failure_index + 1
+    if candidate_index >= len(curve):
+        return None
+    return int(curve[candidate_index]["future_turn"])
 
 
 def _first_crossing(curve: Sequence[Mapping[str, Any]], compact_field: str) -> int | None:
@@ -399,13 +406,14 @@ def render_break_even_card(path: Path, report: Mapping[str, Any], curve: Sequenc
 h1 {{ margin:24px 0 12px; font-size:clamp(40px,7vw,78px); line-height:1; letter-spacing:-.045em; }} .sub {{ color:#c6d0df; font-size:clamp(20px,3vw,30px); line-height:1.25; max-width:880px; }}
 .graph {{ margin-top:34px; padding:18px; border:1px solid #293342; border-radius:18px; background:#0d121a; }} svg {{ width:100%; height:auto; }} .legend {{ display:flex; gap:22px; color:#9dacbf; font-size:14px; }}
 .metrics {{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:24px; }} .metric {{ padding:16px; background:#171d29; border:1px solid #2a3342; border-radius:14px; }} .label {{ color:#8f9db2; font-size:12px; text-transform:uppercase; letter-spacing:.08em; }} .value {{ margin-top:7px; font-size:24px; font-weight:700; }}
-.unpriced {{ padding:70px 20px; text-align:center; color:#a9b6c8; }} .footer {{ margin-top:26px; color:#75849a; font-size:14px; }} @media(max-width:700px){{.metrics{{grid-template-columns:1fr;}}}}
+.unpriced {{ padding:70px 20px; text-align:center; color:#a9b6c8; }} .byline {{ margin-top:26px; color:#c8d3e2; font-size:15px; font-weight:700; }} .footer {{ margin-top:8px; color:#75849a; font-size:14px; }} @media(max-width:700px){{.metrics{{grid-template-columns:1fr;}}}}
 </style></head><body><main class="card">
-<div class="eyebrow">OpenLine Half-Life · Compaction Economics · Declared Assumptions</div>
+<div class="eyebrow">OpenLine Half-Life · Save-File Economics · Declared Assumptions</div>
 <div class="status">{escape(description['status'])}</div><h1>{escape(description['headline'])}</h1><p class="sub">{escape(description['subhead'])}</p>
 <div class="graph">{graph}<div class="legend"><span>Full-history loading</span><span>Periodic verification + compact-state loading</span></div></div>
 <section class="metrics"><div class="metric"><div class="label">Full-history tokens</div><div class="value">{final['full_history_model_input_tokens']:,}</div></div><div class="metric"><div class="label">Compact-path tokens</div><div class="value">{final['compact_model_input_tokens']:,}</div></div><div class="metric"><div class="label">Canonical initial verification</div><div class="value">{report['canonical_initial_verification_runtime_micros']:,} µs</div></div><div class="metric"><div class="label">Observed this run</div><div class="value">{report['observed_initial_verification_runtime_micros']:,} µs</div></div></section>
-<div class="footer">Headline uses the declared canonical scenario; observed runtime is shown separately. Not a universal savings claim. For short one-off tasks, compaction may not save anything.</div>
+<div class="byline">Terrynce White · OpenLine Protocol</div>
+<div class="footer">Cost is a secondary benefit of portable continuity. Headline uses the declared canonical scenario; observed runtime is shown separately. Not a universal savings claim.</div>
 </main></body></html>'''
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(html, encoding="utf-8")

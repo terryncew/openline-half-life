@@ -162,7 +162,7 @@ def run() -> dict:
     )
     report = {
         "schema": "openline.half-life.release-verification.v7",
-        "version": "0.3.0rc2-review-candidate",
+        "version": "0.3.0rc4-launch-review-candidate",
         "release_tag_authorized": False,
         "passed": bool(
             pytest.returncode == 0
@@ -203,6 +203,8 @@ def run() -> dict:
             ),
             "share_card_statements_present": (
                 "COMPARISON PASSED" in card
+                and "Your agent should survive changing models." in card
+                and "Terrynce White · OpenLine Protocol" in card
                 and "Agent retired after turn 61." in card
                 and "Verified handoff reduced errors by 43% on the same exam." in card
                 and "Causal capsule preserved exact receiver decisions" in card

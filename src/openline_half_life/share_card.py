@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 
-def _rounded_percent(micros: int) -> int:
+def rounded_percent(micros: int) -> int:
     magnitude = abs(micros)
     return (magnitude + 5_000) // 10_000
 
@@ -20,7 +20,7 @@ def describe_share_card(retirement_turn: int, comparison: Mapping[str, Any]) -> 
             "status": "COMPARISON PASSED",
             "headline": f"Agent retired after turn {retirement_turn}.",
             "subhead": (
-                f"Verified handoff reduced errors by {_rounded_percent(reduction_micros)}% on the same exam."
+                f"Verified handoff reduced errors by {rounded_percent(reduction_micros)}% on the same exam."
             ),
         }
 
@@ -28,11 +28,11 @@ def describe_share_card(retirement_turn: int, comparison: Mapping[str, Any]) -> 
         reason = "Verified residue did not preserve legitimate task completion."
     elif reduction_micros > 0:
         reason = (
-            f"Errors fell by {_rounded_percent(reduction_micros)}%, but the comparison gate failed."
+            f"Errors fell by {rounded_percent(reduction_micros)}%, but the comparison gate failed."
         )
     elif reduction_micros < 0:
         reason = (
-            f"Verified residue increased errors by {_rounded_percent(reduction_micros)}% on the same exam."
+            f"Verified residue increased errors by {rounded_percent(reduction_micros)}% on the same exam."
         )
     else:
         reason = "Verified residue did not reduce errors on the same exam."
@@ -56,7 +56,7 @@ def render_share_card(
     compaction_line = ""
     if compaction is not None:
         if compaction.get("passed") is True:
-            ratio = _rounded_percent(int(compaction["active_size_ratio_micros"]))
+            ratio = rounded_percent(int(compaction["active_size_ratio_micros"]))
             compaction_line = (
                 f'<div class="compaction">Causal capsule preserved exact receiver decisions at {ratio}% of active receipt size.</div>'
             )
@@ -85,6 +85,7 @@ def render_share_card(
 * {{ box-sizing: border-box; }}
 body {{ margin: 0; min-height: 100vh; display: grid; place-items: center; background: #090c12; color: #f5f7fb; font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }}
 .card {{ width: min(920px, 92vw); padding: clamp(32px, 7vw, 76px); border: 1px solid #2c3442; border-radius: 28px; background: linear-gradient(145deg, #121722, #0c1017); box-shadow: 0 30px 90px rgba(0,0,0,.42); }}
+.hook {{ margin-bottom: 10px; color: #d8e1ee; font-size: 17px; font-weight: 700; }}
 .eyebrow {{ font-size: 14px; letter-spacing: .16em; text-transform: uppercase; color: #9eacc1; }}
 .status {{ display: inline-block; margin-top: 22px; padding: 8px 12px; border: 1px solid #3a4659; border-radius: 999px; font-size: 13px; font-weight: 700; letter-spacing: .08em; }}
 h1 {{ margin: 24px 0 12px; font-size: clamp(42px, 7vw, 84px); line-height: .98; letter-spacing: -.045em; }}
@@ -94,13 +95,15 @@ h1 {{ margin: 24px 0 12px; font-size: clamp(42px, 7vw, 84px); line-height: .98; 
 .label {{ color: #8f9db2; font-size: 13px; text-transform: uppercase; letter-spacing: .1em; }}
 .value {{ margin-top: 8px; font-size: 28px; font-weight: 700; }}
 .compaction, .economics {{ margin-top: 24px; padding: 16px 18px; border: 1px solid #2a3342; border-radius: 14px; color: #b8c4d6; background: #111722; font-size: 16px; }}
-.footer {{ margin-top: 32px; color: #75849a; font-size: 14px; }}
+.byline {{ margin-top: 30px; color: #c8d3e2; font-size: 15px; font-weight: 700; }}
+.footer {{ margin-top: 8px; color: #75849a; font-size: 14px; }}
 @media (max-width: 640px) {{ .metrics {{ grid-template-columns: 1fr; }} }}
 </style>
 </head>
 <body>
 <main class="card">
-<div class="eyebrow">OpenLine Half-Life · Same Exam · Receiver Verified</div>
+<div class="hook">Your agent should survive changing models.</div>
+<div class="eyebrow">OpenLine Half-Life · Same Job · Receiver Verified</div>
 <div class="status">{escape(description['status'])}</div>
 <h1>{escape(description['headline'])}</h1>
 <p class="sub">{escape(description['subhead'])}</p>
@@ -111,7 +114,8 @@ h1 {{ margin: 24px 0 12px; font-size: clamp(42px, 7vw, 84px); line-height: .98; 
 </section>
 {compaction_line}
 {economics_line}
-<div class="footer">Synthetic deterministic demo. Not a universal model-support claim. Automatic retirement remains forbidden.</div>
+<div class="byline">Terrynce White · OpenLine Protocol</div>
+<div class="footer">Synthetic deterministic demo. The save file carries verified job state, not model weights or hidden thoughts. Automatic retirement remains forbidden.</div>
 </main>
 </body>
 </html>

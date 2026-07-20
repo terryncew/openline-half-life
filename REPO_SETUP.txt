@@ -2,10 +2,10 @@ Repository name:
 openline-half-life
 
 Repository description:
-A deterministic OLP harness for verified succession, receiver-governed causal compaction, and falsifiable break-even economics.
+A cross-platform save-file harness that preserves verified AI-agent job state across model handoffs.
 
 Commit message:
-Stabilize compaction economics with a canonical scenario
+Build the OpenLine cross-model save-file launch
 
 Commit body:
-Separate observed wall-clock verification time from a receiver-declared canonical economics scenario. Keep observed runtime as signed evidence, use a declared 100,000 µs assumption for reproducible headline crossings, regenerate every economics artifact together, and preserve all inherited safety and cryptographic gates.
+Fix the durable break-even performance regression and free-verification pricing loophole; add a human CLI receipt, attributed reference cards, deterministic GitHub Pages launch surface, PyPI trusted-publishing and published-package smoke workflows, and the cross-platform save-file positioning while preserving all inherited receiver-owned trust, decision-equivalence, archive, and 10,000-history cryptographic gates.

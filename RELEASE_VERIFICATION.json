@@ -8,7 +8,6 @@
     "economics_requires_dated_receiver_pricing": true,
     "extension_signer_continuity_required": true,
     "independent_full_history_replay": true,
-    "observed_runtime_controls_headline": false,
     "offline_deterministic_default": true,
     "provider_required_for_tests": false,
     "receiver_approval_separately_signed": true,
@@ -47,26 +46,31 @@
     "dollar_durable_break_even_turn": 23,
     "future_turn_horizon": 120,
     "headline_basis": "DECLARED_CANONICAL_SCENARIO",
-    "observed_initial_verification_runtime_micros": 59316,
+    "observed_initial_verification_runtime_micros": 23464,
     "pricing_complete": true,
     "shared_scale_graph_present": true,
     "status": "DURABLE_BREAK_EVEN_REACHED"
   },
-  "fresh_python_312_ci_required": true,
   "passed": true,
   "policy_trust": {
     "compaction_receiver_pin_required": true,
     "demo_keys_production_trustworthy": false,
     "demo_source_and_approval_private_keys_distributed": true,
     "policy_private_keys_distributed": false,
-    "succession_receiver_pin_required": true
+    "succession_receiver_pin_required": true,
+    "trusted_compaction_public_keys": [
+      "34b4d9043156cb6dcf0beb0a2949b7559c940d2bcb6dbe8c53a9b30278e3a746"
+    ],
+    "trusted_succession_public_keys": [
+      "d810f13ea0d000c1c3a201cc568c1774b60f240a709f2f5220fec474254015af"
+    ]
   },
   "receipt_verification": {
     "chain": {
-      "chain_digest": "f66cabb98aebdb46fa9c0e31a1bf89418130553302b13516e3f6cc2e81a07a1d",
+      "chain_digest": "5790cd7de4d067194a738620f05eff0318c7d31856e1328e5259163e64252fc8",
       "count": 67,
       "errors": [],
-      "tail_hash": "a31aa7331576da714f377e414c8a411a5539f8fbcdf12e0e9550a16ee84a8297",
+      "tail_hash": "dbe6b70d84902dbd90ea7dee725265fe06b9751dfc0cbb2b764e9f6980695ac1",
       "valid": true
     },
     "compaction": {
@@ -77,7 +81,7 @@
       "extension": {
         "count": 2,
         "errors": [],
-        "tail_hash": "a31aa7331576da714f377e414c8a411a5539f8fbcdf12e0e9550a16ee84a8297",
+        "tail_hash": "dbe6b70d84902dbd90ea7dee725265fe06b9751dfc0cbb2b764e9f6980695ac1",
         "valid": true
       },
       "source_chain": {
@@ -122,12 +126,11 @@
   },
   "single_documented_command": "python scripts/release_check.py",
   "tests": {
-    "command": "python -m pytest -q -p no:cacheprovider",
-    "count": 78,
+    "command": "python -m pytest -q",
+    "count": 88,
     "passed": true,
     "stderr": "",
-    "stdout": "........................................................................ [ 92%]\\n......                                                                   [100%]\\n"
+    "stdout": "........................................................................ [ 81%]\n................                                                         [100%]\n"
   },
-  "verification_execution_mode": "local_component_gates",
-  "version": "0.3.0rc2-review-candidate"
+  "version": "0.3.0rc4-launch-review-candidate"
 }

@@ -1,3 +1,3 @@
-"""OpenLine Half-Life: a deterministic successor-handoff comparison harness."""
+"""OpenLine Half-Life: verified job-state continuity across model handoffs."""
 
-__version__ = "0.3.0rc2"
+__version__ = "0.3.0rc4"

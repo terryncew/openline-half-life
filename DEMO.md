@@ -1,59 +1,39 @@
-# Three-minute demo
+# Three-minute save-file demo
 
-**0:00–0:35 — Run the same-exam test and compactor**
-
-```bash
-python -m openline_half_life demo --out build/demo --replay-latency-micros 75000
-```
-
-The receiver policy budgets are signed. Crossing either budget proposes compaction; it does not authorize it. The demo supplies a separate receiver-signed, per-run `APPROVE` disposition.
-
-**0:35–1:15 — Inspect the active state**
-
-Open:
-
-- `build/demo/causal_capsule.json`
-- `build/demo/verified_residue_handoff.json`
-
-The capsule keeps supported claims, the privacy constraint, confirmed outcomes, the unresolved latency question, evidence pointers, and tombstones. Unsupported, stale, revoked, and superseded states cannot quietly return.
-
-**1:15–1:50 — Inspect equivalence**
-
-Open `build/demo/decision_equivalence_report.json`.
-
-An independent replay of the full chain and the capsule decision hashes match exactly. A missing contradiction, revived rejected claim, changed constraint, or altered supported value produces a mismatch and blocks compaction.
-
-**1:50–2:25 — Inspect cold storage**
-
-Open:
-
-- `build/demo/archive_manifest.json`
-- `build/demo/cold_archive/receipts/`
-
-Every source receipt remains recoverable by hash. The archive manifest and compaction receipt use the existing OLP receipt schema and extend the original chain.
-
-**2:25–2:45 — Inspect break-even**
-
-Open:
-
-- `build/demo/break_even_report.json`
-- `build/demo/break_even_curve.csv`
-- `build/demo/break_even_card.html`
-
-The two cumulative paths use one shared vertical scale. The report may earn a durable crossing, report no crossing, or withhold a dollar claim. The bundled prices are synthetic declared assumptions, not provider quotes. The headline uses the declared canonical 100,000 µs verification-runtime scenario; the actual observed runtime is shown separately as evidence.
-
-**2:45–3:00 — Verify everything**
+## 0:00–0:30 — Create the save file
 
 ```bash
-python -m openline_half_life verify build/demo \
-  --policy-public-key policy/succession_policy_public_key.hex \
-  --compaction-policy-public-key policy/compaction_policy_public_key.hex
+uvx openline-half-life demo
 ```
 
-Then open `build/demo/share_card.html`.
+Until the package is published, use the checkout command:
 
-The public result remains:
+```bash
+python -m openline_half_life demo --out build/demo
+```
 
-> Agent retired after turn 61. Verified handoff reduced errors by 43% on the same exam.
+The CLI prints the retirement point, same-exam result, active-state ratio, reference break-even turn, decision-mismatch count, and path to the share card. Add `--json` for the full result.
 
-The card adds the measured capsule-size ratio only because decision equivalence passed. The economics line appears only because the same-exam, legitimate-completion, and decision-equivalence gates passed and complete dated assumptions were supplied.
+## 0:30–1:10 — Inspect what survived
+
+Open `build/demo/causal_capsule.json` and `build/demo/verified_residue_handoff.json`. The save file keeps supported claims, evidence pointers, live constraints, commitments, outcomes, unresolved questions, contradictions, tombstones, policy versions, and source hashes.
+
+It does not contain model weights, hidden thoughts, private chain of thought, or a provider's internal memory.
+
+## 1:10–1:45 — Check that the job state is equivalent
+
+Open `build/demo/decision_equivalence_report.json`. An independent full-history replay and the compact capsule produce the same disclosed Receipt Gate decisions. A revived rejected claim, missing contradiction, changed constraint, or altered supported value blocks compaction.
+
+## 1:45–2:15 — Check the original record
+
+Open `build/demo/archive_manifest.json` and `build/demo/cold_archive/receipts/`. Source receipts are never deleted. Every archived receipt remains recoverable and hash-verifiable.
+
+## 2:15–2:40 — Inspect the same-exam handoff
+
+Open `build/demo/comparison.json` and `build/demo/share_card.html`. The full-history and verified-residue successor conditions receive the same held-out exam. Legitimate task completion must survive or the comparison fails.
+
+## 2:40–3:00 — Inspect the secondary economics result
+
+Open `build/demo/break_even_report.json` and `build/demo/break_even_card.html`. The break-even headline uses a declared canonical scenario; observed runtime remains separate evidence. A short task may honestly show no savings.
+
+**Category:** You own the job. The model is the console.

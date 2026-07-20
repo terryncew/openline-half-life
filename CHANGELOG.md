@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.3.0rc4 — Setuptools floor compatibility
+
+- Restores the table-form MIT license metadata accepted by the declared `setuptools>=68` build-backend floor.
+- Adds a packaging-floor CI job that pins setuptools 68.1.2, performs a no-build-isolation editable install, and reruns the outside-checkout wheel demo test.
+- Keeps public active-state copy derived from the reference run (9%); the separate 10,000-history median remains release-gate evidence, not launch copy.
+- Supersedes rc3, which built in newer authoring environments but failed metadata generation at the declared setuptools floor.
+
+## 0.3.0rc3 — Launch build
+
+- Reframes Half-Life under OpenLine's cross-platform save-file promise: verified job-state continuity across models.
+- Replaces the quadratic durable-break-even scan with a single backward pass and adds a 50,000-turn performance regression.
+- Rejects complete pricing that silently prices deterministic verification or fixed verification overhead at zero.
+- Adds a human-readable CLI receipt for `demo` and `run`; `--json` preserves the full machine output.
+- Adds continuity hooks and `Terrynce White · OpenLine Protocol` attribution to both generated cards.
+- Adds a deterministic GitHub Pages launch surface built from the reference run, plus positioning and launch-copy documents.
+- Adds PyPI trusted-publishing and published-package smoke-test workflows; actual publication remains a separate credentialed release action.
+
 ## 0.3.0rc2 review candidate
 
 - Separates observed wall-clock compaction runtime from the receiver-declared canonical economic scenario.

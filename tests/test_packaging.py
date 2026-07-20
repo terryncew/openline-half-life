@@ -52,7 +52,7 @@ def test_wheel_installed_demo_runs_outside_checkout(root: Path, tmp_path: Path):
     env = dict(os.environ)
     env["PYTHONPATH"] = str(target)
     demo = subprocess.run(
-        [sys.executable, "-m", "openline_half_life", "demo", "--out", str(output)],
+        [sys.executable, "-m", "openline_half_life", "demo", "--out", str(output), "--json"],
         cwd=empty,
         env=env,
         text=True,
@@ -64,3 +64,11 @@ def test_wheel_installed_demo_runs_outside_checkout(root: Path, tmp_path: Path):
     assert result["comparison"]["passed"] is True
     assert result["retirement_turn"] == 61
     assert (output / "share_card.html").exists()
+
+
+def test_declared_setuptools_floor_accepts_project_metadata(root: Path):
+    import tomllib
+
+    metadata = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))
+    assert metadata["build-system"]["requires"] == ["setuptools>=68"]
+    assert metadata["project"]["license"] == {"text": "MIT"}

@@ -1,14 +1,35 @@
 # OpenLine Half-Life
 
-OpenLine Half-Life tests two linked questions:
+## Your agent should survive changing models
 
-1. Does a receiver-verifiable residue handoff outperform full history on the same held-out exam?
-2. Can a long verified OLP receipt chain be compressed into a smaller causal state without changing any receiver decision the full chain would produce?
-3. Under declared pricing and rehydration assumptions, after how many future turns does the verified compact path break even against repeatedly loading full history?
+OpenLine is a cross-platform save file for AI agents: save the verified state of a job on one model, load it on another, and continue with the record intact. **You own the job. The model is the console.**
 
-The second layer is the **OLP Causal Compactor**. Pressure only proposes compaction. A receiver-owned signed policy and a separate per-run receiver approval decide what may leave active memory. Exact decision equivalence decides whether compaction is allowed.
+This repository contains Half-Life, the part of the OpenLine stack that makes the save file small enough to carry. It turns a long verified receipt history into a compact causal capsule, but permits that compression only when an independent replay proves the capsule produces the same receiver decisions as the full chain.
 
-This is an offline deterministic review candidate, not a universal model or universal savings claim, dashboard, account system, payment layer, or Trust Router.
+The portable state includes supported claims, evidence references, live constraints, commitments, confirmed outcomes, unresolved questions, contradictions, tombstones, policy versions, and source hashes. It does not transfer model weights, hidden thoughts, private chain of thought, or a provider's internal memory.
+
+Receipts record what happened. Half-Life compacts the verified record. Verified Model Swap loads it into another model. Receipt Gate decides what the transferred evidence earns. Verified Commit gives the receiving model fresh permission for one exact action.
+
+Cost savings are secondary. A smaller save file can reduce repeated context loading for long-running agents, but the economics benchmark may honestly report that a short task never breaks even.
+
+## Run the reference save-file demo
+
+After publication to PyPI:
+
+```bash
+uvx openline-half-life demo
+# or
+pipx run openline-half-life demo
+```
+
+From a checkout:
+
+```bash
+python -m pip install -e '.[dev]'
+openline-half-life demo --out build/demo
+```
+
+The default CLI prints a short human receipt. Add `--json` for the complete machine-readable result.
 
 ## Trust boundary
 

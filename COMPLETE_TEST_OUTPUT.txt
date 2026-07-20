@@ -1,60 +1,579 @@
-OpenLine Half-Life v0.3.0rc2 review-candidate verification
+OPENLINE HALF-LIFE v0.3.0rc4 LAUNCH BUILD — COMPLETE LOCAL OUTPUT
 
-LOCAL COMPONENT GATES
-python -m pytest -q -p no:cacheprovider
-python scripts/compaction_release_gate.py
-python -m openline_half_life demo --out examples/demo_output --replay-latency-micros 75000
-python -m openline_half_life verify examples/demo_output --policy-public-key policy/succession_policy_public_key.hex --compaction-policy-public-key policy/compaction_policy_public_key.hex
+=== FULL RELEASE GATE PROGRESS ===
+[release-check] running inherited, audit, tamper, compaction, packaging, and economics tests
+[release-check] collecting exact test count
+[release-check] running 10,000-history compaction gate
+[release-check] loading receiver trust pins
+[release-check] running clean deterministic demo and verification
+[release-check] assembling release verification receipt
 
-PYTEST
-count: 78
-passed: true
-stdout:
-........................................................................ [ 92%]
-......                                                                   [100%]
+=== FULL RELEASE VERIFICATION JSON ===
+{
+  "boundaries": {
+    "automatic_compaction_authorized": false,
+    "automatic_retirement_authorized": false,
+    "causation_inferred_from_repetition_or_correlation": false,
+    "complete_artifact_manifest_signed": true,
+    "economics_can_report_no_break_even": true,
+    "economics_requires_dated_receiver_pricing": true,
+    "extension_signer_continuity_required": true,
+    "independent_full_history_replay": true,
+    "offline_deterministic_default": true,
+    "provider_required_for_tests": false,
+    "receiver_approval_separately_signed": true,
+    "rehydration_policy_pin_required": true,
+    "source_receipts_permanently_deleted": false,
+    "universal_savings_claimed": false,
+    "universal_threshold_claimed": false
+  },
+  "canonical_source": {
+    "actual_sha256": "0fd92bdfed08107a6826f03131fe6f076744deaad2785b4177c56f484cb35d12",
+    "expected_sha256": "0fd92bdfed08107a6826f03131fe6f076744deaad2785b4177c56f484cb35d12",
+    "unchanged": true,
+    "valid": true
+  },
+  "demo": {
+    "active_size_ratio_micros": 93451,
+    "archived_receipt_count": 65,
+    "comparison_passed": true,
+    "decision_equivalence_passed": true,
+    "error_reduction_micros": 428571,
+    "execution_returncode": 0,
+    "full_history_errors": 7,
+    "legitimate_task_completion_preserved": true,
+    "passed": true,
+    "retirement_turn": 61,
+    "same_exam_verified": true,
+    "share_card_statements_present": true,
+    "verified_residue_errors": 4
+  },
+  "economics": {
+    "benchmark_valid": true,
+    "canonical_headline_is_machine_stable": true,
+    "canonical_initial_verification_runtime_micros": 100000,
+    "claim_boundary_present": true,
+    "dollar_claim_earned": true,
+    "dollar_durable_break_even_turn": 23,
+    "future_turn_horizon": 120,
+    "headline_basis": "DECLARED_CANONICAL_SCENARIO",
+    "observed_initial_verification_runtime_micros": 23464,
+    "pricing_complete": true,
+    "shared_scale_graph_present": true,
+    "status": "DURABLE_BREAK_EVEN_REACHED"
+  },
+  "passed": true,
+  "policy_trust": {
+    "compaction_receiver_pin_required": true,
+    "demo_keys_production_trustworthy": false,
+    "demo_source_and_approval_private_keys_distributed": true,
+    "policy_private_keys_distributed": false,
+    "succession_receiver_pin_required": true,
+    "trusted_compaction_public_keys": [
+      "34b4d9043156cb6dcf0beb0a2949b7559c940d2bcb6dbe8c53a9b30278e3a746"
+    ],
+    "trusted_succession_public_keys": [
+      "d810f13ea0d000c1c3a201cc568c1774b60f240a709f2f5220fec474254015af"
+    ]
+  },
+  "receipt_verification": {
+    "chain": {
+      "chain_digest": "5790cd7de4d067194a738620f05eff0318c7d31856e1328e5259163e64252fc8",
+      "count": 67,
+      "errors": [],
+      "tail_hash": "dbe6b70d84902dbd90ea7dee725265fe06b9751dfc0cbb2b764e9f6980695ac1",
+      "valid": true
+    },
+    "compaction": {
+      "active_size_ratio_micros": 93451,
+      "archive_receipt_count": 65,
+      "decision_equivalence_passed": true,
+      "errors": [],
+      "extension": {
+        "count": 2,
+        "errors": [],
+        "tail_hash": "dbe6b70d84902dbd90ea7dee725265fe06b9751dfc0cbb2b764e9f6980695ac1",
+        "valid": true
+      },
+      "source_chain": {
+        "chain_digest": "0e072017602025a6e6782ab34146295ebb691561400d1344bb71c9368da3d34e",
+        "count": 65,
+        "errors": [],
+        "tail_hash": "099aad33663b35834cb81d5504a8ded4e3be81c2e998110b695b5b5ecefa3d58",
+        "valid": true
+      },
+      "valid": true
+    },
+    "errors": [],
+    "policy_hash": "b3f812fd107b65479f628edb2d9ab7f2f93aa490ddd9e5bb173aec6089736437",
+    "policy_public_key": "d810f13ea0d000c1c3a201cc568c1774b60f240a709f2f5220fec474254015af",
+    "retirement_turn": 61,
+    "valid": true
+  },
+  "release_tag_authorized": false,
+  "schema": "openline.half-life.release-verification.v7",
+  "seeded_compaction_gate": {
+    "command": "python scripts/compaction_release_gate.py",
+    "execution_returncode": 0,
+    "result": {
+      "all_histories_cryptographically_verified": true,
+      "archive_recovery_failure_count": 0,
+      "archived_receipt_count": 135451,
+      "automatic_retirement_authorized": false,
+      "chain_verification_failure_count": 0,
+      "compression_size_history_count": 1000,
+      "cryptographically_verified_history_count": 10000,
+      "decision_mismatch_count": 0,
+      "independently_replayed_history_count": 10000,
+      "maximum_allowed_median_ratio_micros": 200000,
+      "median_active_size_ratio_micros": 120292,
+      "passed": true,
+      "schema": "openline.half-life.compaction-release-gate.v2",
+      "seeded_history_count": 10000,
+      "successful_tombstone_replay_count": 0,
+      "worker_count": 4
+    },
+    "stderr": ""
+  },
+  "single_documented_command": "python scripts/release_check.py",
+  "tests": {
+    "command": "python -m pytest -q",
+    "count": 88,
+    "passed": true,
+    "stderr": "",
+    "stdout": "........................................................................ [ 81%]\n................                                                         [100%]\n"
+  },
+  "version": "0.3.0rc4-launch-review-candidate"
+}
 
-10,000-HISTORY GATE
-seeded_history_count: 10000
-independently_replayed_history_count: 10000
-cryptographically_verified_history_count: 10000
-all_histories_cryptographically_verified: true
-decision_mismatch_count: 0
-successful_tombstone_replay_count: 0
-archive_recovery_failure_count: 0
-chain_verification_failure_count: 0
-archived_receipt_count: 135451
-median_active_size_ratio_micros: 120292
-maximum_allowed_median_ratio_micros: 200000
-passed: true
+=== SETUPTOOLS 68.1.2 FLOOR TEST ===
+WARNING: The directory '/home/oai/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+Looking in indexes: https://reader:****@packages.applied-caas-gateway1.internal.api.openai.org/artifactory/api/pypi/pypi-public/simple
+Collecting setuptools==68.1.2
+  Downloading https://packages.applied-caas-gateway1.internal.api.openai.org/artifactory/api/pypi/pypi-public/packages/packages/4f/ab/0bcfebdfc3bfa8554b2b2c97a555569c4c1ebc74ea288741ea8326c51906/setuptools-68.1.2-py3-none-any.whl (805 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 805.1/805.1 kB 51.4 MB/s eta 0:00:00
+Collecting wheel
+  Downloading https://packages.applied-caas-gateway1.internal.api.openai.org/artifactory/api/pypi/pypi-public/packages/packages/87/1b/9e33c09813d65e248f7f773119148a612516a4bea93e9c6f545f78455b7c/wheel-0.47.0-py3-none-any.whl (32 kB)
+Collecting pytest
+  Downloading https://packages.applied-caas-gateway1.internal.api.openai.org/artifactory/api/pypi/pypi-public/packages/packages/24/25/1de2678b631f5a49215c6c96fff41ba892b0a34df68d6d80292b1b48aa7f/pytest-9.1.1-py3-none-any.whl (386 kB)
+Collecting cryptography>=42
+  Downloading https://packages.applied-caas-gateway1.internal.api.openai.org/artifactory/api/pypi/pypi-public/packages/packages/a9/3c/f3ad17eecc1a57b0ba236dc01f90e783c51f4a2f35f64777cc4f47a184b2/cryptography-49.0.0-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 128.6 MB/s eta 0:00:00
+Collecting packaging>=24.0 (from wheel)
+  Downloading https://packages.applied-caas-gateway1.internal.api.openai.org/artifactory/api/pypi/pypi-public/packages/packages/df/b2/87e62e8c3e2f4b32e5fe99e0b86d576da1312593b39f47d8ceef365e95ed/packaging-26.2-py3-none-any.whl (100 kB)
+Collecting iniconfig>=1.0.1 (from pytest)
+  Downloading https://packages.applied-caas-gateway1.internal.api.openai.org/artifactory/api/pypi/pypi-public/packages/packages/cb/b1/3846dd7f199d53cb17f49cba7e651e9ce294d8497c8c150530ed11865bb8/iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+Collecting pluggy<2,>=1.5 (from pytest)
+  Downloading https://packages.applied-caas-gateway1.internal.api.openai.org/artifactory/api/pypi/pypi-public/packages/packages/54/20/4d324d65cc6d9205fabedc306948156824eb9f0ee1633355a8f7ec5c66bf/pluggy-1.6.0-py3-none-any.whl (20 kB)
+Collecting pygments>=2.7.2 (from pytest)
+  Downloading https://packages.applied-caas-gateway1.internal.api.openai.org/artifactory/api/pypi/pypi-public/packages/packages/f4/7e/a72dd26f3b0f4f2bf1dd8923c85f7ceb43172af56d63c7383eb62b332364/pygments-2.20.0-py3-none-any.whl (1.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 115.7 MB/s eta 0:00:00
+Collecting cffi>=2.0.0 (from cryptography>=42)
+  Downloading https://packages.applied-caas-gateway1.internal.api.openai.org/artifactory/api/pypi/pypi-public/packages/packages/6f/08/f2e7d62c460faae0926f2d6e423694aa409ced3bc1fe2927a0a6e5f05416/cffi-2.1.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+Collecting pycparser (from cffi>=2.0.0->cryptography>=42)
+  Downloading https://packages.applied-caas-gateway1.internal.api.openai.org/artifactory/api/pypi/pypi-public/packages/packages/0c/c3/44f3fbbfa403ea2a7c779186dc20772604442dde72947e7d01069cbe98e3/pycparser-3.0-py3-none-any.whl (48 kB)
+Installing collected packages: setuptools, pygments, pycparser, pluggy, packaging, iniconfig, wheel, pytest, cffi, cryptography
 
-DEMO
-retirement_turn: 61
-full_history_errors: 7
-verified_residue_errors: 4
-error_reduction_micros: 428571
-decision_equivalence_passed: true
-active_size_ratio_micros: 93451
-receipt_verification_valid: true
+Successfully installed cffi-2.1.0 cryptography-49.0.0 iniconfig-2.3.0 packaging-26.2 pluggy-1.6.0 pycparser-3.0 pygments-2.20.0 pytest-9.1.1 setuptools-68.1.2 wheel-0.47.0
+setuptools_version=68.1.2
+WARNING: The directory '/home/oai/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+Looking in indexes: https://reader:****@packages.applied-caas-gateway1.internal.api.openai.org/artifactory/api/pypi/pypi-public/simple
+Obtaining file:///mnt/data/half-life-rc4-fix
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: openline-half-life
+  Building editable for openline-half-life (pyproject.toml): started
+  Building editable for openline-half-life (pyproject.toml): finished with status 'done'
+  Created wheel for openline-half-life: filename=openline_half_life-0.3.0rc4-0.editable-py3-none-any.whl size=6462 sha256=f894b8baa3248b9460037decec4c70fcc585b26b73e16ad000be5baa6db2a00a
+  Stored in directory: /tmp/pip-ephem-wheel-cache-exojn7y5/wheels/f5/10/8d/7698fab41e2f8046667cfe6a93de2edd96beb28a47d3297105
+Successfully built openline-half-life
+Installing collected packages: openline-half-life
+Successfully installed openline-half-life-0.3.0rc4
+..                                                                       [100%]
 
-COMPACTION ECONOMICS
-benchmark_valid: true
-status: DURABLE_BREAK_EVEN_REACHED
-headline_basis: DECLARED_CANONICAL_SCENARIO
-canonical_initial_verification_runtime_micros: 100000
-observed_initial_verification_runtime_micros: 59316
-pricing_complete: true
-dollar_claim_earned: true
-dollar_durable_break_even_turn: 23
-future_turn_horizon: 120
-shared_scale_graph_present: true
-claim_boundary_present: true
+=== BUILD ===
+* Creating isolated environment: venv+pip...
+* Installing packages in isolated environment:
+  - setuptools>=68
+* Getting build dependencies for sdist...
+/tmp/build-env-f0u6djse/lib/python3.13/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsDeprecationWarning: `project.license` as a TOML table is deprecated
+!!
 
-CANONICAL SOURCE
-expected_sha256: 0fd92bdfed08107a6826f03131fe6f076744deaad2785b4177c56f484cb35d12
-actual_sha256: 0fd92bdfed08107a6826f03131fe6f076744deaad2785b4177c56f484cb35d12
-unchanged: true
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
 
-OVERALL
-local_component_gates_passed: true
-release_tag_authorized: false
-remaining_gate: fresh GitHub Actions on Python 3.12
+        By 2027-Feb-18, you need to update your project and remove deprecated calls
+        or your builds will no longer be supported.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+  corresp(dist, value, root_dir)
+running egg_info
+creating src/openline_half_life.egg-info
+writing src/openline_half_life.egg-info/PKG-INFO
+writing dependency_links to src/openline_half_life.egg-info/dependency_links.txt
+writing entry points to src/openline_half_life.egg-info/entry_points.txt
+writing requirements to src/openline_half_life.egg-info/requires.txt
+writing top-level names to src/openline_half_life.egg-info/top_level.txt
+writing manifest file 'src/openline_half_life.egg-info/SOURCES.txt'
+reading manifest file 'src/openline_half_life.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'src/openline_half_life.egg-info/SOURCES.txt'
+* Building sdist...
+/tmp/build-env-f0u6djse/lib/python3.13/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsDeprecationWarning: `project.license` as a TOML table is deprecated
+!!
+
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+
+        By 2027-Feb-18, you need to update your project and remove deprecated calls
+        or your builds will no longer be supported.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+  corresp(dist, value, root_dir)
+running sdist
+running egg_info
+writing src/openline_half_life.egg-info/PKG-INFO
+writing dependency_links to src/openline_half_life.egg-info/dependency_links.txt
+writing entry points to src/openline_half_life.egg-info/entry_points.txt
+writing requirements to src/openline_half_life.egg-info/requires.txt
+writing top-level names to src/openline_half_life.egg-info/top_level.txt
+reading manifest file 'src/openline_half_life.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'src/openline_half_life.egg-info/SOURCES.txt'
+running check
+creating openline_half_life-0.3.0rc4
+creating openline_half_life-0.3.0rc4/src/openline_half_life
+creating openline_half_life-0.3.0rc4/src/openline_half_life.egg-info
+creating openline_half_life-0.3.0rc4/src/openline_half_life/adapters
+creating openline_half_life-0.3.0rc4/src/openline_half_life/data/economics
+creating openline_half_life-0.3.0rc4/src/openline_half_life/data/exams
+creating openline_half_life-0.3.0rc4/src/openline_half_life/data/fixtures
+creating openline_half_life-0.3.0rc4/src/openline_half_life/data/policy
+creating openline_half_life-0.3.0rc4/src/openline_half_life/vendor/openline_endurance_gate
+creating openline_half_life-0.3.0rc4/tests
+copying files to openline_half_life-0.3.0rc4...
+copying LICENSE -> openline_half_life-0.3.0rc4
+copying README.md -> openline_half_life-0.3.0rc4
+copying pyproject.toml -> openline_half_life-0.3.0rc4
+copying src/openline_half_life/__init__.py -> openline_half_life-0.3.0rc4/src/openline_half_life
+copying src/openline_half_life/__main__.py -> openline_half_life-0.3.0rc4/src/openline_half_life
+copying src/openline_half_life/assessment.py -> openline_half_life-0.3.0rc4/src/openline_half_life
+copying src/openline_half_life/causal_compactor.py -> openline_half_life-0.3.0rc4/src/openline_half_life
+copying src/openline_half_life/cli.py -> openline_half_life-0.3.0rc4/src/openline_half_life
+copying src/openline_half_life/comparison.py -> openline_half_life-0.3.0rc4/src/openline_half_life
+copying src/openline_half_life/economics.py -> openline_half_life-0.3.0rc4/src/openline_half_life
+copying src/openline_half_life/evidence.py -> openline_half_life-0.3.0rc4/src/openline_half_life
+copying src/openline_half_life/exam.py -> openline_half_life-0.3.0rc4/src/openline_half_life
+copying src/openline_half_life/handoff.py -> openline_half_life-0.3.0rc4/src/openline_half_life
+copying src/openline_half_life/pipeline.py -> openline_half_life-0.3.0rc4/src/openline_half_life
+copying src/openline_half_life/policy.py -> openline_half_life-0.3.0rc4/src/openline_half_life
+copying src/openline_half_life/receipts.py -> openline_half_life-0.3.0rc4/src/openline_half_life
+copying src/openline_half_life/reference_replay.py -> openline_half_life-0.3.0rc4/src/openline_half_life
+copying src/openline_half_life/schema.py -> openline_half_life-0.3.0rc4/src/openline_half_life
+copying src/openline_half_life/share_card.py -> openline_half_life-0.3.0rc4/src/openline_half_life
+copying src/openline_half_life/util.py -> openline_half_life-0.3.0rc4/src/openline_half_life
+copying src/openline_half_life.egg-info/PKG-INFO -> openline_half_life-0.3.0rc4/src/openline_half_life.egg-info
+copying src/openline_half_life.egg-info/SOURCES.txt -> openline_half_life-0.3.0rc4/src/openline_half_life.egg-info
+copying src/openline_half_life.egg-info/dependency_links.txt -> openline_half_life-0.3.0rc4/src/openline_half_life.egg-info
+copying src/openline_half_life.egg-info/entry_points.txt -> openline_half_life-0.3.0rc4/src/openline_half_life.egg-info
+copying src/openline_half_life.egg-info/requires.txt -> openline_half_life-0.3.0rc4/src/openline_half_life.egg-info
+copying src/openline_half_life.egg-info/top_level.txt -> openline_half_life-0.3.0rc4/src/openline_half_life.egg-info
+copying src/openline_half_life/adapters/__init__.py -> openline_half_life-0.3.0rc4/src/openline_half_life/adapters
+copying src/openline_half_life/adapters/base.py -> openline_half_life-0.3.0rc4/src/openline_half_life/adapters
+copying src/openline_half_life/adapters/deterministic.py -> openline_half_life-0.3.0rc4/src/openline_half_life/adapters
+copying src/openline_half_life/data/economics/demo_cost_assumptions.json -> openline_half_life-0.3.0rc4/src/openline_half_life/data/economics
+copying src/openline_half_life/data/exams/heldout_exam.json -> openline_half_life-0.3.0rc4/src/openline_half_life/data/exams
+copying src/openline_half_life/data/fixtures/demo_receiver_approval_key.hex -> openline_half_life-0.3.0rc4/src/openline_half_life/data/fixtures
+copying src/openline_half_life/data/fixtures/demo_signing_key.hex -> openline_half_life-0.3.0rc4/src/openline_half_life/data/fixtures
+copying src/openline_half_life/data/fixtures/gradual_drift.jsonl -> openline_half_life-0.3.0rc4/src/openline_half_life/data/fixtures
+copying src/openline_half_life/data/fixtures/healthy.jsonl -> openline_half_life-0.3.0rc4/src/openline_half_life/data/fixtures
+copying src/openline_half_life/data/fixtures/lost_constraint.jsonl -> openline_half_life-0.3.0rc4/src/openline_half_life/data/fixtures
+copying src/openline_half_life/data/fixtures/stale_evidence_replay.jsonl -> openline_half_life-0.3.0rc4/src/openline_half_life/data/fixtures
+copying src/openline_half_life/data/fixtures/sudden_failure.jsonl -> openline_half_life-0.3.0rc4/src/openline_half_life/data/fixtures
+copying src/openline_half_life/data/fixtures/unsupported_repetition.jsonl -> openline_half_life-0.3.0rc4/src/openline_half_life/data/fixtures
+copying src/openline_half_life/data/policy/compaction_policy.json -> openline_half_life-0.3.0rc4/src/openline_half_life/data/policy
+copying src/openline_half_life/data/policy/compaction_policy_public_key.hex -> openline_half_life-0.3.0rc4/src/openline_half_life/data/policy
+copying src/openline_half_life/data/policy/succession_policy.json -> openline_half_life-0.3.0rc4/src/openline_half_life/data/policy
+copying src/openline_half_life/data/policy/succession_policy_public_key.hex -> openline_half_life-0.3.0rc4/src/openline_half_life/data/policy
+copying src/openline_half_life/vendor/openline_endurance_gate/__init__.py -> openline_half_life-0.3.0rc4/src/openline_half_life/vendor/openline_endurance_gate
+copying src/openline_half_life/vendor/openline_endurance_gate/succession.py -> openline_half_life-0.3.0rc4/src/openline_half_life/vendor/openline_endurance_gate
+copying tests/test_assessment.py -> openline_half_life-0.3.0rc4/tests
+copying tests/test_causal_compactor.py -> openline_half_life-0.3.0rc4/tests
+copying tests/test_economics.py -> openline_half_life-0.3.0rc4/tests
+copying tests/test_handoffs.py -> openline_half_life-0.3.0rc4/tests
+copying tests/test_landing_page.py -> openline_half_life-0.3.0rc4/tests
+copying tests/test_launch_surface.py -> openline_half_life-0.3.0rc4/tests
+copying tests/test_packaging.py -> openline_half_life-0.3.0rc4/tests
+copying tests/test_pipeline.py -> openline_half_life-0.3.0rc4/tests
+copying tests/test_policy.py -> openline_half_life-0.3.0rc4/tests
+copying tests/test_release_gate.py -> openline_half_life-0.3.0rc4/tests
+copying tests/test_schema.py -> openline_half_life-0.3.0rc4/tests
+copying tests/test_security_regressions.py -> openline_half_life-0.3.0rc4/tests
+copying src/openline_half_life.egg-info/SOURCES.txt -> openline_half_life-0.3.0rc4/src/openline_half_life.egg-info
+Writing openline_half_life-0.3.0rc4/setup.cfg
+Creating tar archive
+removing 'openline_half_life-0.3.0rc4' (and everything under it)
+* Building wheel from sdist
+* Creating isolated environment: venv+pip...
+* Installing packages in isolated environment:
+  - setuptools>=68
+* Getting build dependencies for wheel...
+/tmp/build-env-hcwav4uc/lib/python3.13/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsDeprecationWarning: `project.license` as a TOML table is deprecated
+!!
+
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+
+        By 2027-Feb-18, you need to update your project and remove deprecated calls
+        or your builds will no longer be supported.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+  corresp(dist, value, root_dir)
+running egg_info
+writing src/openline_half_life.egg-info/PKG-INFO
+writing dependency_links to src/openline_half_life.egg-info/dependency_links.txt
+writing entry points to src/openline_half_life.egg-info/entry_points.txt
+writing requirements to src/openline_half_life.egg-info/requires.txt
+writing top-level names to src/openline_half_life.egg-info/top_level.txt
+reading manifest file 'src/openline_half_life.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'src/openline_half_life.egg-info/SOURCES.txt'
+* Building wheel...
+/tmp/build-env-hcwav4uc/lib/python3.13/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsDeprecationWarning: `project.license` as a TOML table is deprecated
+!!
+
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+
+        By 2027-Feb-18, you need to update your project and remove deprecated calls
+        or your builds will no longer be supported.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+  corresp(dist, value, root_dir)
+running bdist_wheel
+running build
+running build_py
+creating build/lib/openline_half_life
+copying src/openline_half_life/__init__.py -> build/lib/openline_half_life
+copying src/openline_half_life/__main__.py -> build/lib/openline_half_life
+copying src/openline_half_life/assessment.py -> build/lib/openline_half_life
+copying src/openline_half_life/causal_compactor.py -> build/lib/openline_half_life
+copying src/openline_half_life/cli.py -> build/lib/openline_half_life
+copying src/openline_half_life/comparison.py -> build/lib/openline_half_life
+copying src/openline_half_life/economics.py -> build/lib/openline_half_life
+copying src/openline_half_life/evidence.py -> build/lib/openline_half_life
+copying src/openline_half_life/exam.py -> build/lib/openline_half_life
+copying src/openline_half_life/handoff.py -> build/lib/openline_half_life
+copying src/openline_half_life/pipeline.py -> build/lib/openline_half_life
+copying src/openline_half_life/policy.py -> build/lib/openline_half_life
+copying src/openline_half_life/receipts.py -> build/lib/openline_half_life
+copying src/openline_half_life/reference_replay.py -> build/lib/openline_half_life
+copying src/openline_half_life/schema.py -> build/lib/openline_half_life
+copying src/openline_half_life/share_card.py -> build/lib/openline_half_life
+copying src/openline_half_life/util.py -> build/lib/openline_half_life
+creating build/lib/openline_half_life/adapters
+copying src/openline_half_life/adapters/__init__.py -> build/lib/openline_half_life/adapters
+copying src/openline_half_life/adapters/base.py -> build/lib/openline_half_life/adapters
+copying src/openline_half_life/adapters/deterministic.py -> build/lib/openline_half_life/adapters
+creating build/lib/openline_half_life/vendor/openline_endurance_gate
+copying src/openline_half_life/vendor/openline_endurance_gate/__init__.py -> build/lib/openline_half_life/vendor/openline_endurance_gate
+copying src/openline_half_life/vendor/openline_endurance_gate/succession.py -> build/lib/openline_half_life/vendor/openline_endurance_gate
+running egg_info
+writing src/openline_half_life.egg-info/PKG-INFO
+writing dependency_links to src/openline_half_life.egg-info/dependency_links.txt
+writing entry points to src/openline_half_life.egg-info/entry_points.txt
+writing requirements to src/openline_half_life.egg-info/requires.txt
+writing top-level names to src/openline_half_life.egg-info/top_level.txt
+reading manifest file 'src/openline_half_life.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'src/openline_half_life.egg-info/SOURCES.txt'
+creating build/lib/openline_half_life/data/fixtures
+copying src/openline_half_life/data/fixtures/gradual_drift.jsonl -> build/lib/openline_half_life/data/fixtures
+copying src/openline_half_life/data/fixtures/healthy.jsonl -> build/lib/openline_half_life/data/fixtures
+copying src/openline_half_life/data/fixtures/lost_constraint.jsonl -> build/lib/openline_half_life/data/fixtures
+copying src/openline_half_life/data/fixtures/stale_evidence_replay.jsonl -> build/lib/openline_half_life/data/fixtures
+copying src/openline_half_life/data/fixtures/sudden_failure.jsonl -> build/lib/openline_half_life/data/fixtures
+copying src/openline_half_life/data/fixtures/unsupported_repetition.jsonl -> build/lib/openline_half_life/data/fixtures
+copying src/openline_half_life/data/fixtures/demo_receiver_approval_key.hex -> build/lib/openline_half_life/data/fixtures
+copying src/openline_half_life/data/fixtures/demo_signing_key.hex -> build/lib/openline_half_life/data/fixtures
+creating build/lib/openline_half_life/data/exams
+copying src/openline_half_life/data/exams/heldout_exam.json -> build/lib/openline_half_life/data/exams
+creating build/lib/openline_half_life/data/policy
+copying src/openline_half_life/data/policy/compaction_policy.json -> build/lib/openline_half_life/data/policy
+copying src/openline_half_life/data/policy/succession_policy.json -> build/lib/openline_half_life/data/policy
+copying src/openline_half_life/data/policy/compaction_policy_public_key.hex -> build/lib/openline_half_life/data/policy
+copying src/openline_half_life/data/policy/succession_policy_public_key.hex -> build/lib/openline_half_life/data/policy
+creating build/lib/openline_half_life/data/economics
+copying src/openline_half_life/data/economics/demo_cost_assumptions.json -> build/lib/openline_half_life/data/economics
+installing to build/bdist.linux-x86_64/wheel
+running install
+running install_lib
+creating build/bdist.linux-x86_64/wheel
+creating build/bdist.linux-x86_64/wheel/openline_half_life
+copying build/lib/openline_half_life/__init__.py -> build/bdist.linux-x86_64/wheel/./openline_half_life
+copying build/lib/openline_half_life/__main__.py -> build/bdist.linux-x86_64/wheel/./openline_half_life
+copying build/lib/openline_half_life/assessment.py -> build/bdist.linux-x86_64/wheel/./openline_half_life
+copying build/lib/openline_half_life/causal_compactor.py -> build/bdist.linux-x86_64/wheel/./openline_half_life
+copying build/lib/openline_half_life/cli.py -> build/bdist.linux-x86_64/wheel/./openline_half_life
+copying build/lib/openline_half_life/comparison.py -> build/bdist.linux-x86_64/wheel/./openline_half_life
+copying build/lib/openline_half_life/economics.py -> build/bdist.linux-x86_64/wheel/./openline_half_life
+copying build/lib/openline_half_life/evidence.py -> build/bdist.linux-x86_64/wheel/./openline_half_life
+copying build/lib/openline_half_life/exam.py -> build/bdist.linux-x86_64/wheel/./openline_half_life
+copying build/lib/openline_half_life/handoff.py -> build/bdist.linux-x86_64/wheel/./openline_half_life
+copying build/lib/openline_half_life/pipeline.py -> build/bdist.linux-x86_64/wheel/./openline_half_life
+copying build/lib/openline_half_life/policy.py -> build/bdist.linux-x86_64/wheel/./openline_half_life
+copying build/lib/openline_half_life/receipts.py -> build/bdist.linux-x86_64/wheel/./openline_half_life
+copying build/lib/openline_half_life/reference_replay.py -> build/bdist.linux-x86_64/wheel/./openline_half_life
+copying build/lib/openline_half_life/schema.py -> build/bdist.linux-x86_64/wheel/./openline_half_life
+copying build/lib/openline_half_life/share_card.py -> build/bdist.linux-x86_64/wheel/./openline_half_life
+copying build/lib/openline_half_life/util.py -> build/bdist.linux-x86_64/wheel/./openline_half_life
+creating build/bdist.linux-x86_64/wheel/openline_half_life/adapters
+copying build/lib/openline_half_life/adapters/__init__.py -> build/bdist.linux-x86_64/wheel/./openline_half_life/adapters
+copying build/lib/openline_half_life/adapters/base.py -> build/bdist.linux-x86_64/wheel/./openline_half_life/adapters
+copying build/lib/openline_half_life/adapters/deterministic.py -> build/bdist.linux-x86_64/wheel/./openline_half_life/adapters
+creating build/bdist.linux-x86_64/wheel/openline_half_life/vendor
+creating build/bdist.linux-x86_64/wheel/openline_half_life/vendor/openline_endurance_gate
+copying build/lib/openline_half_life/vendor/openline_endurance_gate/__init__.py -> build/bdist.linux-x86_64/wheel/./openline_half_life/vendor/openline_endurance_gate
+copying build/lib/openline_half_life/vendor/openline_endurance_gate/succession.py -> build/bdist.linux-x86_64/wheel/./openline_half_life/vendor/openline_endurance_gate
+creating build/bdist.linux-x86_64/wheel/openline_half_life/data
+creating build/bdist.linux-x86_64/wheel/openline_half_life/data/fixtures
+copying build/lib/openline_half_life/data/fixtures/gradual_drift.jsonl -> build/bdist.linux-x86_64/wheel/./openline_half_life/data/fixtures
+copying build/lib/openline_half_life/data/fixtures/healthy.jsonl -> build/bdist.linux-x86_64/wheel/./openline_half_life/data/fixtures
+copying build/lib/openline_half_life/data/fixtures/lost_constraint.jsonl -> build/bdist.linux-x86_64/wheel/./openline_half_life/data/fixtures
+copying build/lib/openline_half_life/data/fixtures/stale_evidence_replay.jsonl -> build/bdist.linux-x86_64/wheel/./openline_half_life/data/fixtures
+copying build/lib/openline_half_life/data/fixtures/sudden_failure.jsonl -> build/bdist.linux-x86_64/wheel/./openline_half_life/data/fixtures
+copying build/lib/openline_half_life/data/fixtures/unsupported_repetition.jsonl -> build/bdist.linux-x86_64/wheel/./openline_half_life/data/fixtures
+copying build/lib/openline_half_life/data/fixtures/demo_receiver_approval_key.hex -> build/bdist.linux-x86_64/wheel/./openline_half_life/data/fixtures
+copying build/lib/openline_half_life/data/fixtures/demo_signing_key.hex -> build/bdist.linux-x86_64/wheel/./openline_half_life/data/fixtures
+creating build/bdist.linux-x86_64/wheel/openline_half_life/data/exams
+copying build/lib/openline_half_life/data/exams/heldout_exam.json -> build/bdist.linux-x86_64/wheel/./openline_half_life/data/exams
+creating build/bdist.linux-x86_64/wheel/openline_half_life/data/policy
+copying build/lib/openline_half_life/data/policy/compaction_policy.json -> build/bdist.linux-x86_64/wheel/./openline_half_life/data/policy
+copying build/lib/openline_half_life/data/policy/succession_policy.json -> build/bdist.linux-x86_64/wheel/./openline_half_life/data/policy
+copying build/lib/openline_half_life/data/policy/compaction_policy_public_key.hex -> build/bdist.linux-x86_64/wheel/./openline_half_life/data/policy
+copying build/lib/openline_half_life/data/policy/succession_policy_public_key.hex -> build/bdist.linux-x86_64/wheel/./openline_half_life/data/policy
+creating build/bdist.linux-x86_64/wheel/openline_half_life/data/economics
+copying build/lib/openline_half_life/data/economics/demo_cost_assumptions.json -> build/bdist.linux-x86_64/wheel/./openline_half_life/data/economics
+running install_egg_info
+Copying src/openline_half_life.egg-info to build/bdist.linux-x86_64/wheel/./openline_half_life-0.3.0rc4-py3.13.egg-info
+running install_scripts
+creating build/bdist.linux-x86_64/wheel/openline_half_life-0.3.0rc4.dist-info/WHEEL
+creating '/mnt/data/half-life-rc4-fix/dist/.tmp-pdk2mlcm/openline_half_life-0.3.0rc4-py3-none-any.whl' and adding 'build/bdist.linux-x86_64/wheel' to it
+adding 'openline_half_life/__init__.py'
+adding 'openline_half_life/__main__.py'
+adding 'openline_half_life/assessment.py'
+adding 'openline_half_life/causal_compactor.py'
+adding 'openline_half_life/cli.py'
+adding 'openline_half_life/comparison.py'
+adding 'openline_half_life/economics.py'
+adding 'openline_half_life/evidence.py'
+adding 'openline_half_life/exam.py'
+adding 'openline_half_life/handoff.py'
+adding 'openline_half_life/pipeline.py'
+adding 'openline_half_life/policy.py'
+adding 'openline_half_life/receipts.py'
+adding 'openline_half_life/reference_replay.py'
+adding 'openline_half_life/schema.py'
+adding 'openline_half_life/share_card.py'
+adding 'openline_half_life/util.py'
+adding 'openline_half_life/adapters/__init__.py'
+adding 'openline_half_life/adapters/base.py'
+adding 'openline_half_life/adapters/deterministic.py'
+adding 'openline_half_life/data/economics/demo_cost_assumptions.json'
+adding 'openline_half_life/data/exams/heldout_exam.json'
+adding 'openline_half_life/data/fixtures/demo_receiver_approval_key.hex'
+adding 'openline_half_life/data/fixtures/demo_signing_key.hex'
+adding 'openline_half_life/data/fixtures/gradual_drift.jsonl'
+adding 'openline_half_life/data/fixtures/healthy.jsonl'
+adding 'openline_half_life/data/fixtures/lost_constraint.jsonl'
+adding 'openline_half_life/data/fixtures/stale_evidence_replay.jsonl'
+adding 'openline_half_life/data/fixtures/sudden_failure.jsonl'
+adding 'openline_half_life/data/fixtures/unsupported_repetition.jsonl'
+adding 'openline_half_life/data/policy/compaction_policy.json'
+adding 'openline_half_life/data/policy/compaction_policy_public_key.hex'
+adding 'openline_half_life/data/policy/succession_policy.json'
+adding 'openline_half_life/data/policy/succession_policy_public_key.hex'
+adding 'openline_half_life/vendor/openline_endurance_gate/__init__.py'
+adding 'openline_half_life/vendor/openline_endurance_gate/succession.py'
+adding 'openline_half_life-0.3.0rc4.dist-info/licenses/LICENSE'
+adding 'openline_half_life-0.3.0rc4.dist-info/METADATA'
+adding 'openline_half_life-0.3.0rc4.dist-info/WHEEL'
+adding 'openline_half_life-0.3.0rc4.dist-info/entry_points.txt'
+adding 'openline_half_life-0.3.0rc4.dist-info/top_level.txt'
+adding 'openline_half_life-0.3.0rc4.dist-info/RECORD'
+removing build/bdist.linux-x86_64/wheel
+Successfully built openline_half_life-0.3.0rc4.tar.gz and openline_half_life-0.3.0rc4-py3-none-any.whl
+
+=== TWINE ===
+Checking dist/openline_half_life-0.3.0rc4-py3-none-any.whl: [32mPASSED[0m
+Checking dist/openline_half_life-0.3.0rc4.tar.gz: [32mPASSED[0m
+
+=== UVX DEMO ===
+Agent retired after turn 61.
+Verified save file preserved the disclosed job state across the successor handoff.
+Verified handoff reduced errors by 43% on the same exam.
+Active state: 9% of full receipt history.
+Reference break-even: 23 future turns.
+Decision mismatches: 0.
+
+Card: /mnt/data/half-life-rc4-uvx/share_card.html
+
+=== PIPX DEMO ===
+Agent retired after turn 61.
+Verified save file preserved the disclosed job state across the successor handoff.
+Verified handoff reduced errors by 43% on the same exam.
+Active state: 9% of full receipt history.
+Reference break-even: 23 future turns.
+Decision mismatches: 0.
+
+Card: /mnt/data/half-life-rc4-pipx/share_card.html
+
+=== WHEEL-INSTALLED INDEPENDENT VERIFY ===
+{
+  "chain": {
+    "chain_digest": "4f455a5164d1b6a61f3e72ca6c9d1abd706170e30b1f7a793492b6a852744d3c",
+    "count": 67,
+    "errors": [],
+    "tail_hash": "954231f85f8e60216045c68010aaf1a8c230bba9c20f886ca4f6f4df1e3855f5",
+    "valid": true
+  },
+  "compaction": {
+    "active_size_ratio_micros": 93451,
+    "archive_receipt_count": 65,
+    "decision_equivalence_passed": true,
+    "errors": [],
+    "extension": {
+      "count": 2,
+      "errors": [],
+      "tail_hash": "954231f85f8e60216045c68010aaf1a8c230bba9c20f886ca4f6f4df1e3855f5",
+      "valid": true
+    },
+    "source_chain": {
+      "chain_digest": "0e072017602025a6e6782ab34146295ebb691561400d1344bb71c9368da3d34e",
+      "count": 65,
+      "errors": [],
+      "tail_hash": "099aad33663b35834cb81d5504a8ded4e3be81c2e998110b695b5b5ecefa3d58",
+      "valid": true
+    },
+    "valid": true
+  },
+  "errors": [],
+  "policy_hash": "b3f812fd107b65479f628edb2d9ab7f2f93aa490ddd9e5bb173aec6089736437",
+  "policy_public_key": "d810f13ea0d000c1c3a201cc568c1774b60f240a709f2f5220fec474254015af",
+  "retirement_turn": 61,
+  "valid": true
+}

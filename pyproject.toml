@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "openline-half-life"
-version = "0.3.0rc2"
-description = "A deterministic OLP harness for verified succession, causal receipt compaction, and break-even economics."
+version = "0.3.0rc4"
+description = "A cross-platform save-file harness for verified AI-agent continuity across models."
 readme = "README.md"
 requires-python = ">=3.12"
 license = {text = "MIT"}
@@ -13,7 +13,7 @@ authors = [{name = "Terrynce White"}]
 dependencies = ["cryptography>=42"]
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "setuptools>=68"]
+dev = ["pytest>=8", "setuptools>=68", "build>=1.2", "twine>=6"]
 providers = []
 
 [project.scripts]
@@ -36,3 +36,9 @@ openline_half_life = [
   "data/policy/*.hex",
   "data/economics/*.json",
 ]
+
+[project.urls]
+Homepage = "https://terryncew.github.io/openline-half-life/"
+Repository = "https://github.com/terryncew/openline-half-life"
+Issues = "https://github.com/terryncew/openline-half-life/issues"
+

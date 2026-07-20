@@ -11,6 +11,7 @@ from .causal_compactor import load_trusted_compaction_policy_keys
 from .pipeline import run_pipeline
 from .policy import load_trusted_policy_keys, write_demo_policy
 from .receipts import verify_output_directory
+from .share_card import describe_share_card, rounded_percent
 
 
 def _command_succeeded(command: str, result: Mapping[str, Any]) -> bool:
@@ -30,6 +31,32 @@ def _resource(stack: ExitStack, *parts: str) -> Path:
     return stack.enter_context(resources.as_file(target))
 
 
+
+def format_run_summary(result: Mapping[str, Any]) -> str:
+    """Render the measured result as a compact human-readable save-file receipt."""
+    description = describe_share_card(int(result["retirement_turn"]), result["comparison"])
+    ratio = rounded_percent(int(result["compaction"]["active_size_ratio_micros"]))
+    mismatch_count = int(result["compaction"].get("decision_mismatch_count", 0))
+    break_even = result["economics"].get("dollar_durable_break_even_turn")
+    if break_even is None:
+        status = result["economics"].get("status", "UNDECIDABLE")
+        break_even_line = f"Reference break-even: not established ({status})."
+    else:
+        break_even_line = f"Reference break-even: {int(break_even)} future turns."
+    card_path = Path(result["output_dir"]).resolve() / "share_card.html"
+    return "\n".join(
+        [
+            description["headline"],
+            "Verified save file preserved the disclosed job state across the successor handoff.",
+            description["subhead"],
+            f"Active state: {ratio}% of full receipt history.",
+            break_even_line,
+            f"Decision mismatches: {mismatch_count}.",
+            "",
+            f"Card: {card_path}",
+        ]
+    )
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="openline-half-life")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -47,6 +74,7 @@ def main(argv: list[str] | None = None) -> int:
     run.add_argument("--replay-latency-micros", type=int, required=True)
     run.add_argument("--receiver-disposition", choices=["APPROVE", "DENY"], required=True)
     run.add_argument("--out", type=Path, required=True)
+    run.add_argument("--json", action="store_true", help="print the full machine-readable result")
 
     verify = sub.add_parser(
         "verify", help="verify policy trust, source chain, cold archive, compaction, and artifacts"
@@ -61,6 +89,7 @@ def main(argv: list[str] | None = None) -> int:
     demo = sub.add_parser("demo", help="run the deterministic three-minute demo with causal compaction")
     demo.add_argument("--out", type=Path, default=Path("build/demo"))
     demo.add_argument("--replay-latency-micros", type=int, default=75_000)
+    demo.add_argument("--json", action="store_true", help="print the full machine-readable result")
 
     args = parser.parse_args(argv)
     if args.command == "run":
@@ -110,5 +139,8 @@ def main(argv: list[str] | None = None) -> int:
                 ),
                 receiver_disposition="APPROVE",
             )
-    print(json.dumps(result, indent=2, sort_keys=True))
+    if args.command in {"run", "demo"} and not args.json:
+        print(format_run_summary(result))
+    else:
+        print(json.dumps(result, indent=2, sort_keys=True))
     return 0 if _command_succeeded(args.command, result) else 1

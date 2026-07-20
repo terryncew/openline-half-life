@@ -300,6 +300,7 @@ def run_pipeline(
         "comparison": comparison,
         "compaction": {
             "decision_equivalence_passed": equivalence["passed"],
+            "decision_mismatch_count": len(equivalence.get("mismatches", [])),
             "active_size_ratio_micros": equivalence["active_size_ratio_micros"],
             "archived_receipt_count": archive_receipt["payload"]["source_chain_count"],
             "trigger_reason_codes": compaction["verification"]["pressure"]["reason_codes"],
