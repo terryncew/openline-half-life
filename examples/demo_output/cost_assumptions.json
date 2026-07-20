@@ -1,0 +1,37 @@
+{
+  "assumptions_hash": "f3aa62be5c02700a1e16925998a7e52c4a32867b18a08adde1c21fe62b47e962",
+  "declared": {
+    "assumptions_id": "half-life-demo-economics-2026-07-20",
+    "canonical_initial_verification_runtime_micros": 100000,
+    "deterministic_compute_price_usd_micros_per_second": 4000000,
+    "fixed_verification_overhead_usd_micros": 100000,
+    "future_turns": 120,
+    "model_input_price_usd_micros_per_million_tokens": 2500000,
+    "pricing_effective_date": "2026-07-20",
+    "pricing_source": "DECLARED_SYNTHETIC_DEMO_ASSUMPTION_NOT_A_PROVIDER_QUOTE",
+    "recompaction_turns": [
+      60
+    ],
+    "recompaction_verification_multiplier_micros": 1000000,
+    "rehydration_full_history_loads": 1,
+    "rehydration_turns": [
+      90
+    ],
+    "rehydration_verification_multiplier_micros": 1000000,
+    "schema": "openline.half-life.cost-assumptions-input.v2"
+  },
+  "measured": {
+    "compact_state_tokens_per_turn": 1653,
+    "full_history_tokens_per_turn": 10468,
+    "model_token_reduction_micros": 842090,
+    "observed_initial_verification_runtime_micros": 59316
+  },
+  "measurement_boundary": "Token sizes are measured from the disclosed handoff packets. Observed verification runtime is retained as wall-clock evidence and may vary by machine. The economic curve uses the receiver-declared canonical verification runtime, so its headline is reproducible across machines. Dollar results require complete dated pricing assumptions.",
+  "schema": "openline.half-life.cost-assumptions.v2",
+  "source_hashes": {
+    "compact_state_packet_hash": "bed34206916e05ac141c4eb3e70c8aad54b0ab702142397d0c2142cdf474d066",
+    "comparison_hash": "a0226c28f1eea485edfe5b80ed26080655446f5de3121f3f6596409b651c7295",
+    "equivalence_report_hash": "ac314849c9b845906a0829a8089cf9a668cb75122e7f2a411349f845dbede113",
+    "full_history_packet_hash": "fc93f752276df5ad056ad45b50ff03ab4b6dd785f03dd17d0a8682bce7c7d7ce"
+  }
+}

@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "openline-half-life"
-version = "0.2.0rc5"
-description = "A deterministic OLP harness for verified succession and receiver-governed causal receipt compaction."
+version = "0.3.0rc2"
+description = "A deterministic OLP harness for verified succession, causal receipt compaction, and break-even economics."
 readme = "README.md"
 requires-python = ">=3.12"
 license = {text = "MIT"}
@@ -34,4 +34,5 @@ openline_half_life = [
   "data/exams/*.json",
   "data/policy/*.json",
   "data/policy/*.hex",
+  "data/economics/*.json",
 ]

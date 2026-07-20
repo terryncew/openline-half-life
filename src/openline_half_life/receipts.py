@@ -15,7 +15,7 @@ from .util import canonical_json, load_json, resolve_safe_relative_path, sha256_
 
 RECEIPT_SCHEMA = "openline.endurance.receipt.v1"
 ANCHOR_SCHEMA = "openline.endurance.anchor.v1"
-BUNDLE_SCHEMA = "openline.half-life.receipt-bundle.v3"
+BUNDLE_SCHEMA = "openline.half-life.receipt-bundle.v5"
 
 # These files exist before the terminal compaction receipt is created, so their
 # hashes can be bound inside that signed receipt without creating a self-hash.
@@ -31,12 +31,16 @@ SIGNED_OUTPUT_ARTIFACTS = frozenset({
     "archive_manifest.json",
     "decision_equivalence_report.json",
     "share_card.html",
+    "cost_assumptions.json",
+    "break_even_report.json",
+    "break_even_curve.csv",
+    "break_even_card.html",
 })
 EXPECTED_BUNDLE_ARTIFACTS = SIGNED_OUTPUT_ARTIFACTS | {"compaction_receipt.json"}
 BUNDLE_CLAIM_BOUNDARY = (
     "The receipt bundle proves local artifact integrity, receiver-pinned succession and compaction "
     "policies, same-exam execution, exact decision-equivalence checks, and hash-addressed archive "
-    "custody under the disclosed harness. It does not prove universal successor benefit, infer "
+    "custody, and compaction-economics artifacts under the disclosed harness. It does not prove universal successor benefit, universal net savings, infer "
     "causation, authorize automatic compaction, or authorize automatic retirement."
 )
 
@@ -404,6 +408,12 @@ def verify_output_directory(
         errors.extend(f"compaction:{error}" for error in compaction_result["errors"])
     else:
         compaction_result = None
+    try:
+        from .economics import verify_economics_outputs
+
+        errors.extend(f"economics:{error}" for error in verify_economics_outputs(output_dir))
+    except Exception as exc:
+        errors.append(f"economics:verification_dispatch_failed:{exc}")
     return {
         "valid": not errors,
         "errors": errors,

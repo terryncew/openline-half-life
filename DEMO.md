@@ -32,7 +32,17 @@ Open:
 
 Every source receipt remains recoverable by hash. The archive manifest and compaction receipt use the existing OLP receipt schema and extend the original chain.
 
-**2:25–3:00 — Verify everything**
+**2:25–2:45 — Inspect break-even**
+
+Open:
+
+- `build/demo/break_even_report.json`
+- `build/demo/break_even_curve.csv`
+- `build/demo/break_even_card.html`
+
+The two cumulative paths use one shared vertical scale. The report may earn a durable crossing, report no crossing, or withhold a dollar claim. The bundled prices are synthetic declared assumptions, not provider quotes. The headline uses the declared canonical 100,000 µs verification-runtime scenario; the actual observed runtime is shown separately as evidence.
+
+**2:45–3:00 — Verify everything**
 
 ```bash
 python -m openline_half_life verify build/demo \
@@ -46,4 +56,4 @@ The public result remains:
 
 > Agent retired after turn 61. Verified handoff reduced errors by 43% on the same exam.
 
-The card adds the measured capsule-size ratio only because decision equivalence passed.
+The card adds the measured capsule-size ratio only because decision equivalence passed. The economics line appears only because the same-exam, legitimate-completion, and decision-equivalence gates passed and complete dated assumptions were supplied.

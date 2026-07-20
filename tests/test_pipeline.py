@@ -25,6 +25,7 @@ def _run(root: Path, out: Path):
         compaction_policy_public_key_path=root / "policy/compaction_policy_public_key.hex",
         replay_latency_micros=75_000,
         receiver_approval_signing_key_path=root / "fixtures/demo_receiver_approval_key.hex",
+        economics_assumptions_path=root / "economics/demo_cost_assumptions.json",
         receiver_disposition="APPROVE",
     )
 
@@ -38,6 +39,10 @@ def test_pipeline_emits_required_artifacts_and_exact_demo_claim(root, tmp_path):
         "verified_residue_handoff.json",
         "comparison.json",
         "share_card.html",
+        "cost_assumptions.json",
+        "break_even_report.json",
+        "break_even_curve.csv",
+        "break_even_card.html",
     ):
         assert (tmp_path / name).exists()
     assert result["passed"] is True
@@ -50,6 +55,12 @@ def test_pipeline_emits_required_artifacts_and_exact_demo_claim(root, tmp_path):
     assert "COMPARISON PASSED" in card
     assert "Agent retired after turn 61." in card
     assert "Verified handoff reduced errors by 43% on the same exam." in card
+    economics = json.loads((tmp_path / "break_even_report.json").read_text())
+    assert economics["status"] == "DURABLE_BREAK_EVEN_REACHED"
+    assert economics["dollar_claim_earned"] is True
+    assert economics["dollar_durable_break_even_turn"] is not None
+    expected_turn = economics["dollar_durable_break_even_turn"]
+    assert f"Economic break-even after {expected_turn} future turns under declared assumptions." in card
 
 
 def test_both_successors_receive_exactly_the_same_exam(root, tmp_path):
@@ -208,6 +219,35 @@ def test_verification_requires_external_policy_pin(root, tmp_path, trusted_polic
         expected_policy_public_keys=trusted_policy_keys,
         expected_compaction_policy_public_keys=trusted_compaction_policy_keys,
     )["valid"] is True
+
+
+@pytest.mark.parametrize(
+    "name",
+    [
+        "cost_assumptions.json",
+        "break_even_report.json",
+        "break_even_curve.csv",
+        "break_even_card.html",
+    ],
+)
+def test_tampering_with_economics_artifacts_breaks_verification(
+    root, tmp_path, name, trusted_policy_keys, trusted_compaction_policy_keys
+):
+    _run(root, tmp_path)
+    path = tmp_path / name
+    if path.suffix == ".json":
+        value = json.loads(path.read_text())
+        value["tampered"] = True
+        path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
+    else:
+        path.write_text(path.read_text() + "\nTAMPERED\n")
+    result = verify_output_directory(
+        tmp_path,
+        expected_policy_public_keys=trusted_policy_keys,
+        expected_compaction_policy_public_keys=trusted_compaction_policy_keys,
+    )
+    assert result["valid"] is False
+    assert f"artifact_hash_mismatch:{name}" in result["errors"]
 
 
 @pytest.mark.parametrize("name", ["full_history_handoff.json", "verified_residue_handoff.json"])

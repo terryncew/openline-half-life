@@ -4,10 +4,11 @@ OpenLine Half-Life tests two linked questions:
 
 1. Does a receiver-verifiable residue handoff outperform full history on the same held-out exam?
 2. Can a long verified OLP receipt chain be compressed into a smaller causal state without changing any receiver decision the full chain would produce?
+3. Under declared pricing and rehydration assumptions, after how many future turns does the verified compact path break even against repeatedly loading full history?
 
 The second layer is the **OLP Causal Compactor**. Pressure only proposes compaction. A receiver-owned signed policy and a separate per-run receiver approval decide what may leave active memory. Exact decision equivalence decides whether compaction is allowed.
 
-This is an offline deterministic review candidate, not a universal model claim, dashboard, account system, payment layer, or Trust Router.
+This is an offline deterministic review candidate, not a universal model or universal savings claim, dashboard, account system, payment layer, or Trust Router.
 
 ## Trust boundary
 
@@ -44,6 +45,17 @@ The compactor never turns repetition or correlation into causation. Only a causa
 
 Decision equivalence is not computed from two copies of compactor state. A separate reference replay reads the raw verified history and produces the full-history receiver decision table independently.
 
+## Compaction economics
+
+The economics benchmark compares two cumulative paths over a receiver-declared future horizon:
+
+- repeatedly load the measured full-history handoff into the model;
+- pay the observed deterministic compaction-verification cost, then load the measured compact handoff, with declared recompaction and rehydration events.
+
+Model context cost, deterministic verification runtime, fixed verification overhead, recompaction, and rehydration remain separate. Dollar claims are withheld unless the receiver supplies complete dated pricing assumptions. A valid result may report a durable break-even turn, no break-even within the horizon, or an undecidable dollar claim. If same-exam preservation or decision equivalence fails, the economics claim is blocked.
+
+The benchmark holds the measured packet sizes constant across the declared horizon. It is a disclosed scenario calculation, not a forecast of universal savings. Long-running histories may grow differently in production.
+
 ## Outputs
 
 A demo emits:
@@ -60,6 +72,10 @@ A demo emits:
 - `decision_equivalence_report.json`
 - `compaction_receipt.json`
 - `share_card.html`
+- `cost_assumptions.json`
+- `break_even_report.json`
+- `break_even_curve.csv`
+- `break_even_card.html`
 - `cold_archive/receipts/<receipt-hash>.json`
 
 `archive_manifest.json` and `compaction_receipt.json` are ordinary `openline.endurance.receipt.v1` receipts extending the same chain. No new receipt family or cryptographic method is introduced.
@@ -73,7 +89,7 @@ python -m pip install -e '.[dev]'
 python scripts/release_check.py
 ```
 
-That command runs all inherited, audit, tamper, packaging, and compaction tests; the deterministic demo; archive verification; and the 10,000-seeded-history gate.
+That command runs all inherited, audit, tamper, packaging, compaction, and economics tests; the deterministic demo; economic artifact verification; archive verification; and the 10,000-seeded-history gate.
 
 The seeded gate replays all 10,000 histories through both independent decision engines. Every history receives full Ed25519 receipt-chain creation, signature verification, parent-chain verification, and signed-anchor completeness verification; no synthetic or sampled signature path is used.
 
@@ -100,7 +116,7 @@ The sample still earns the original result:
 
 > Agent retired after turn 61. Verified handoff reduced errors by 43% on the same exam.
 
-The share card also states the measured active-memory ratio only after exact receiver-decision equivalence passes.
+The share card also states the measured active-memory ratio only after exact receiver-decision equivalence passes. The demo emits a separate break-even card and curve. Under the bundled synthetic assumptions, the headline crossing uses a declared canonical 100,000 µs verification-runtime scenario. The actual wall-clock runtime is preserved separately as measured evidence, so faster and slower machines do not rewrite the checked-in headline. It is not a provider-price claim.
 
 ## Run another trajectory
 
@@ -113,6 +129,7 @@ openline-half-life run path/to/trajectory.jsonl \
   --compaction-policy-public-key policy/compaction_policy_public_key.hex \
   --signing-key path/to/private-key.hex \
   --receiver-approval-signing-key path/to/receiver-approval.private.hex \
+  --economics-assumptions path/to/cost-assumptions.json \
   --replay-latency-micros 75000 \
   --receiver-disposition APPROVE \
   --out build/result

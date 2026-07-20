@@ -48,6 +48,7 @@ def render_share_card(
     retirement_turn: int,
     comparison: Mapping[str, Any],
     compaction: Mapping[str, Any] | None = None,
+    economics: Mapping[str, Any] | None = None,
 ) -> str:
     description = describe_share_card(retirement_turn, comparison)
     full = comparison["full_history"]["metrics"]
@@ -61,6 +62,18 @@ def render_share_card(
             )
         else:
             compaction_line = '<div class="compaction">Causal compaction not admitted: decision equivalence failed.</div>'
+    economics_line = ""
+    if economics is not None:
+        if economics.get("dollar_claim_earned") is True:
+            economics_line = (
+                f'<div class="economics">Economic break-even after {int(economics["dollar_durable_break_even_turn"])} future turns under declared assumptions.</div>'
+            )
+        elif economics.get("status") == "NO_DURABLE_BREAK_EVEN_WITHIN_HORIZON":
+            economics_line = (
+                f'<div class="economics">No economic break-even within {int(economics["future_turn_horizon"])} future turns under declared assumptions.</div>'
+            )
+        else:
+            economics_line = '<div class="economics">No dollar savings claim earned by this run.</div>'
     html = f"""<!doctype html>
 <html lang="en">
 <head>
@@ -80,7 +93,7 @@ h1 {{ margin: 24px 0 12px; font-size: clamp(42px, 7vw, 84px); line-height: .98; 
 .metric {{ padding: 18px; border-radius: 16px; background: #171d29; border: 1px solid #2a3342; }}
 .label {{ color: #8f9db2; font-size: 13px; text-transform: uppercase; letter-spacing: .1em; }}
 .value {{ margin-top: 8px; font-size: 28px; font-weight: 700; }}
-.compaction {{ margin-top: 24px; padding: 16px 18px; border: 1px solid #2a3342; border-radius: 14px; color: #b8c4d6; background: #111722; font-size: 16px; }}
+.compaction, .economics {{ margin-top: 24px; padding: 16px 18px; border: 1px solid #2a3342; border-radius: 14px; color: #b8c4d6; background: #111722; font-size: 16px; }}
 .footer {{ margin-top: 32px; color: #75849a; font-size: 14px; }}
 @media (max-width: 640px) {{ .metrics {{ grid-template-columns: 1fr; }} }}
 </style>
@@ -97,6 +110,7 @@ h1 {{ margin: 24px 0 12px; font-size: clamp(42px, 7vw, 84px); line-height: .98; 
 <div class="metric"><div class="label">Unsupported claims</div><div class="value">{full['unsupported_claim_count']} → {residue['unsupported_claim_count']}</div></div>
 </section>
 {compaction_line}
+{economics_line}
 <div class="footer">Synthetic deterministic demo. Not a universal model-support claim. Automatic retirement remains forbidden.</div>
 </main>
 </body>

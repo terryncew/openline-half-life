@@ -1,0 +1,20 @@
+{
+  "assumptions_id": "half-life-demo-economics-2026-07-20",
+  "canonical_initial_verification_runtime_micros": 100000,
+  "deterministic_compute_price_usd_micros_per_second": 4000000,
+  "fixed_verification_overhead_usd_micros": 100000,
+  "future_turns": 120,
+  "model_input_price_usd_micros_per_million_tokens": 2500000,
+  "pricing_effective_date": "2026-07-20",
+  "pricing_source": "DECLARED_SYNTHETIC_DEMO_ASSUMPTION_NOT_A_PROVIDER_QUOTE",
+  "recompaction_turns": [
+    60
+  ],
+  "recompaction_verification_multiplier_micros": 1000000,
+  "rehydration_full_history_loads": 1,
+  "rehydration_turns": [
+    90
+  ],
+  "rehydration_verification_multiplier_micros": 1000000,
+  "schema": "openline.half-life.cost-assumptions-input.v2"
+}

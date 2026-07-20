@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from time import perf_counter_ns
 from typing import Any
 
 from .assessment import assess_trajectory, first_retirement_turn
@@ -14,6 +15,7 @@ from .causal_compactor import (
 )
 from .comparison import compare_results
 from .exam import load_exam, run_same_exam
+from .economics import load_cost_assumptions_input, run_break_even_benchmark, write_economics_outputs
 from .handoff import build_full_history_handoff, build_verified_residue_handoff
 from .policy import load_policy, load_trusted_policy_keys
 from .receipts import (
@@ -63,6 +65,7 @@ def run_pipeline(
     compaction_policy_public_key_path: Path,
     replay_latency_micros: int,
     receiver_approval_signing_key_path: Path,
+    economics_assumptions_path: Path,
     receiver_disposition: str = "APPROVE",
 ) -> dict[str, Any]:
     trusted_policy_keys = load_trusted_policy_keys(policy_public_key_path)
@@ -72,6 +75,7 @@ def run_pipeline(
     turns = load_trajectory(trajectory_path)
     policy = load_policy(policy_path, trusted_policy_keys)
     compaction_policy = load_json(compaction_policy_path)
+    economics_input = load_cost_assumptions_input(economics_assumptions_path)
     exam = load_exam(exam_path)
     assessments = assess_trajectory(
         turns,
@@ -169,6 +173,7 @@ def run_pipeline(
         retirement_turn=retirement_turn,
     )
 
+    compaction_started_ns = perf_counter_ns()
     compaction = compact_verified_chain(
         CompactionInputs(
             source_bundle=provisional_bundle,
@@ -181,6 +186,7 @@ def run_pipeline(
         ),
         signer,
     )
+    observed_compaction_runtime_micros = max(1, (perf_counter_ns() - compaction_started_ns + 999) // 1000)
     capsule = compaction["capsule"]
     equivalence = compaction["equivalence_report"]
     archive_receipt = compaction["archive_manifest_receipt"]
@@ -194,12 +200,28 @@ def run_pipeline(
     full_result, residue_result = run_same_exam(full, updated_residue, exam)
     comparison = compare_results(full_result, residue_result)
     write_json(output_dir / "comparison.json", comparison)
+    economics_assumptions, economics_report, economics_curve = run_break_even_benchmark(
+        declared_assumptions=economics_input,
+        full_history_tokens_per_turn=int(full_result["metrics"]["estimated_input_tokens"]),
+        compact_state_tokens_per_turn=int(residue_result["metrics"]["estimated_input_tokens"]),
+        observed_initial_verification_runtime_micros=observed_compaction_runtime_micros,
+        comparison=comparison,
+        equivalence_report=equivalence,
+        source_hashes={
+            "full_history_packet_hash": str(full["packet_hash"]),
+            "compact_state_packet_hash": str(updated_residue["packet_hash"]),
+            "comparison_hash": str(comparison["comparison_hash"]),
+            "equivalence_report_hash": str(equivalence["report_hash"]),
+        },
+    )
+    write_economics_outputs(output_dir, economics_assumptions, economics_report, economics_curve)
     card_description = describe_share_card(retirement_turn, comparison)
     render_share_card(
         output_dir / "share_card.html",
         retirement_turn,
         comparison,
         equivalence,
+        economics_report,
     )
     signed_artifact_hashes = {
         name: sha256_file(output_dir / name)
@@ -281,6 +303,14 @@ def run_pipeline(
             "active_size_ratio_micros": equivalence["active_size_ratio_micros"],
             "archived_receipt_count": archive_receipt["payload"]["source_chain_count"],
             "trigger_reason_codes": compaction["verification"]["pressure"]["reason_codes"],
+            "observed_runtime_micros": observed_compaction_runtime_micros,
+        },
+        "economics": {
+            "status": economics_report["status"],
+            "pricing_complete": economics_report["pricing_complete"],
+            "dollar_claim_earned": economics_report["dollar_claim_earned"],
+            "dollar_durable_break_even_turn": economics_report["dollar_durable_break_even_turn"],
+            "future_turn_horizon": economics_report["future_turn_horizon"],
         },
         "verification": verification,
         "output_dir": str(output_dir),

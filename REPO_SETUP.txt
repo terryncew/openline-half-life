@@ -2,10 +2,10 @@ Repository name:
 openline-half-life
 
 Repository description:
-A deterministic OLP harness for verified succession, same-exam handoff comparison, and receiver-governed causal receipt compaction.
+A deterministic OLP harness for verified succession, receiver-governed causal compaction, and falsifiable break-even economics.
 
 Commit message:
-Require full cryptographic verification across 10,000 histories
+Stabilize compaction economics with a canonical scenario
 
 Commit body:
-Remove the sampled receipt-envelope path from the seeded release gate. Create, sign, hash-chain, anchor, and verify every history with Ed25519; require the verified-chain count to equal the full 10,000-history corpus; and preserve zero decision mismatches, zero tombstone replays, complete archive recovery, and the 20% median active-state bound.
+Separate observed wall-clock verification time from a receiver-declared canonical economics scenario. Keep observed runtime as signed evidence, use a declared 100,000 µs assumption for reproducible headline crossings, regenerate every economics artifact together, and preserve all inherited safety and cryptographic gates.

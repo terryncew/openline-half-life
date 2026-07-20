@@ -1,34 +1,38 @@
 {
   "anchor": {
-    "anchor_hash": "58899e6479b64082ca427f1616ddd303a6055d0f27ec0c8f91c620d747a413a7",
-    "chain_digest": "e869a9f9b52d998b55f61d261aff712222f0139e63c0426f4c7e77425ef31d5f",
+    "anchor_hash": "d1a7d2a6ddbee114c276bf25c574a68fca92be0f041d8bfc286a985f48add016",
+    "chain_digest": "f66cabb98aebdb46fa9c0e31a1bf89418130553302b13516e3f6cc2e81a07a1d",
     "expected_count": 67,
-    "expected_tail_hash": "013ab0caa0c5a7ae3d8ad0ec89f78aac34f6f5715a36adf05056ea68a200f970",
+    "expected_tail_hash": "a31aa7331576da714f377e414c8a411a5539f8fbcdf12e0e9550a16ee84a8297",
     "schema": "openline.endurance.anchor.v1",
-    "signature": "41PTc64UaQg/lvdJwz9ToiiTE0Q7PDDgSwYd4SkO3yQ1foLyok3uvSba8rmwiRLR/O0hXGC0WrczZzXrsNtQBQ==",
+    "signature": "1VN+Md2yvP0Nr4RP7VPfYzYyhXJcVPecBnpwkXrpX1daZfG5/OOM5Ch58qyX4fD/jphfX0aaZ+wRSXajGH0jCw==",
     "signer_public_key": "11l5O7wTooGagnx2rbb7qKSa7gB/SfLQmS2ZuCWtLEg="
   },
   "artifact_hashes": {
     "archive_manifest.json": "5688673a9678fa85ccb7fddb5d705009c8ccea7bc6b04f9af241678957ad2cda",
+    "break_even_card.html": "d8b09ce4355d334a7d4618aa77514ffe69389698bb6b7500121d54936d88bd55",
+    "break_even_curve.csv": "92019287cbfd26932f4f0854ed9e3269543a7afb562b34b432cbcf18c8492b14",
+    "break_even_report.json": "dff39eb5b8893b420fd63276116d0c0e2966d0a743321d62c64d1b6bde09dc94",
     "calibrator_policy.json": "09485abdba590179e32664e3e913c744c7eb620030ad9c138c407eb983d292ec",
     "causal_capsule.json": "66d06c5a4338f07b46308b66d2b79aee333fab8f9d9b4d071a269d72eb32235a",
     "compaction_policy.json": "8eeb9adba81e32f019a335c855780fb05a511c78f75353a3ff1fc2aa56d2a16d",
-    "compaction_receipt.json": "d7417f19dcaa34c8f0a95f90428007bcd94125c87e8e26e4f4e9a8a7cddaba11",
+    "compaction_receipt.json": "7b068b6fa0367b555bf8e742911b209dc93e5984be7a7f30251e60f356ff955d",
     "comparison.json": "621eed58cb77d02458499de6b751d142670cac4f9d8eedb984ddf5ef7060ac3f",
+    "cost_assumptions.json": "be1903a9dc3f6be55196bdd24d89224efbd5f46305f266f863f7e89ea2968de8",
     "decision_equivalence_report.json": "594ef6d21eb251ece77abf0d82865bff8053dd9bb2d0cd195979814d52860714",
     "full_history_handoff.json": "09013b4d6a2ed54630e3e07eead171fe2aba54051f4de6ad4440a69af492c06f",
     "receiver_approval.json": "c07a39f0d1fea716c4a6e2d31bcdff14742b6ce10c6911be2e31e18f7716be97",
-    "share_card.html": "a6235cdede338a0ad9720c4d3de23609707a0c1d102b57ac65b6abb62b5566f6",
+    "share_card.html": "3e48d061a89e380e7de510702ad42767493aeb6b9b0421aac9143e1cec84ef4a",
     "turn_assessments.json": "c77b42d8f9a60d6520b3f3edc17b365308714aacf13400cf43db97946c1cf9de",
     "verified_residue_handoff.json": "93d56a4ef9b84e09f8ce43a06f77571619d6b43b42a54130c15cfd127cd35455"
   },
-  "claim_boundary": "The receipt bundle proves local artifact integrity, receiver-pinned succession and compaction policies, same-exam execution, exact decision-equivalence checks, and hash-addressed archive custody under the disclosed harness. It does not prove universal successor benefit, infer causation, authorize automatic compaction, or authorize automatic retirement.",
+  "claim_boundary": "The receipt bundle proves local artifact integrity, receiver-pinned succession and compaction policies, same-exam execution, exact decision-equivalence checks, and hash-addressed archive custody, and compaction-economics artifacts under the disclosed harness. It does not prove universal successor benefit, universal net savings, infer causation, authorize automatic compaction, or authorize automatic retirement.",
   "compaction": {
     "active_size_ratio_micros": 93451,
     "archive_manifest_receipt_hash": "249cc848f2ecb880be2acaab940a96fe326b7b32d3c59be153d49a3c8c4c90e3",
     "automatic_retirement_authorized": false,
     "causal_capsule_hash": "d1e21127793cc9a5d80c1a669b44a10301f8ecae0d704916a47d217ae8dda599",
-    "compaction_receipt_hash": "013ab0caa0c5a7ae3d8ad0ec89f78aac34f6f5715a36adf05056ea68a200f970",
+    "compaction_receipt_hash": "a31aa7331576da714f377e414c8a411a5539f8fbcdf12e0e9550a16ee84a8297",
     "decision_equivalence_passed": true,
     "decision_equivalence_report_hash": "ac314849c9b845906a0829a8089cf9a668cb75122e7f2a411349f845dbede113",
     "policy_hash": "4354abb073b9e4ae859320c8b5a47a663515dcb7c3ca9493dcae6e64447c8235",
@@ -3597,14 +3601,18 @@
         },
         "artifact_hashes": {
           "archive_manifest.json": "5688673a9678fa85ccb7fddb5d705009c8ccea7bc6b04f9af241678957ad2cda",
+          "break_even_card.html": "d8b09ce4355d334a7d4618aa77514ffe69389698bb6b7500121d54936d88bd55",
+          "break_even_curve.csv": "92019287cbfd26932f4f0854ed9e3269543a7afb562b34b432cbcf18c8492b14",
+          "break_even_report.json": "dff39eb5b8893b420fd63276116d0c0e2966d0a743321d62c64d1b6bde09dc94",
           "calibrator_policy.json": "09485abdba590179e32664e3e913c744c7eb620030ad9c138c407eb983d292ec",
           "causal_capsule.json": "66d06c5a4338f07b46308b66d2b79aee333fab8f9d9b4d071a269d72eb32235a",
           "compaction_policy.json": "8eeb9adba81e32f019a335c855780fb05a511c78f75353a3ff1fc2aa56d2a16d",
           "comparison.json": "621eed58cb77d02458499de6b751d142670cac4f9d8eedb984ddf5ef7060ac3f",
+          "cost_assumptions.json": "be1903a9dc3f6be55196bdd24d89224efbd5f46305f266f863f7e89ea2968de8",
           "decision_equivalence_report.json": "594ef6d21eb251ece77abf0d82865bff8053dd9bb2d0cd195979814d52860714",
           "full_history_handoff.json": "09013b4d6a2ed54630e3e07eead171fe2aba54051f4de6ad4440a69af492c06f",
           "receiver_approval.json": "c07a39f0d1fea716c4a6e2d31bcdff14742b6ce10c6911be2e31e18f7716be97",
-          "share_card.html": "a6235cdede338a0ad9720c4d3de23609707a0c1d102b57ac65b6abb62b5566f6",
+          "share_card.html": "3e48d061a89e380e7de510702ad42767493aeb6b9b0421aac9143e1cec84ef4a",
           "turn_assessments.json": "c77b42d8f9a60d6520b3f3edc17b365308714aacf13400cf43db97946c1cf9de",
           "verified_residue_handoff.json": "93d56a4ef9b84e09f8ce43a06f77571619d6b43b42a54130c15cfd127cd35455"
         },
@@ -3797,7 +3805,7 @@
         "run_id": "gradual-drift-demo",
         "same_exam_verified": true,
         "schema": "openline.half-life.causal-compaction.v2",
-        "share_card_sha256": "a6235cdede338a0ad9720c4d3de23609707a0c1d102b57ac65b6abb62b5566f6",
+        "share_card_sha256": "3e48d061a89e380e7de510702ad42767493aeb6b9b0421aac9143e1cec84ef4a",
         "source_chain_count": 65,
         "source_chain_digest": "0e072017602025a6e6782ab34146295ebb691561400d1344bb71c9368da3d34e",
         "source_chain_tail_hash": "099aad33663b35834cb81d5504a8ded4e3be81c2e998110b695b5b5ecefa3d58",
@@ -3805,12 +3813,12 @@
         "trusted_source_receipt_signer_key": "11l5O7wTooGagnx2rbb7qKSa7gB/SfLQmS2ZuCWtLEg=",
         "updated_verified_residue_packet_hash": "bed34206916e05ac141c4eb3e70c8aad54b0ab702142397d0c2142cdf474d066"
       },
-      "receipt_hash": "013ab0caa0c5a7ae3d8ad0ec89f78aac34f6f5715a36adf05056ea68a200f970",
+      "receipt_hash": "a31aa7331576da714f377e414c8a411a5539f8fbcdf12e0e9550a16ee84a8297",
       "schema": "openline.endurance.receipt.v1",
-      "signature": "GYsbozpyoHmx4uk0zWjOaCKwKXIzUbzm+RBknBJeUCCiWkgr4UbxLLjzi3V26/DOXm1p9KrwAS/KR5/rxMHcAQ==",
+      "signature": "4NcACab0nTr0sq7dD/8OviwvjcykfP2mCagXjb/LtDkTPnKSQmSEmlvRBpDp+GzQOAs+J+QIypphdWIG+QTbAQ==",
       "signer_public_key": "11l5O7wTooGagnx2rbb7qKSa7gB/SfLQmS2ZuCWtLEg="
     }
   ],
   "retirement_turn": 61,
-  "schema": "openline.half-life.receipt-bundle.v3"
+  "schema": "openline.half-life.receipt-bundle.v5"
 }

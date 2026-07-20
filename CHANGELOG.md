@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.3.0rc2 review candidate
+
+- Separates observed wall-clock compaction runtime from the receiver-declared canonical economic scenario.
+- Uses a declared 100,000 µs initial verification runtime for the bundled synthetic headline, making the break-even turn reproducible across machines.
+- Retains actual observed runtime as signed measured evidence without allowing it to rewrite the share card or release headline.
+- Adds a regression proving that changing observed runtime cannot change the canonical curve or break-even turn.
+- Supersedes rc1, whose package contained inconsistent break-even headlines because each run used local wall-clock timing.
+- Remains untagged pending fresh Python 3.12 GitHub Actions.
+
+
+## 0.3.0rc1 review candidate
+
+- Adds a deterministic Compaction Economics benchmark using measured full-history and compact handoff sizes plus observed compaction-verification runtime.
+- Emits `cost_assumptions.json`, `break_even_report.json`, `break_even_curve.csv`, and `break_even_card.html`, all bound into the existing signed artifact manifest and receipt chain.
+- Separates model-input cost, deterministic verification cost, fixed overhead, recompaction, and rehydration; no new score, receipt family, or cryptographic method is introduced.
+- Reports durable break-even, no break-even, missing-pricing undecidability, or a blocked safety result. Dollar claims require complete dated receiver-supplied assumptions.
+- Uses one shared graph scale and marks the measured crossing, preventing visually misleading separately normalized curves.
+- Preserves the pinned v0.10.0 Succession Calibrator, receiver-pinned policy verification, exact decision equivalence, full 10,000-history Ed25519 verification, and the prohibition on automatic retirement.
+- Remains an untagged review candidate pending fresh GitHub Actions.
+
 ## 0.2.0rc5 review candidate
 
 - Fix clean CI wheel construction by installing the declared setuptools build backend in the development environment used by the offline `--no-build-isolation` packaging test.

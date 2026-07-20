@@ -1,0 +1,28 @@
+{
+  "assumptions_hash": "f3aa62be5c02700a1e16925998a7e52c4a32867b18a08adde1c21fe62b47e962",
+  "benchmark_valid": true,
+  "canonical_initial_verification_runtime_micros": 100000,
+  "claim_boundary": "This benchmark reports break-even only under the declared horizon, event schedule, measured packet sizes, receiver-declared canonical verification runtime, and dated pricing assumptions. Observed wall-clock runtime is retained as evidence but does not set the headline crossing. It does not establish universal net savings. A short task or frequent rehydration may never break even.",
+  "comparison_hash": "a0226c28f1eea485edfe5b80ed26080655446f5de3121f3f6596409b651c7295",
+  "dollar_claim_earned": true,
+  "dollar_durable_break_even_turn": 23,
+  "dollar_first_crossing_turn": 23,
+  "equivalence_report_hash": "ac314849c9b845906a0829a8089cf9a668cb75122e7f2a411349f845dbede113",
+  "final": {
+    "compact_model_input_tokens": 208828,
+    "compact_savings_usd_micros": 1318330,
+    "compact_total_usd_micros": 1822070,
+    "compact_verification_runtime_micros": 300000,
+    "full_history_model_input_tokens": 1256160,
+    "full_history_total_usd_micros": 3140400
+  },
+  "future_turn_horizon": 120,
+  "headline_basis": "DECLARED_CANONICAL_SCENARIO",
+  "observed_initial_verification_runtime_micros": 59316,
+  "pricing_complete": true,
+  "report_hash": "01c24d5ec0b954506efbe8c4880886e986771d2896ad9386ca55f26d237eb06c",
+  "schema": "openline.half-life.break-even-report.v2",
+  "status": "DURABLE_BREAK_EVEN_REACHED",
+  "token_durable_break_even_turn": 1,
+  "token_first_crossing_turn": 1
+}

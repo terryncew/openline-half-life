@@ -4,13 +4,17 @@
     "automatic_retirement_authorized": false,
     "causation_inferred_from_repetition_or_correlation": false,
     "complete_artifact_manifest_signed": true,
+    "economics_can_report_no_break_even": true,
+    "economics_requires_dated_receiver_pricing": true,
     "extension_signer_continuity_required": true,
     "independent_full_history_replay": true,
+    "observed_runtime_controls_headline": false,
     "offline_deterministic_default": true,
     "provider_required_for_tests": false,
     "receiver_approval_separately_signed": true,
     "rehydration_policy_pin_required": true,
     "source_receipts_permanently_deleted": false,
+    "universal_savings_claimed": false,
     "universal_threshold_claimed": false
   },
   "canonical_source": {
@@ -34,26 +38,35 @@
     "share_card_statements_present": true,
     "verified_residue_errors": 4
   },
+  "economics": {
+    "benchmark_valid": true,
+    "canonical_headline_is_machine_stable": true,
+    "canonical_initial_verification_runtime_micros": 100000,
+    "claim_boundary_present": true,
+    "dollar_claim_earned": true,
+    "dollar_durable_break_even_turn": 23,
+    "future_turn_horizon": 120,
+    "headline_basis": "DECLARED_CANONICAL_SCENARIO",
+    "observed_initial_verification_runtime_micros": 59316,
+    "pricing_complete": true,
+    "shared_scale_graph_present": true,
+    "status": "DURABLE_BREAK_EVEN_REACHED"
+  },
+  "fresh_python_312_ci_required": true,
   "passed": true,
   "policy_trust": {
     "compaction_receiver_pin_required": true,
     "demo_keys_production_trustworthy": false,
     "demo_source_and_approval_private_keys_distributed": true,
     "policy_private_keys_distributed": false,
-    "succession_receiver_pin_required": true,
-    "trusted_compaction_public_keys": [
-      "34b4d9043156cb6dcf0beb0a2949b7559c940d2bcb6dbe8c53a9b30278e3a746"
-    ],
-    "trusted_succession_public_keys": [
-      "d810f13ea0d000c1c3a201cc568c1774b60f240a709f2f5220fec474254015af"
-    ]
+    "succession_receiver_pin_required": true
   },
   "receipt_verification": {
     "chain": {
-      "chain_digest": "e869a9f9b52d998b55f61d261aff712222f0139e63c0426f4c7e77425ef31d5f",
+      "chain_digest": "f66cabb98aebdb46fa9c0e31a1bf89418130553302b13516e3f6cc2e81a07a1d",
       "count": 67,
       "errors": [],
-      "tail_hash": "013ab0caa0c5a7ae3d8ad0ec89f78aac34f6f5715a36adf05056ea68a200f970",
+      "tail_hash": "a31aa7331576da714f377e414c8a411a5539f8fbcdf12e0e9550a16ee84a8297",
       "valid": true
     },
     "compaction": {
@@ -64,7 +77,7 @@
       "extension": {
         "count": 2,
         "errors": [],
-        "tail_hash": "013ab0caa0c5a7ae3d8ad0ec89f78aac34f6f5715a36adf05056ea68a200f970",
+        "tail_hash": "a31aa7331576da714f377e414c8a411a5539f8fbcdf12e0e9550a16ee84a8297",
         "valid": true
       },
       "source_chain": {
@@ -83,7 +96,7 @@
     "valid": true
   },
   "release_tag_authorized": false,
-  "schema": "openline.half-life.release-verification.v5",
+  "schema": "openline.half-life.release-verification.v7",
   "seeded_compaction_gate": {
     "command": "python scripts/compaction_release_gate.py",
     "execution_returncode": 0,
@@ -109,11 +122,12 @@
   },
   "single_documented_command": "python scripts/release_check.py",
   "tests": {
-    "command": "python -m pytest -q",
-    "count": 62,
+    "command": "python -m pytest -q -p no:cacheprovider",
+    "count": 78,
     "passed": true,
     "stderr": "",
-    "stdout": "..............................................................           [100%]\n"
+    "stdout": "........................................................................ [ 92%]\\n......                                                                   [100%]\\n"
   },
-  "version": "0.2.0rc5-review-candidate"
+  "verification_execution_mode": "local_component_gates",
+  "version": "0.3.0rc2-review-candidate"
 }

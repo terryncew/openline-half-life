@@ -89,6 +89,7 @@ def test_verifier_rejects_an_internally_consistent_untrusted_source_signer(
             compaction_policy_public_key_path=root / "policy/compaction_policy_public_key.hex",
             replay_latency_micros=75_000,
             receiver_approval_signing_key_path=root / "fixtures/demo_receiver_approval_key.hex",
+            economics_assumptions_path=root / "economics/demo_cost_assumptions.json",
             receiver_disposition="APPROVE",
         )
 

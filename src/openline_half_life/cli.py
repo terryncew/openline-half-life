@@ -43,6 +43,7 @@ def main(argv: list[str] | None = None) -> int:
     run.add_argument("--compaction-policy-public-key", type=Path, required=True)
     run.add_argument("--signing-key", type=Path, required=True)
     run.add_argument("--receiver-approval-signing-key", type=Path, required=True)
+    run.add_argument("--economics-assumptions", type=Path, required=True)
     run.add_argument("--replay-latency-micros", type=int, required=True)
     run.add_argument("--receiver-disposition", choices=["APPROVE", "DENY"], required=True)
     run.add_argument("--out", type=Path, required=True)
@@ -74,6 +75,7 @@ def main(argv: list[str] | None = None) -> int:
             compaction_policy_public_key_path=args.compaction_policy_public_key,
             replay_latency_micros=args.replay_latency_micros,
             receiver_approval_signing_key_path=args.receiver_approval_signing_key,
+            economics_assumptions_path=args.economics_assumptions,
             receiver_disposition=args.receiver_disposition,
         )
     elif args.command == "verify":
@@ -102,6 +104,9 @@ def main(argv: list[str] | None = None) -> int:
                 replay_latency_micros=args.replay_latency_micros,
                 receiver_approval_signing_key_path=_resource(
                     stack, "data", "fixtures", "demo_receiver_approval_key.hex"
+                ),
+                economics_assumptions_path=_resource(
+                    stack, "data", "economics", "demo_cost_assumptions.json"
                 ),
                 receiver_disposition="APPROVE",
             )

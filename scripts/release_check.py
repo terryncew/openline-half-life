@@ -43,7 +43,7 @@ def run() -> dict:
     env["PYTHONDONTWRITEBYTECODE"] = "1"
     env["PYTHONPATH"] = str(SRC)
 
-    _progress("running inherited, audit, tamper, and compaction tests")
+    _progress("running inherited, audit, tamper, compaction, packaging, and economics tests")
     pytest = subprocess.run(
         [sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider"],
         cwd=ROOT,
@@ -125,6 +125,16 @@ def run() -> dict:
             if (output / "archive_manifest.json").exists()
             else None
         )
+        economics = (
+            load_json(output / "break_even_report.json")
+            if (output / "break_even_report.json").exists()
+            else None
+        )
+        economics_card = (
+            (output / "break_even_card.html").read_text(encoding="utf-8")
+            if (output / "break_even_card.html").exists()
+            else ""
+        )
         card = (
             (output / "share_card.html").read_text(encoding="utf-8")
             if (output / "share_card.html").exists()
@@ -134,15 +144,25 @@ def run() -> dict:
     _progress("assembling release verification receipt")
     comparison_passed = bool(comparison is not None and comparison.get("passed") is True)
     equivalence_passed = bool(equivalence is not None and equivalence.get("passed") is True)
+    economics_valid = bool(
+        economics is not None
+        and economics.get("benchmark_valid") is True
+        and economics.get("status") in {
+            "DURABLE_BREAK_EVEN_REACHED",
+            "NO_DURABLE_BREAK_EVEN_WITHIN_HORIZON",
+            "UNDECIDABLE_MISSING_PRICING",
+        }
+    )
     demo_passed = bool(
         demo.returncode == 0
         and comparison_passed
         and equivalence_passed
+        and economics_valid
         and verification["valid"]
     )
     report = {
-        "schema": "openline.half-life.release-verification.v5",
-        "version": "0.2.0rc5-review-candidate",
+        "schema": "openline.half-life.release-verification.v7",
+        "version": "0.3.0rc2-review-candidate",
         "release_tag_authorized": False,
         "passed": bool(
             pytest.returncode == 0
@@ -186,6 +206,31 @@ def run() -> dict:
                 and "Agent retired after turn 61." in card
                 and "Verified handoff reduced errors by 43% on the same exam." in card
                 and "Causal capsule preserved exact receiver decisions" in card
+                and (
+                    economics is not None
+                    and (
+                        f"Economic break-even after {economics.get('dollar_durable_break_even_turn')} future turns under declared assumptions." in card
+                        if economics.get("dollar_claim_earned") is True
+                        else "No dollar savings claim earned by this run." in card
+                    )
+                )
+            ),
+        },
+        "economics": {
+            "benchmark_valid": economics_valid,
+            "status": None if economics is None else economics.get("status"),
+            "pricing_complete": None if economics is None else economics.get("pricing_complete"),
+            "dollar_claim_earned": None if economics is None else economics.get("dollar_claim_earned"),
+            "dollar_durable_break_even_turn": None if economics is None else economics.get("dollar_durable_break_even_turn"),
+            "headline_basis": None if economics is None else economics.get("headline_basis"),
+            "canonical_initial_verification_runtime_micros": None if economics is None else economics.get("canonical_initial_verification_runtime_micros"),
+            "observed_initial_verification_runtime_micros": None if economics is None else economics.get("observed_initial_verification_runtime_micros"),
+            "future_turn_horizon": None if economics is None else economics.get("future_turn_horizon"),
+            "shared_scale_graph_present": "one shared vertical scale" in economics_card,
+            "canonical_headline_is_machine_stable": (economics is not None and economics.get("headline_basis") == "DECLARED_CANONICAL_SCENARIO"),
+            "claim_boundary_present": (
+                economics is not None
+                and "does not establish universal net savings" in economics.get("claim_boundary", "")
             ),
         },
         "receipt_verification": verification,
@@ -221,6 +266,9 @@ def run() -> dict:
             "source_receipts_permanently_deleted": False,
             "receiver_approval_separately_signed": True,
             "independent_full_history_replay": True,
+            "economics_requires_dated_receiver_pricing": True,
+            "economics_can_report_no_break_even": True,
+            "universal_savings_claimed": False,
         },
     }
     return report
