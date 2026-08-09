@@ -1,30 +1,51 @@
 {
-  "boundary": "Fresh GitHub Actions on the exact pushed tree remains the final release-candidate proof.",
-  "decision": "ADVANCE_CANDIDATE_PENDING_GITHUB_CI",
+  "boundary": "Fresh GitHub Actions on the exact pushed rc2 tree remains the final release-candidate proof.",
+  "decision": "REPAIR_CANDIDATE_PENDING_GITHUB_CI",
   "evidence": {
     "archive_recovery_failure_count": 0,
     "cryptographically_verified_history_count": 10000,
     "decision_mismatch_count": 0,
     "deterministic_demo": true,
+    "editable_install_metadata_ignored_by_closure": true,
+    "exact_overlay_release_check_passed": true,
+    "exact_overlay_stale_files_removed": 155,
+    "fresh_archive_archive_recovery_failures": 0,
+    "fresh_archive_decision_mismatches": 0,
+    "fresh_archive_hostile_checks": "16/16 passed",
+    "fresh_archive_release_check_passed": true,
+    "fresh_archive_seeded_histories": 10000,
+    "fresh_archive_tests": "25/25 passed",
+    "fresh_archive_wheel_build_import_demo": true,
+    "github_hosted_build_isolation_still_required": true,
     "hostile_checks": "16/16 passed",
     "maintained_surface_retired_language_matches": 0,
+    "manifest_file_count_including_manifest": 53,
     "median_active_size_ratio_micros": 177204,
     "output_verification": true,
     "overlay_release_check_passed": true,
+    "python_311_312_313_grammar_files": 25,
+    "rc1_github_failure": "release closure saw editable-install egg-info metadata as unsealed source",
+    "rc2_release_hygiene_regression": "passed locally under editable-install ordering",
+    "release_check_passed": true,
+    "sandbox_pep517_isolation_status": "blocked_by_local_package_index_missing_setuptools; local verification used compatible installed backend",
     "seeded_history_count": 10000,
+    "simulated_github_egg_info_byproducts_accepted_as_generated_metadata": true,
+    "simulated_unsealed_source_still_rejected": true,
     "successful_tombstone_replay_count": 0,
-    "unit_and_adversarial_tests": "24/24 passed",
+    "unit_and_adversarial_tests": "25/25 passed",
+    "unsealed_source_file_still_rejected": true,
+    "unused_build_dev_dependency_removed": true,
     "wheel_build_import_demo": true,
     "working_copy_overlay_stale_files_removed": 155
   },
   "incumbent_archive_sha256": "547ca995c2c99bf846ef440b0a25bd742f235c4f2bdee7d44139a48d7705b7c6",
   "incumbent_version": "0.3.0rc4",
   "material_improvements": [
-    "maintained product reduced to state compaction and recovery",
-    "model-replacement scoring removed from active package and interface",
-    "trajectory schema no longer accepts unrelated score fields",
-    "fewer active trust roles and policy inputs",
-    "plain checkpoint semantics use the final verified turn by default"
+    "maintained product remains reduced to state compaction and recovery",
+    "documented editable-install release verification no longer mistakes generated packaging metadata for source",
+    "unsealed source closure remains fail-closed",
+    "unused development dependency removed",
+    "model-replacement scoring remains absent from active package and interface"
   ],
   "preserved_capabilities": [
     "signed source-history verification",
@@ -37,5 +58,5 @@
     "10,000-history cryptographic release gate"
   ],
   "schema": "openline.half-life.local-verification.v1",
-  "version": "0.4.0rc1"
+  "version": "0.4.0rc2"
 }

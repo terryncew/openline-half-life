@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0rc2
+
+- Fixes release verification after an editable install by excluding standard `*.egg-info/` packaging metadata from source-closure checks.
+- Keeps unsealed source files fail-closed; only known tool-generated paths are excluded.
+- Prevents the release sealer from including editable-install metadata in a future manifest.
+- Adds a regression test for the exact GitHub Actions failure seen in v0.4.0rc1.
+- Removes the unused `build` development dependency; release packaging uses `pip wheel` directly.
+- No compaction, replay, archive, policy, or decision semantics changed.
+
 ## 0.4.0rc1
 
 - Narrows the maintained product to verified state compaction.

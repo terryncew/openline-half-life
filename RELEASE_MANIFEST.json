@@ -21,9 +21,9 @@
       "sha256": "1e97e92ac4bd5c1feed812c5c5ec16e54a9bc57ff59211a0c68c00799e64dc6a"
     },
     {
-      "bytes": 1123,
+      "bytes": 1709,
       "path": "CHANGELOG.md",
-      "sha256": "164485a8c1b3ea01fdb0a751407d02a9ba7275af5db10fa252a75de01b169f88"
+      "sha256": "b4533a2c52744dd750bcdcbdd262764b948d0a77504359770ae4104656faa403"
     },
     {
       "bytes": 687,
@@ -41,9 +41,9 @@
       "sha256": "07674dfa9960dff5128d0cdcce58fee7543c26ff47e58e07ae6ac0254a0f58b1"
     },
     {
-      "bytes": 1716,
+      "bytes": 2997,
       "path": "LOCAL_VERIFICATION.json",
-      "sha256": "b4b7fb483c7c9bcf7b933c0554c21b4bfa531f50969b8676fac3f280a3a23282"
+      "sha256": "56d4262e4a2d239e650d69639c7f6d99d9b8a7d309fd43bc5d465e031e5702dd"
     },
     {
       "bytes": 272,
@@ -56,9 +56,9 @@
       "sha256": "8deccbe294fab13846dd9af99730880bdc602976217bdd0d0630b0ae3f9ac369"
     },
     {
-      "bytes": 834,
+      "bytes": 893,
       "path": "RELEASE_BASELINE.json",
-      "sha256": "85d0d46525e924720d7b98aaf5d30d6f4968c5e8f75806f932b4f6daebb66538"
+      "sha256": "f8b0d911bfcf55aac0170d38d992bbed31e2c5ab51ca49753f7c769ae7bcd0a7"
     },
     {
       "bytes": 109,
@@ -101,9 +101,9 @@
       "sha256": "5f9293249dd56912186bba01dd2a3e67bffe95b98b92da38425245bdd3502c74"
     },
     {
-      "bytes": 921,
+      "bytes": 907,
       "path": "pyproject.toml",
-      "sha256": "bd937ae392455314ff5eacfba73f1f596bd9ef105720500787c824286c95ed61"
+      "sha256": "998df8dce255c4a573f2159452ab8a1190ddedbbe918bf2127d6e8bb370fb89d"
     },
     {
       "bytes": 0,
@@ -121,14 +121,14 @@
       "sha256": "920cf40b90c0de231e69495c5d7216cf9e17354e27bdf5fd631d086c79cf7bed"
     },
     {
-      "bytes": 6595,
+      "bytes": 6948,
       "path": "scripts/release_check.py",
-      "sha256": "2a1fbbe8ea1228ebcf44f2cb424b876133c8b69f1af8d19c1872c2615a2f395d"
+      "sha256": "a8a5e06037c860036678264b09514884a7701cdfce953656b0f1c7ed8d629166"
     },
     {
-      "bytes": 1241,
+      "bytes": 1328,
       "path": "scripts/seal_release.py",
-      "sha256": "0a3d9f8304a0e343be130bcbb040f07400e6ed6033d4217ac7377a24d525125d"
+      "sha256": "fc51c4c078546a430162f9aa2264bb4f884f13d54f0ae3b392c69e5289f0e80c"
     },
     {
       "bytes": 6236,
@@ -138,7 +138,7 @@
     {
       "bytes": 25,
       "path": "src/openline_half_life/__init__.py",
-      "sha256": "2469372cf75949a270ad87b86d13bf8552770ebc453f9fd1aa444d32c87ef0cd"
+      "sha256": "075975f6b2903406d6e7a3b8c84fadb21ba742ff226201a89070bdf27c98e14a"
     },
     {
       "bytes": 79,
@@ -188,7 +188,7 @@
     {
       "bytes": 16656,
       "path": "src/openline_half_life/pipeline.py",
-      "sha256": "a2741b323f9f594187d34251942335897da4386cb7f6f6f760443d7567363c4b"
+      "sha256": "e2942ba2912d115dd0aa993e02d9798f37b941e739a915f15ad0d872f5002af1"
     },
     {
       "bytes": 8575,
@@ -246,6 +246,11 @@
       "sha256": "5b46e0304668ba427bb2dc8e1ffdef866818b60d0a6898152a786e08afc04fb3"
     },
     {
+      "bytes": 484,
+      "path": "tests/test_release_hygiene.py",
+      "sha256": "12c50d371f55c70c3f40aefbb7a945fd88fcc9ae4f09dd87c9936e923fac0a12"
+    },
+    {
       "bytes": 1144,
       "path": "tests/test_schema.py",
       "sha256": "7c96f10e8fc0a9592b42bec015b036c0deedb4db15c3b4055bf4e12823858413"
@@ -257,5 +262,5 @@
     }
   ],
   "schema": "openline.half-life.release-manifest.v1",
-  "version": "0.4.0rc1"
+  "version": "0.4.0rc2"
 }

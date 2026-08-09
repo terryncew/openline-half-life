@@ -194,7 +194,7 @@ def run_pipeline(
         raise ValueError("generated output failed verification: " + ",".join(verification["errors"]))
     return {
         "schema": "openline.half-life.run-result.v2",
-        "version": "0.4.0rc1",
+        "version": "0.4.0rc2",
         "passed": True,
         "run_id": turns[0]["run_id"],
         "checkpoint_turn": checkpoint_turn,

@@ -1,7 +1,10 @@
 {
-  "schema": "openline.half-life.release-baseline.v1",
+  "candidate": {
+    "change_type": "subtractive replacement with CI hygiene repair",
+    "promotion_rule": "Preserve the v0.4 compaction and recovery guarantees, keep the retired scoring path removed, and make documented editable-install release verification pass without weakening source closure.",
+    "version": "0.4.0rc2"
+  },
   "incumbent": {
-    "version": "0.3.0rc4",
     "archive_sha256": "547ca995c2c99bf846ef440b0a25bd742f235c4f2bdee7d44139a48d7705b7c6",
     "verified_capabilities": [
       "signed source-history verification",
@@ -12,11 +15,8 @@
       "tombstone replay prevention",
       "rehydration from retained history",
       "10,000-history cryptographic release gate"
-    ]
+    ],
+    "version": "0.3.0rc4"
   },
-  "candidate": {
-    "version": "0.4.0rc1",
-    "change_type": "subtractive replacement",
-    "promotion_rule": "Preserve the compaction and recovery guarantees while removing unrelated model-replacement scoring and reducing the active dependency and policy surface."
-  }
+  "schema": "openline.half-life.release-baseline.v1"
 }

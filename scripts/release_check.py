@@ -12,6 +12,17 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def is_generated_release_path(rel: Path) -> bool:
+    """Return True for tool-generated files that are not release source."""
+    if rel.parts and rel.parts[0] in {".git", ".pytest_cache", ".venv", "build", "dist", "release-work"}:
+        return True
+    if any(part.endswith(".egg-info") for part in rel.parts):
+        return True
+    if "__pycache__" in rel.parts or rel.suffix in {".pyc", ".pyo"}:
+        return True
+    return False
+
+
 def run(command: list[str], *, cwd: Path | None = None, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
     merged = os.environ.copy()
     if env:
@@ -27,10 +38,10 @@ def manifest_check() -> dict:
     for path in ROOT.rglob("*"):
         if not path.is_file():
             continue
-        rel = path.relative_to(ROOT).as_posix()
-        if rel.startswith((".git/", ".pytest_cache/", ".venv/", "build/", "dist/", "release-work/")) or "__pycache__/" in rel or rel.endswith((".pyc", ".pyo")):
+        rel_path = path.relative_to(ROOT)
+        if is_generated_release_path(rel_path):
             continue
-        actual.add(rel)
+        actual.add(rel_path.as_posix())
     errors = []
     if actual != expected:
         errors.append({"closure_mismatch": {"missing": sorted(expected - actual), "extra": sorted(actual - expected)}})
@@ -46,7 +57,7 @@ def manifest_check() -> dict:
 
 
 def main() -> int:
-    checks: dict[str, object] = {"schema": "openline.half-life.release-check.v1", "version": "0.4.0rc1"}
+    checks: dict[str, object] = {"schema": "openline.half-life.release-check.v1", "version": "0.4.0rc2"}
     closure = manifest_check()
     checks["manifest"] = closure
     if not closure["passed"]:
@@ -91,7 +102,7 @@ def main() -> int:
         checks["seeded_gate"] = seeded_json if isinstance(seeded_json, dict) else {"passed": False, "returncode": seeded.returncode, "stderr": seeded.stderr[-1000:]}
 
         src_copy = tmp / "source"
-        shutil.copytree(ROOT, src_copy, ignore=shutil.ignore_patterns(".git", ".pytest_cache", ".venv", "build", "dist", "release-work", "__pycache__", "*.pyc", "*.pyo"))
+        shutil.copytree(ROOT, src_copy, ignore=shutil.ignore_patterns(".git", ".pytest_cache", ".venv", "build", "dist", "release-work", "__pycache__", "*.pyc", "*.pyo", "*.egg-info"))
         wheel_dir = tmp / "wheel"
         wheel_dir.mkdir()
         try:
@@ -115,7 +126,7 @@ def main() -> int:
         imported = run([sys.executable, "-c", "import openline_half_life; print(openline_half_life.__version__)"], cwd=tmp, env={"PYTHONPATH": str(site)}) if install and install.returncode == 0 else None
         installed_demo = run([sys.executable, "-m", "openline_half_life", "demo", "--out", str(tmp / "installed-demo"), "--json"], cwd=tmp, env={"PYTHONPATH": str(site)}) if imported and imported.returncode == 0 else None
         checks["wheel"] = {
-            "passed": wheel.returncode == 0 and len(wheels) == 1 and install is not None and install.returncode == 0 and imported is not None and imported.returncode == 0 and imported.stdout.strip() == "0.4.0rc1" and installed_demo is not None and installed_demo.returncode == 0,
+            "passed": wheel.returncode == 0 and len(wheels) == 1 and install is not None and install.returncode == 0 and imported is not None and imported.returncode == 0 and imported.stdout.strip() == "0.4.0rc2" and installed_demo is not None and installed_demo.returncode == 0,
             "build_returncode": wheel.returncode,
             "wheel_count": len(wheels),
             "setuptools_version": setuptools_version,
