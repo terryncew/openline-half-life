@@ -1,90 +1,39 @@
 from __future__ import annotations
 
+import copy
+from pathlib import Path
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 
-from openline_half_life.policy import (
-    CANONICAL_SOURCE_SHA256,
-    DEMO_POLICY_PUBLIC_KEY_HEX,
-    build_demo_policy,
-    verify_policy,
-    verify_vendored_source,
-)
-from openline_half_life.vendor.openline_endurance_gate import succession as canonical
+from openline_half_life.compaction import build_policy_body, sign_policy, verify_policy
+from openline_half_life.receipts import ReceiptSigner
+from openline_half_life.util import load_json
 
 
-def test_policy_is_generated_by_pinned_v0100_fitter(root, trusted_policy_keys):
-    policy = build_demo_policy()
-    assert verify_policy(policy, trusted_policy_keys)["valid"] is True
-    assert policy["canonical_source"]["version"] == "0.10.0"
-    assert policy["canonical_source"]["vendored_source_sha256"] == CANONICAL_SOURCE_SHA256
-    assert policy["signature"]["public_key"] == DEMO_POLICY_PUBLIC_KEY_HEX
-    assert verify_vendored_source(root / "src/openline_half_life/vendor/openline_endurance_gate/succession.py")
+def _keys(path: Path) -> set[str]:
+    return {line.strip() for line in path.read_text().splitlines() if line.strip()}
 
 
-def test_policy_verification_requires_receiver_owned_key_pin():
-    policy = build_demo_policy()
-    result = verify_policy(policy, None)
-    assert result["valid"] is False
-    assert "trusted_policy_key_required" in result["reason_codes"]
+def test_demo_policy_is_pinned_and_valid(root: Path):
+    policy = load_json(root / "policy/compaction_policy.json")
+    result = verify_policy(policy, _keys(root / "policy/compaction_policy_public_key.hex"))
+    assert result["valid"] is True
 
 
-def test_self_signed_forged_policy_is_rejected_by_receiver_pin(trusted_policy_keys):
-    policy = build_demo_policy()
-    body = dict(policy)
-    body.pop("payload_hash")
-    body.pop("signature")
-    body["persistence"] = {
-        "minimum_metric_breaches": 0,
-        "persistence_window": 1,
-        "persistence_required": 1,
-    }
-    attacker = Ed25519PrivateKey.generate()
-    forged = canonical._sign_envelope(body, attacker)
-    result = verify_policy(forged, trusted_policy_keys)
-    assert result["valid"] is False
-    assert "policy_signer_not_trusted" in result["reason_codes"]
+def test_policy_tamper_fails(root: Path):
+    policy = load_json(root / "policy/compaction_policy.json")
+    policy["trigger"]["active_receipt_bytes_budget"] += 1
+    assert verify_policy(policy, _keys(root / "policy/compaction_policy_public_key.hex"))["valid"] is False
 
 
-
-def test_trusted_signature_cannot_replace_canonical_fitter_output():
-    policy = build_demo_policy()
-    body = dict(policy)
-    body.pop("payload_hash")
-    body.pop("signature")
-    body["persistence"] = {
-        "minimum_metric_breaches": 0,
-        "persistence_window": 1,
-        "persistence_required": 1,
-    }
-    signer = Ed25519PrivateKey.generate()
-    forged = canonical._sign_envelope(body, signer)
-    trusted_attacker_key = {signer.public_key().public_bytes_raw().hex()}
-    result = verify_policy(forged, trusted_attacker_key)
-    assert result["valid"] is False
-    assert "canonical_fitter_output_mismatch" in result["reason_codes"]
-
-def test_metrics_and_ucr_remain_separate(trusted_policy_keys):
-    policy = build_demo_policy()
-    assert verify_policy(policy, trusted_policy_keys)["valid"] is True
-    assert set(policy["thresholds"]) == {
-        "kappa_micros",
-        "epsilon_micros",
-        "delta_hol_micros",
-        "phi_star_micros",
-    }
-    assert "ucr_micros" not in policy["thresholds"]
-    assert policy["evidence_sufficiency"] == {
-        "metric": "ucr_micros",
-        "required_value_micros": 0,
-        "role": "separate_evidence_gate_not_health_score",
-    }
+def test_unpinned_policy_fails(root: Path):
+    policy = load_json(root / "policy/compaction_policy.json")
+    assert "trusted_policy_key_required" in verify_policy(policy, None)["errors"]
 
 
-def test_canonical_demo_policy_is_reproducible():
-    first = build_demo_policy()
-    second = build_demo_policy()
-    assert first == second
-    assert first["persistence"]["minimum_metric_breaches"] == 4
-    assert first["persistence"]["persistence_window"] == 2
-    assert first["persistence"]["persistence_required"] == 2
-    assert first["holdout_validation"]["balanced_accuracy_micros"] == 1_000_000
+def test_policy_signer_cannot_be_approval_signer(root: Path):
+    source = ReceiptSigner.from_hex_file(root / "fixtures/demo_source_signing_key.hex")
+    key = Ed25519PrivateKey.from_private_bytes(bytes.fromhex("44" * 32))
+    pub = key.public_key().public_bytes_raw().hex()
+    policy = sign_policy(build_policy_body(trusted_source_signer_keys_b64=[source.public_b64], trusted_operator_approval_public_keys=[pub], active_receipt_bytes_budget=1, replay_latency_micros_budget=1), key)
+    result = verify_policy(policy, {pub})
+    assert "policy_signer_cannot_approve_its_own_compaction" in result["errors"]

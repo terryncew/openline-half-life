@@ -1,94 +1,13 @@
-name: publish-pypi-and-smoke
+name: package-publishing-disabled
 
 on:
-  release:
-    types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  build:
+  disabled:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.12"
-      - name: Build distributions
-        run: |
-          python -m pip install --upgrade build twine
-          python -m build
-          python -m twine check dist/*
-      - uses: actions/upload-artifact@v4
-        with:
-          name: python-package-distributions
-          path: dist/
-
-  publish:
-    needs: build
-    runs-on: ubuntu-latest
-    environment: pypi
-    permissions:
-      id-token: write
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: python-package-distributions
-          path: dist/
-      - name: Publish through PyPI Trusted Publishing
-        uses: pypa/gh-action-pypi-publish@release/v1
-
-  published-package-smoke:
-    needs: publish
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.12"
-      - name: Resolve released version
-        id: version
-        shell: bash
-        run: echo "value=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
-      - name: Wait for PyPI index propagation
-        run: |
-          version='${{ steps.version.outputs.value }}'
-          mkdir -p "$RUNNER_TEMP/pypi-probe"
-          for attempt in {1..20}; do
-            if python -m pip download --no-deps --dest "$RUNNER_TEMP/pypi-probe" "openline-half-life==$version" >/dev/null 2>&1; then exit 0; fi
-            sleep 15
-          done
-          exit 1
-      - name: Verify uvx and pipx one-command demos
-        run: |
-          python -m pip install --upgrade uv pipx
-          version='${{ steps.version.outputs.value }}'
-          uvx --from "openline-half-life==$version" openline-half-life demo --out "$RUNNER_TEMP/uvx-demo"
-          pipx run --spec "openline-half-life==$version" openline-half-life demo --out "$RUNNER_TEMP/pipx-demo"
-      - name: Verify the published package outside a checkout
-        run: |
-          version='${{ steps.version.outputs.value }}'
-          python -m venv "$RUNNER_TEMP/published"
-          "$RUNNER_TEMP/published/bin/python" -m pip install "openline-half-life==$version"
-          "$RUNNER_TEMP/published/bin/openline-half-life" demo --out "$RUNNER_TEMP/published-demo" --json
-          "$RUNNER_TEMP/published/bin/python" - <<'PY'
-          from contextlib import ExitStack
-          from importlib import resources
-          from pathlib import Path
-          from openline_half_life.causal_compactor import load_trusted_compaction_policy_keys
-          from openline_half_life.policy import load_trusted_policy_keys
-          from openline_half_life.receipts import verify_output_directory
-          import os
-
-          output = Path(os.environ["RUNNER_TEMP"]) / "published-demo"
-          with ExitStack() as stack:
-              policy = stack.enter_context(resources.as_file(resources.files("openline_half_life").joinpath("data", "policy", "succession_policy_public_key.hex")))
-              compaction = stack.enter_context(resources.as_file(resources.files("openline_half_life").joinpath("data", "policy", "compaction_policy_public_key.hex")))
-              result = verify_output_directory(
-                  output,
-                  expected_policy_public_keys=load_trusted_policy_keys(policy),
-                  expected_compaction_policy_public_keys=load_trusted_compaction_policy_keys(compaction),
-              )
-          if result.get("valid") is not True:
-              raise SystemExit(result)
-          PY
+      - run: echo "Automatic package publishing is disabled."

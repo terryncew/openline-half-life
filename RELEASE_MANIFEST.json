@@ -1,0 +1,261 @@
+{
+  "entries": [
+    {
+      "bytes": 224,
+      "path": ".github/workflows/pages.yml",
+      "sha256": "b36dbfd4f17972987671a66e0dcb682f66fee015c70b0293a572604084ba0c92"
+    },
+    {
+      "bytes": 210,
+      "path": ".github/workflows/publish.yml",
+      "sha256": "5922265346505521059c964733be81fc14846e5e83cc9cef08580d61ebf0e021"
+    },
+    {
+      "bytes": 955,
+      "path": ".github/workflows/test.yml",
+      "sha256": "6a5807238e250b2e96ba0c2dbd523b5b2ebfe3820635b0e6b249fc9682ffc1d3"
+    },
+    {
+      "bytes": 101,
+      "path": ".gitignore",
+      "sha256": "1e97e92ac4bd5c1feed812c5c5ec16e54a9bc57ff59211a0c68c00799e64dc6a"
+    },
+    {
+      "bytes": 1123,
+      "path": "CHANGELOG.md",
+      "sha256": "164485a8c1b3ea01fdb0a751407d02a9ba7275af5db10fa252a75de01b169f88"
+    },
+    {
+      "bytes": 687,
+      "path": "CLAIM_BOUNDARY.md",
+      "sha256": "62b58cb13499b4a3f0fea0328a861a24eefff8ea66adf08d1d9f59d3f5748e10"
+    },
+    {
+      "bytes": 381,
+      "path": "DEMO.md",
+      "sha256": "14641d09c190ec3ad844b4a972a5112e13b2797ac5467f7d30a5be9778fc2c73"
+    },
+    {
+      "bytes": 1071,
+      "path": "LICENSE",
+      "sha256": "07674dfa9960dff5128d0cdcce58fee7543c26ff47e58e07ae6ac0254a0f58b1"
+    },
+    {
+      "bytes": 1716,
+      "path": "LOCAL_VERIFICATION.json",
+      "sha256": "b4b7fb483c7c9bcf7b933c0554c21b4bfa531f50969b8676fac3f280a3a23282"
+    },
+    {
+      "bytes": 272,
+      "path": "POSITIONING.md",
+      "sha256": "01b8986ef5e9e0989036192ba7417e36adda9d44c43eb7ffa270e89b121f5706"
+    },
+    {
+      "bytes": 4536,
+      "path": "README.md",
+      "sha256": "8deccbe294fab13846dd9af99730880bdc602976217bdd0d0630b0ae3f9ac369"
+    },
+    {
+      "bytes": 834,
+      "path": "RELEASE_BASELINE.json",
+      "sha256": "85d0d46525e924720d7b98aaf5d30d6f4968c5e8f75806f932b4f6daebb66538"
+    },
+    {
+      "bytes": 109,
+      "path": "REPO_SETUP.txt",
+      "sha256": "3636ac054b403a9a3c68229f34c84842aec53e345edbaa217cf9f08dcafd28bd"
+    },
+    {
+      "bytes": 198,
+      "path": "THIRD_PARTY_NOTICES.md",
+      "sha256": "2251ff15c7fad1f092961512275663fb6fac5f7b7a5261803f54e1d1f1952987"
+    },
+    {
+      "bytes": 65,
+      "path": "fixtures/demo_operator_approval_key.hex",
+      "sha256": "1ac99b9c00c8778c176ccbd6ec15b14bc1f5886844d2919edb429deb5db1430f"
+    },
+    {
+      "bytes": 65,
+      "path": "fixtures/demo_policy_signing_key.hex",
+      "sha256": "59ccd69adadc55b8fcd4a47973716980b5615815fc8f971d29e8aa3a41b5d053"
+    },
+    {
+      "bytes": 65,
+      "path": "fixtures/demo_source_signing_key.hex",
+      "sha256": "88095ece32a68a2c42cce91e501e931f5eeba2820b959cb8da99abe1700c4150"
+    },
+    {
+      "bytes": 38028,
+      "path": "fixtures/demo_trajectory.jsonl",
+      "sha256": "17bb449060e25a3ee7b74a468f9511cd6585b29fc01dccb88fcb4d02a749118f"
+    },
+    {
+      "bytes": 1910,
+      "path": "policy/compaction_policy.json",
+      "sha256": "1cff9e5a276080c86fde7fc167764fbabb9c795d6dca62282fbb907cd75c466a"
+    },
+    {
+      "bytes": 65,
+      "path": "policy/compaction_policy_public_key.hex",
+      "sha256": "5f9293249dd56912186bba01dd2a3e67bffe95b98b92da38425245bdd3502c74"
+    },
+    {
+      "bytes": 921,
+      "path": "pyproject.toml",
+      "sha256": "bd937ae392455314ff5eacfba73f1f596bd9ef105720500787c824286c95ed61"
+    },
+    {
+      "bytes": 0,
+      "path": "scripts/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 5045,
+      "path": "scripts/hostile_checks.py",
+      "sha256": "68664f47f4144783e3c9ce9433679fec489b9837a49dae17f09a6cb58538237c"
+    },
+    {
+      "bytes": 1622,
+      "path": "scripts/normalize_checkout.py",
+      "sha256": "920cf40b90c0de231e69495c5d7216cf9e17354e27bdf5fd631d086c79cf7bed"
+    },
+    {
+      "bytes": 6595,
+      "path": "scripts/release_check.py",
+      "sha256": "2a1fbbe8ea1228ebcf44f2cb424b876133c8b69f1af8d19c1872c2615a2f395d"
+    },
+    {
+      "bytes": 1241,
+      "path": "scripts/seal_release.py",
+      "sha256": "0a3d9f8304a0e343be130bcbb040f07400e6ed6033d4217ac7377a24d525125d"
+    },
+    {
+      "bytes": 6236,
+      "path": "scripts/seeded_gate.py",
+      "sha256": "36031ba6b60f7db921e3a2aa4aa944e6037613b35a818b311394e7956c7825d3"
+    },
+    {
+      "bytes": 25,
+      "path": "src/openline_half_life/__init__.py",
+      "sha256": "2469372cf75949a270ad87b86d13bf8552770ebc453f9fd1aa444d32c87ef0cd"
+    },
+    {
+      "bytes": 79,
+      "path": "src/openline_half_life/__main__.py",
+      "sha256": "307299fda7b77d22c64cb51430ec75e5f59d78e9c948786afb3b2544fe45e4b7"
+    },
+    {
+      "bytes": 6322,
+      "path": "src/openline_half_life/cli.py",
+      "sha256": "5bfdecffe5d83401cdc543678751f168295489c199d1d771929d25bf982cb5a6"
+    },
+    {
+      "bytes": 29835,
+      "path": "src/openline_half_life/compaction.py",
+      "sha256": "0ceef9d5396e67f92d9a303bf511cfdb659a89ef5e2979217d9b09456ec5d803"
+    },
+    {
+      "bytes": 65,
+      "path": "src/openline_half_life/data/fixtures/demo_operator_approval_key.hex",
+      "sha256": "1ac99b9c00c8778c176ccbd6ec15b14bc1f5886844d2919edb429deb5db1430f"
+    },
+    {
+      "bytes": 65,
+      "path": "src/openline_half_life/data/fixtures/demo_policy_signing_key.hex",
+      "sha256": "59ccd69adadc55b8fcd4a47973716980b5615815fc8f971d29e8aa3a41b5d053"
+    },
+    {
+      "bytes": 65,
+      "path": "src/openline_half_life/data/fixtures/demo_source_signing_key.hex",
+      "sha256": "88095ece32a68a2c42cce91e501e931f5eeba2820b959cb8da99abe1700c4150"
+    },
+    {
+      "bytes": 38028,
+      "path": "src/openline_half_life/data/fixtures/demo_trajectory.jsonl",
+      "sha256": "17bb449060e25a3ee7b74a468f9511cd6585b29fc01dccb88fcb4d02a749118f"
+    },
+    {
+      "bytes": 1910,
+      "path": "src/openline_half_life/data/policy/compaction_policy.json",
+      "sha256": "1cff9e5a276080c86fde7fc167764fbabb9c795d6dca62282fbb907cd75c466a"
+    },
+    {
+      "bytes": 65,
+      "path": "src/openline_half_life/data/policy/compaction_policy_public_key.hex",
+      "sha256": "5f9293249dd56912186bba01dd2a3e67bffe95b98b92da38425245bdd3502c74"
+    },
+    {
+      "bytes": 16656,
+      "path": "src/openline_half_life/pipeline.py",
+      "sha256": "a2741b323f9f594187d34251942335897da4386cb7f6f6f760443d7567363c4b"
+    },
+    {
+      "bytes": 8575,
+      "path": "src/openline_half_life/receipts.py",
+      "sha256": "fe6a5e0e495941a879c5130288d83ac3aaa56258ed31cddbfdfde5c880c70ee8"
+    },
+    {
+      "bytes": 5407,
+      "path": "src/openline_half_life/reference_replay.py",
+      "sha256": "a51e20690bab28d310c773e526307d2376a328e9a646cb01cad57e3897656ff8"
+    },
+    {
+      "bytes": 6250,
+      "path": "src/openline_half_life/schema.py",
+      "sha256": "6a4191e879fb9e95eacdb69f6c30fd126cc57a845abd5b837165b8915f154fd1"
+    },
+    {
+      "bytes": 2074,
+      "path": "src/openline_half_life/util.py",
+      "sha256": "82351dcba8b871e134248f775075a9b4786552f1b6a7da8083f973db27ab2520"
+    },
+    {
+      "bytes": 889,
+      "path": "tests/conftest.py",
+      "sha256": "e4fef496c6cfa662f1f5b887da4f3d2950c31b632050e782d32e2dbf6b26f69f"
+    },
+    {
+      "bytes": 409,
+      "path": "tests/test_cli.py",
+      "sha256": "a4e3f2a3557e0594f9adf2268bb95b2d69f4a018542d33446466350814acad05"
+    },
+    {
+      "bytes": 2040,
+      "path": "tests/test_compaction.py",
+      "sha256": "944c4c1a07167054e9249d24db62f99fcfcf1587849eb97b07baf3121aeda223"
+    },
+    {
+      "bytes": 294,
+      "path": "tests/test_independent_replay.py",
+      "sha256": "8b34a16721f91399c7b3b600ca71935b6232c7199488a2c0b021d3f2cb5b9ac7"
+    },
+    {
+      "bytes": 3859,
+      "path": "tests/test_pipeline.py",
+      "sha256": "afec0cf11f8b04ee7ca5da407769f5c5024b279bd689749868c3895c99ce1fd0"
+    },
+    {
+      "bytes": 1782,
+      "path": "tests/test_policy.py",
+      "sha256": "54277844dc28ed03ea3386f6738012c236c9cfef885de3c1dd0844904950da6f"
+    },
+    {
+      "bytes": 1319,
+      "path": "tests/test_receipts.py",
+      "sha256": "5b46e0304668ba427bb2dc8e1ffdef866818b60d0a6898152a786e08afc04fb3"
+    },
+    {
+      "bytes": 1144,
+      "path": "tests/test_schema.py",
+      "sha256": "7c96f10e8fc0a9592b42bec015b036c0deedb4db15c3b4055bf4e12823858413"
+    },
+    {
+      "bytes": 246,
+      "path": "tests/test_seeded_gate.py",
+      "sha256": "8bd175abd4eb93e79790fe32c928740e960f0e829202d7869371c678ddf07635"
+    }
+  ],
+  "schema": "openline.half-life.release-manifest.v1",
+  "version": "0.4.0rc1"
+}

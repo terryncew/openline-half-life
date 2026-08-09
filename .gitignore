@@ -1,9 +1,11 @@
 __pycache__/
-*.py[cod]
-*.egg-info/
 .pytest_cache/
-.venv/
+*.pyc
+*.pyo
+*.egg-info/
 build/
 dist/
-.DS_Store
-*.private.hex
+.venv/
+release-work/
+*.zip
+*.sha256

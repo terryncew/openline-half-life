@@ -1,319 +1,313 @@
 from __future__ import annotations
 
+import copy
 from pathlib import Path
 from time import perf_counter_ns
-from typing import Any
+from typing import Any, Mapping
 
-from .assessment import assess_trajectory, first_retirement_turn
-from .causal_compactor import (
-    CompactionInputs,
+from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+
+from .compaction import (
+    APPROVE,
+    build_checkpoint,
+    build_compact_state,
     build_compaction_receipt,
-    build_receiver_approval_body,
-    compact_verified_chain,
-    load_trusted_compaction_policy_keys,
-    sign_receiver_approval,
+    build_operator_approval_body,
+    decision_equivalence_report,
+    derive_compact_state,
+    sign_operator_approval,
+    verify_archive,
+    verify_checkpoint,
+    verify_operator_approval,
+    verify_policy,
+    verify_pressure,
+    archive_source_chain,
 )
-from .comparison import compare_results
-from .exam import load_exam, run_same_exam
-from .economics import load_cost_assumptions_input, run_break_even_benchmark, write_economics_outputs
-from .handoff import build_full_history_handoff, build_verified_residue_handoff
-from .policy import load_policy, load_trusted_policy_keys
-from .receipts import (
-    EXPECTED_BUNDLE_ARTIFACTS,
-    SIGNED_OUTPUT_ARTIFACTS,
-    ReceiptSigner,
-    build_receipt_bundle,
-    create_anchor,
-    create_chain,
-    verify_output_directory,
-)
+from .receipts import ReceiptSigner, chain_digest, create_anchor, create_chain, verify_anchor, verify_chain
+from .reference_replay import reference_projection
 from .schema import load_trajectory
-from .share_card import describe_share_card, render_share_card
 from .util import canonical_json, load_json, sha256_bytes, sha256_file, write_json
 
-REQUIRED_ARTIFACTS = sorted(EXPECTED_BUNDLE_ARTIFACTS)
+ARTIFACTS_BOUND_BY_COMPACTION_RECEIPT = frozenset({
+    "compaction_policy.json",
+    "checkpoint.json",
+    "operator_approval.json",
+    "full_history_handoff.json",
+    "compact_state.json",
+    "archive_manifest.json",
+    "decision_equivalence_report.json",
+})
+EXPECTED_OUTPUT_ARTIFACTS = ARTIFACTS_BOUND_BY_COMPACTION_RECEIPT | {"compaction_receipt.json", "receipt_bundle.json"}
 
 
-def _trajectory_receipt_items(turns: list[dict[str, Any]], retirement_turn: int) -> list[tuple[str, dict[str, Any]]]:
+def _load_public_keys(path: Path) -> set[str]:
+    lines = path.read_text(encoding="ascii").splitlines()
+    keys = {line.strip() for line in lines if line.strip() and not line.lstrip().startswith("#")}
+    if not keys:
+        raise ValueError("trusted public-key file contains no keys")
+    return keys
+
+
+def _private_key(path: Path) -> Ed25519PrivateKey:
+    text = path.read_text(encoding="ascii").strip()
+    if len(text) != 64 or any(ch not in "0123456789abcdef" for ch in text):
+        raise ValueError("private key must contain exactly 32 lowercase-hex bytes")
+    return Ed25519PrivateKey.from_private_bytes(bytes.fromhex(text))
+
+
+def _full_history_handoff(turns: list[dict[str, Any]], checkpoint_turn: int, policy_hash: str) -> dict[str, Any]:
+    selected = copy.deepcopy(turns[:checkpoint_turn])
+    body = {
+        "schema": "openline.half-life.full-history-handoff.v2",
+        "run_id": selected[0]["run_id"],
+        "checkpoint_turn": checkpoint_turn,
+        "policy_hash": policy_hash,
+        "turns": selected,
+    }
+    return {**body, "packet_hash": sha256_bytes(canonical_json(body))}
+
+
+def _source_items(turns: list[dict[str, Any]], checkpoint_turn: int, policy: Mapping[str, Any], checkpoint: Mapping[str, Any]) -> list[tuple[str, dict[str, Any]]]:
     items: list[tuple[str, dict[str, Any]]] = []
-    for turn in turns:
-        if int(turn["turn"]) > retirement_turn:
-            break
-        items.append(
-            (
-                "trajectory_turn",
-                {
-                    "run_id": turn["run_id"],
-                    "turn_number": turn["turn"],
-                    "turn_hash": sha256_bytes(canonical_json(turn)),
-                    "turn_record": turn,
-                },
-            )
-        )
+    for turn in turns[:checkpoint_turn]:
+        items.append(("trajectory_turn", {"run_id": turn["run_id"], "turn": turn["turn"], "turn_hash": sha256_bytes(canonical_json(turn)), "turn_record": turn}))
+    items.append(("compaction_policy_binding", {"run_id": turns[0]["run_id"], "policy_hash": policy["payload_hash"], "policy_public_key": policy["signature"]["public_key"]}))
+    items.append(("checkpoint", {"run_id": turns[0]["run_id"], "checkpoint_turn": checkpoint_turn, "checkpoint_hash": checkpoint["checkpoint_hash"]}))
     return items
 
 
 def run_pipeline(
     trajectory_path: Path,
-    exam_path: Path,
-    policy_path: Path,
-    policy_public_key_path: Path,
-    signing_key_path: Path,
+    source_signing_key_path: Path,
     output_dir: Path,
     *,
     compaction_policy_path: Path,
     compaction_policy_public_key_path: Path,
+    operator_approval_signing_key_path: Path,
     replay_latency_micros: int,
-    receiver_approval_signing_key_path: Path,
-    economics_assumptions_path: Path,
-    receiver_disposition: str = "APPROVE",
+    checkpoint_turn: int | None = None,
+    operator_disposition: str = APPROVE,
 ) -> dict[str, Any]:
-    trusted_policy_keys = load_trusted_policy_keys(policy_public_key_path)
-    trusted_compaction_policy_keys = load_trusted_compaction_policy_keys(
-        compaction_policy_public_key_path
-    )
     turns = load_trajectory(trajectory_path)
-    policy = load_policy(policy_path, trusted_policy_keys)
-    compaction_policy = load_json(compaction_policy_path)
-    economics_input = load_cost_assumptions_input(economics_assumptions_path)
-    exam = load_exam(exam_path)
-    assessments = assess_trajectory(
-        turns,
-        policy,
-        expected_policy_public_keys=trusted_policy_keys,
-    )
-    retirement_turn = first_retirement_turn(assessments)
-    if retirement_turn is None:
-        raise ValueError("trajectory has no defensible retirement point under the pinned policy")
+    checkpoint_turn = len(turns) if checkpoint_turn is None else checkpoint_turn
+    if not isinstance(checkpoint_turn, int) or isinstance(checkpoint_turn, bool) or checkpoint_turn < 1 or checkpoint_turn > len(turns):
+        raise ValueError("checkpoint_turn must identify an existing turn")
+    policy = load_json(compaction_policy_path)
+    trusted_policy_keys = _load_public_keys(compaction_policy_public_key_path)
+    policy_check = verify_policy(policy, trusted_policy_keys)
+    if not policy_check["valid"]:
+        raise ValueError("compaction policy verification failed: " + ",".join(policy_check["errors"]))
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    write_json(output_dir / "calibrator_policy.json", policy)
-    write_json(output_dir / "compaction_policy.json", compaction_policy)
-    write_json(
-        output_dir / "turn_assessments.json",
-        {
-            "schema": "openline.half-life.turn-assessments.v1",
-            "policy_hash": policy["payload_hash"],
-            "policy_public_key": policy["signature"]["public_key"],
-            "assessments": assessments,
-        },
-    )
-
-    full = build_full_history_handoff(turns, retirement_turn, policy["payload_hash"])
-    checkpoint = build_verified_residue_handoff(turns, retirement_turn, policy["payload_hash"])
+    write_json(output_dir / "compaction_policy.json", policy)
+    checkpoint = build_checkpoint(turns, checkpoint_turn, policy["payload_hash"])
+    write_json(output_dir / "checkpoint.json", checkpoint)
+    full = _full_history_handoff(turns, checkpoint_turn, policy["payload_hash"])
     write_json(output_dir / "full_history_handoff.json", full)
 
-    signer = ReceiptSigner.from_hex_file(signing_key_path)
-    retirement_assessment = assessments[retirement_turn - 1]
-    source_items = _trajectory_receipt_items(turns, retirement_turn)
-    source_items.extend(
-        [
-            (
-                "calibrator_policy",
-                {
-                    "run_id": turns[0]["run_id"],
-                    "policy_hash": policy["payload_hash"],
-                    "policy_public_key": policy["signature"]["public_key"],
-                    "receiver_pin_verified": True,
-                },
-            ),
-            (
-                "retirement_assessment",
-                {
-                    "run_id": turns[0]["run_id"],
-                    "retirement_turn": retirement_turn,
-                    "assessment_hash": retirement_assessment["assessment_hash"],
-                    "mark": retirement_assessment["mark"],
-                    "automatic_retirement_authorized": False,
-                    "receiver_approval_required": True,
-                },
-            ),
-            (
-                "full_history_handoff",
-                {
-                    "run_id": turns[0]["run_id"],
-                    "packet_hash": full["packet_hash"],
-                    "artifact_sha256": sha256_file(output_dir / "full_history_handoff.json"),
-                },
-            ),
-            (
-                "verified_residue_checkpoint",
-                {
-                    "run_id": turns[0]["run_id"],
-                    "retirement_turn": retirement_turn,
-                    "packet_hash": checkpoint["packet_hash"],
-                    "policy_hash": policy["payload_hash"],
-                    "automatic_retirement_authorized": False,
-                },
-            ),
-        ]
-    )
-    source_chain = create_chain(source_items, signer)
-    source_anchor = create_anchor(source_chain, signer)
-    receiver_approval_key = ReceiptSigner.from_hex_file(
-        receiver_approval_signing_key_path
-    ).private_key
-    receiver_approval = sign_receiver_approval(
-        build_receiver_approval_body(
-            run_id=str(checkpoint["run_id"]),
-            checkpoint_hash=str(checkpoint["packet_hash"]),
-            source_chain=source_chain,
-            compaction_policy=compaction_policy,
-            disposition=receiver_disposition,
-        ),
-        receiver_approval_key,
-    )
-    write_json(output_dir / "receiver_approval.json", receiver_approval)
-    provisional_bundle = build_receipt_bundle(
-        chain=source_chain,
-        anchor=source_anchor,
-        artifact_hashes={},
-        policy_hash=policy["payload_hash"],
-        policy_public_key=policy["signature"]["public_key"],
-        retirement_turn=retirement_turn,
-    )
+    source_signer = ReceiptSigner.from_hex_file(source_signing_key_path)
+    source_chain = create_chain(_source_items(turns, checkpoint_turn, policy, checkpoint), source_signer)
+    chain_check = verify_chain(source_chain, expected_signer_public_key=source_signer.public_b64)
+    if not chain_check["valid"]:
+        raise ValueError("generated source chain failed verification")
+    if source_signer.public_b64 not in set(policy["trusted_source_signer_keys_b64"]):
+        raise ValueError("source signer is not trusted by compaction policy")
+    source_anchor = create_anchor(source_chain, source_signer)
+    if not verify_anchor(source_anchor, source_chain)["valid"]:
+        raise ValueError("generated source anchor failed verification")
+    if not verify_checkpoint(checkpoint)["valid"]:
+        raise ValueError("generated checkpoint failed verification")
+    pressure = verify_pressure(source_chain, replay_latency_micros, policy)
+    if not pressure["proposed"]:
+        raise ValueError("compaction is not proposed because neither declared budget is crossed")
 
-    compaction_started_ns = perf_counter_ns()
-    compaction = compact_verified_chain(
-        CompactionInputs(
-            source_bundle=provisional_bundle,
-            compaction_policy=compaction_policy,
-            trusted_policy_keys=trusted_compaction_policy_keys,
-            checkpoint=checkpoint,
-            replay_latency_micros=replay_latency_micros,
-            receiver_approval=receiver_approval,
-            output_dir=output_dir,
-        ),
-        signer,
+    approval = sign_operator_approval(
+        build_operator_approval_body(checkpoint=checkpoint, source_chain=source_chain, policy=policy, disposition=operator_disposition),
+        _private_key(operator_approval_signing_key_path),
     )
-    observed_compaction_runtime_micros = max(1, (perf_counter_ns() - compaction_started_ns + 999) // 1000)
-    capsule = compaction["capsule"]
-    equivalence = compaction["equivalence_report"]
-    archive_receipt = compaction["archive_manifest_receipt"]
-    updated_residue = compaction["updated_verified_residue"]
+    approval_check = verify_operator_approval(approval, checkpoint=checkpoint, source_chain=source_chain, policy=policy)
+    if not approval_check["valid"]:
+        raise ValueError("operator approval verification failed: " + ",".join(approval_check["errors"]))
+    write_json(output_dir / "operator_approval.json", approval)
 
-    write_json(output_dir / "causal_capsule.json", capsule)
-    write_json(output_dir / "decision_equivalence_report.json", equivalence)
+    started_ns = perf_counter_ns()
+    archive_receipt = archive_source_chain(output_dir, source_chain, source_anchor, policy, source_signer)
     write_json(output_dir / "archive_manifest.json", archive_receipt)
-    write_json(output_dir / "verified_residue_handoff.json", updated_residue)
+    archive_check = verify_archive(output_dir, archive_receipt, source_chain, source_anchor)
+    if not archive_check["valid"]:
+        raise ValueError("archive verification failed: " + ",".join(archive_check["errors"]))
 
-    full_result, residue_result = run_same_exam(full, updated_residue, exam)
-    comparison = compare_results(full_result, residue_result)
-    write_json(output_dir / "comparison.json", comparison)
-    economics_assumptions, economics_report, economics_curve = run_break_even_benchmark(
-        declared_assumptions=economics_input,
-        full_history_tokens_per_turn=int(full_result["metrics"]["estimated_input_tokens"]),
-        compact_state_tokens_per_turn=int(residue_result["metrics"]["estimated_input_tokens"]),
-        observed_initial_verification_runtime_micros=observed_compaction_runtime_micros,
-        comparison=comparison,
-        equivalence_report=equivalence,
-        source_hashes={
-            "full_history_packet_hash": str(full["packet_hash"]),
-            "compact_state_packet_hash": str(updated_residue["packet_hash"]),
-            "comparison_hash": str(comparison["comparison_hash"]),
-            "equivalence_report_hash": str(equivalence["report_hash"]),
-        },
+    state = derive_compact_state(turns, checkpoint_turn)
+    compact_state = build_compact_state(
+        state,
+        policy=policy,
+        checkpoint=checkpoint,
+        source_chain=source_chain,
+        source_anchor=source_anchor,
+        archive_manifest_receipt_hash=archive_receipt["receipt_hash"],
+        operator_approval=approval,
     )
-    write_economics_outputs(output_dir, economics_assumptions, economics_report, economics_curve)
-    card_description = describe_share_card(retirement_turn, comparison)
-    render_share_card(
-        output_dir / "share_card.html",
-        retirement_turn,
-        comparison,
-        equivalence,
-        economics_report,
-    )
-    signed_artifact_hashes = {
-        name: sha256_file(output_dir / name)
-        for name in sorted(SIGNED_OUTPUT_ARTIFACTS)
-    }
-    input_hashes = {
-        "trajectory_sha256": sha256_file(trajectory_path),
-        "exam_hash": sha256_bytes(canonical_json(exam)),
-    }
+    independent_projection = reference_projection(turns, checkpoint_turn)
+    equivalence = decision_equivalence_report(independent_projection, compact_state, source_chain_active_bytes=pressure["active_receipt_bytes"])
+    if equivalence["passed"] is not True:
+        raise ValueError("independent decision replay found a compaction mismatch")
+    verification_runtime_micros = max(1, (perf_counter_ns() - started_ns + 999) // 1000)
+    equivalence["observed_verification_runtime_micros"] = verification_runtime_micros
+    body = dict(equivalence)
+    body.pop("report_hash", None)
+    equivalence["report_hash"] = sha256_bytes(canonical_json(body))
+    write_json(output_dir / "compact_state.json", compact_state)
+    write_json(output_dir / "decision_equivalence_report.json", equivalence)
 
+    artifact_hashes = {name: sha256_file(output_dir / name) for name in sorted(ARTIFACTS_BOUND_BY_COMPACTION_RECEIPT)}
+    input_hashes = {"trajectory_sha256": sha256_file(trajectory_path)}
     compaction_receipt = build_compaction_receipt(
         source_chain=source_chain,
         archive_receipt=archive_receipt,
-        capsule=capsule,
-        equivalence_report=equivalence,
-        updated_residue=updated_residue,
-        comparison=comparison,
-        share_card_sha256=sha256_file(output_dir / "share_card.html"),
-        artifact_hashes=signed_artifact_hashes,
+        compact_state=compact_state,
+        equivalence=equivalence,
+        checkpoint=checkpoint,
+        policy=policy,
+        approval=approval,
+        artifact_hashes=artifact_hashes,
         input_hashes=input_hashes,
-        compaction_policy=compaction_policy,
-        receiver_approval=receiver_approval,
-        pressure=compaction["verification"]["pressure"],
-        receiver_disposition=receiver_disposition,
-        signer=signer,
+        pressure=pressure,
+        signer=source_signer,
     )
     write_json(output_dir / "compaction_receipt.json", compaction_receipt)
-
-    full_chain = [*source_chain, archive_receipt, compaction_receipt]
-    final_anchor = create_anchor(full_chain, signer)
-    artifact_hashes = {name: sha256_file(output_dir / name) for name in REQUIRED_ARTIFACTS}
-    bundle = build_receipt_bundle(
-        chain=full_chain,
-        anchor=final_anchor,
-        artifact_hashes=artifact_hashes,
-        policy_hash=policy["payload_hash"],
-        policy_public_key=policy["signature"]["public_key"],
-        retirement_turn=retirement_turn,
-    )
-    bundle["compaction"] = {
-        "policy_hash": compaction_policy["payload_hash"],
-        "policy_public_key": compaction_policy["signature"]["public_key"],
-        "policy_version": compaction_policy["policy_version"],
-        "trusted_key_version": compaction_policy["trusted_key_version"],
-        "source_chain_count": len(source_chain),
-        "archive_manifest_receipt_hash": archive_receipt["receipt_hash"],
-        "compaction_receipt_hash": compaction_receipt["receipt_hash"],
-        "causal_capsule_hash": capsule["capsule_hash"],
-        "decision_equivalence_report_hash": equivalence["report_hash"],
-        "decision_equivalence_passed": equivalence["passed"],
-        "active_size_ratio_micros": equivalence["active_size_ratio_micros"],
-        "receiver_disposition": receiver_disposition,
-        "receiver_approval_hash": receiver_approval["payload_hash"],
-        "receiver_approval_public_key": receiver_approval["signature"]["public_key"],
-        "automatic_retirement_authorized": False,
+    bundle_body = {
+        "schema": "openline.half-life.receipt-bundle.v6",
+        "source_chain": source_chain,
+        "source_anchor": source_anchor,
+        "archive_manifest_receipt": archive_receipt,
+        "compaction_receipt": compaction_receipt,
+        "artifact_hashes": {**artifact_hashes, "compaction_receipt.json": sha256_file(output_dir / "compaction_receipt.json")},
+        "input_hashes": input_hashes,
+        "policy_hash": policy["payload_hash"],
+        "operator_approval_hash": approval["payload_hash"],
     }
-    bundle["input_hashes"] = input_hashes
-    write_json(output_dir / "half_life_receipt.json", bundle)
+    bundle = {**bundle_body, "bundle_hash": sha256_bytes(canonical_json(bundle_body))}
+    write_json(output_dir / "receipt_bundle.json", bundle)
 
-    verification = verify_output_directory(
-        output_dir,
-        expected_policy_public_keys=trusted_policy_keys,
-        expected_compaction_policy_public_keys=trusted_compaction_policy_keys,
-    )
+    verification = verify_output_directory(output_dir, expected_policy_public_keys=trusted_policy_keys)
     if not verification["valid"]:
-        raise AssertionError(
-            "newly written output failed verification: " + ",".join(verification["errors"])
-        )
+        raise ValueError("generated output failed verification: " + ",".join(verification["errors"]))
     return {
-        "passed": bool(
-            comparison["passed"]
-            and equivalence["passed"]
-            and verification["valid"]
-        ),
-        "retirement_turn": retirement_turn,
-        "comparison": comparison,
-        "compaction": {
-            "decision_equivalence_passed": equivalence["passed"],
-            "decision_mismatch_count": len(equivalence.get("mismatches", [])),
-            "active_size_ratio_micros": equivalence["active_size_ratio_micros"],
-            "archived_receipt_count": archive_receipt["payload"]["source_chain_count"],
-            "trigger_reason_codes": compaction["verification"]["pressure"]["reason_codes"],
-            "observed_runtime_micros": observed_compaction_runtime_micros,
-        },
-        "economics": {
-            "status": economics_report["status"],
-            "pricing_complete": economics_report["pricing_complete"],
-            "dollar_claim_earned": economics_report["dollar_claim_earned"],
-            "dollar_durable_break_even_turn": economics_report["dollar_durable_break_even_turn"],
-            "future_turn_horizon": economics_report["future_turn_horizon"],
-        },
-        "verification": verification,
+        "schema": "openline.half-life.run-result.v2",
+        "version": "0.4.0rc1",
+        "passed": True,
+        "run_id": turns[0]["run_id"],
+        "checkpoint_turn": checkpoint_turn,
         "output_dir": str(output_dir),
-        "share_card": card_description,
+        "decision_equivalence_passed": True,
+        "decision_mismatch_count": len(equivalence["mismatches"]),
+        "active_size_ratio_micros": equivalence["active_size_ratio_micros"],
+        "archive_receipt_count": len(source_chain),
+        "source_chain_digest": chain_digest(source_chain),
+        "bundle_hash": bundle["bundle_hash"],
+        "verification_runtime_micros": verification_runtime_micros,
+        "verification": verification,
+    }
+
+
+def verify_output_directory(output_dir: Path, *, expected_policy_public_keys: set[str]) -> dict[str, Any]:
+    from .receipts import verify_receipt
+
+    errors: list[str] = []
+    for name in EXPECTED_OUTPUT_ARTIFACTS:
+        if not (output_dir / name).is_file():
+            errors.append(f"missing_artifact:{name}")
+    if errors:
+        return {"valid": False, "errors": errors}
+    try:
+        bundle = load_json(output_dir / "receipt_bundle.json")
+        policy = load_json(output_dir / "compaction_policy.json")
+        checkpoint = load_json(output_dir / "checkpoint.json")
+        approval = load_json(output_dir / "operator_approval.json")
+        compact_state = load_json(output_dir / "compact_state.json")
+        equivalence = load_json(output_dir / "decision_equivalence_report.json")
+        archive_receipt = load_json(output_dir / "archive_manifest.json")
+        compaction_receipt = load_json(output_dir / "compaction_receipt.json")
+        full = load_json(output_dir / "full_history_handoff.json")
+    except Exception as exc:
+        return {"valid": False, "errors": [f"artifact_parse_failed:{exc}"]}
+
+    bundle_body = dict(bundle)
+    observed_bundle_hash = bundle_body.pop("bundle_hash", None)
+    if observed_bundle_hash != sha256_bytes(canonical_json(bundle_body)):
+        errors.append("bundle_hash_mismatch")
+    policy_check = verify_policy(policy, expected_policy_public_keys)
+    errors.extend(f"policy:{item}" for item in policy_check["errors"])
+    source_chain = bundle.get("source_chain", [])
+    source_anchor = bundle.get("source_anchor", {})
+    chain_check = verify_chain(source_chain)
+    errors.extend(f"source_chain:{item}" for item in chain_check["errors"])
+    anchor_check = verify_anchor(source_anchor, source_chain) if source_chain else {"valid": False, "errors": ["empty"]}
+    errors.extend(f"source_anchor:{item}" for item in anchor_check["errors"])
+    if source_chain:
+        signer = source_chain[0]["signer_public_key"]
+        archive_receipt_check = verify_receipt(archive_receipt, expected_index=len(source_chain), expected_parent_hash=source_chain[-1]["receipt_hash"], expected_signer_public_key=signer)
+        errors.extend(f"archive_receipt:{item}" for item in archive_receipt_check["errors"])
+        compaction_receipt_check = verify_receipt(compaction_receipt, expected_index=len(source_chain)+1, expected_parent_hash=archive_receipt.get("receipt_hash"), expected_signer_public_key=signer)
+        errors.extend(f"compaction_receipt:{item}" for item in compaction_receipt_check["errors"])
+        if signer not in set(policy.get("trusted_source_signer_keys_b64", [])):
+            errors.append("source_signer_not_trusted")
+    errors.extend(f"checkpoint:{item}" for item in verify_checkpoint(checkpoint)["errors"])
+    errors.extend(f"approval:{item}" for item in verify_operator_approval(approval, checkpoint=checkpoint, source_chain=source_chain, policy=policy)["errors"] if source_chain)
+    if checkpoint.get("policy_hash") != policy.get("payload_hash"):
+        errors.append("checkpoint_policy_binding_mismatch")
+    if full.get("packet_hash") != sha256_bytes(canonical_json({key: value for key, value in full.items() if key != "packet_hash"})):
+        errors.append("full_history_packet_hash_mismatch")
+    compact_body = dict(compact_state)
+    observed_compact_hash = compact_body.pop("compact_state_hash", None)
+    if observed_compact_hash != sha256_bytes(canonical_json(compact_body)):
+        errors.append("compact_state_hash_mismatch")
+    report_body = dict(equivalence)
+    observed_report_hash = report_body.pop("report_hash", None)
+    if observed_report_hash != sha256_bytes(canonical_json(report_body)):
+        errors.append("equivalence_report_hash_mismatch")
+    if equivalence.get("passed") is not True or equivalence.get("mismatches") != []:
+        errors.append("decision_equivalence_failed")
+    archive_check = verify_archive(output_dir, archive_receipt, source_chain, source_anchor) if source_chain else {"valid": False, "errors": ["empty"]}
+    errors.extend(f"archive:{item}" for item in archive_check["errors"])
+
+    signed_hashes = compaction_receipt.get("payload", {}).get("artifact_hashes", {})
+    if set(signed_hashes) != ARTIFACTS_BOUND_BY_COMPACTION_RECEIPT:
+        errors.append("signed_artifact_manifest_coverage_mismatch")
+    for name in ARTIFACTS_BOUND_BY_COMPACTION_RECEIPT:
+        if signed_hashes.get(name) != sha256_file(output_dir / name):
+            errors.append(f"signed_artifact_hash_mismatch:{name}")
+    bundle_hashes = bundle.get("artifact_hashes", {})
+    if set(bundle_hashes) != ARTIFACTS_BOUND_BY_COMPACTION_RECEIPT | {"compaction_receipt.json"}:
+        errors.append("bundle_artifact_manifest_coverage_mismatch")
+    for name in bundle_hashes:
+        if bundle_hashes.get(name) != sha256_file(output_dir / name):
+            errors.append(f"bundle_artifact_hash_mismatch:{name}")
+    payload = compaction_receipt.get("payload", {})
+    expected_bindings = {
+        "checkpoint_hash": checkpoint.get("checkpoint_hash"),
+        "archive_manifest_receipt_hash": archive_receipt.get("receipt_hash"),
+        "compact_state_hash": compact_state.get("compact_state_hash"),
+        "decision_equivalence_report_hash": equivalence.get("report_hash"),
+        "policy_hash": policy.get("payload_hash"),
+        "policy_public_key": policy.get("signature", {}).get("public_key"),
+        "operator_approval_hash": approval.get("payload_hash"),
+        "operator_approval_public_key": approval.get("signature", {}).get("public_key"),
+        "source_chain_digest": chain_digest(source_chain) if source_chain else None,
+    }
+    for field, expected in expected_bindings.items():
+        if payload.get(field) != expected:
+            errors.append(f"compaction_receipt_binding_mismatch:{field}")
+    if compact_state.get("operator_approval_hash") != approval.get("payload_hash"):
+        errors.append("compact_state_approval_binding_mismatch")
+    if compact_state.get("archive", {}).get("manifest_receipt_hash") != archive_receipt.get("receipt_hash"):
+        errors.append("compact_state_archive_binding_mismatch")
+    return {
+        "valid": not errors,
+        "errors": errors,
+        "source_chain_count": len(source_chain),
+        "archive_recovered_count": archive_check.get("recovered_receipt_count", 0),
+        "decision_equivalence_passed": equivalence.get("passed") is True,
+        "active_size_ratio_micros": equivalence.get("active_size_ratio_micros"),
+        "bundle_hash": observed_bundle_hash,
     }

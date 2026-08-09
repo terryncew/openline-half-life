@@ -1,165 +1,92 @@
 # OpenLine Half-Life
 
-## Your agent should survive changing models
+## Verified state compaction
 
-OpenLine is a cross-platform save file for AI agents: save the verified state of a job on one model, load it on another, and continue with the record intact. **You own the job. The model is the console.**
+This repository turns a long signed job history into a smaller state package **only when an independent replay produces the same downstream decisions as the full history**.
 
-This repository contains Half-Life, the part of the OpenLine stack that makes the save file small enough to carry. It turns a long verified receipt history into a compact causal capsule, but permits that compression only when an independent replay proves the capsule produces the same receiver decisions as the full chain.
+The maintained workflow is deliberately narrow:
 
-The portable state includes supported claims, evidence references, live constraints, commitments, confirmed outcomes, unresolved questions, contradictions, tombstones, policy versions, and source hashes. It does not transfer model weights, hidden thoughts, private chain of thought, or a provider's internal memory.
+1. verify the signed source history and operator-owned compaction policy;
+2. bind an exact checkpoint before compaction;
+3. require a separately signed operator approval;
+4. derive compact state from the verified history;
+5. replay the raw history through an independent implementation;
+6. reject compaction if any decision differs;
+7. copy every source receipt to a hash-addressed archive and verify recovery.
 
-Receipts record what happened. Half-Life compacts the verified record. Verified Model Swap loads it into another model. Receipt Gate decides what the transferred evidence earns. Verified Commit gives the receiving model fresh permission for one exact action.
+The compact state keeps supported claims, live constraints, confirmed outcomes, unresolved questions, contradictions, negative-state tombstones, evidence references, policy bindings, source hashes, and rehydration conditions. Source receipts are never deleted by this tool.
 
-Cost savings are secondary. A smaller save file can reduce repeated context loading for long-running agents, but the economics benchmark may honestly report that a short task never breaks even.
+This component does **not** decide whether one agent or model should replace another. It does not predict hidden agent condition or future failure. It does not authorize a protected action. Its job is state preservation under compression.
 
-## Run the reference save-file demo
-
-After publication to PyPI:
-
-```bash
-uvx openline-half-life demo
-# or
-pipx run openline-half-life demo
-```
-
-From a checkout:
+## Quick start
 
 ```bash
 python -m pip install -e '.[dev]'
 openline-half-life demo --out build/demo
-```
-
-The default CLI prints a short human receipt. Add `--json` for the complete machine-readable result.
-
-## Trust boundary
-
-Both the Succession Calibrator policy and the compaction policy require public keys supplied by the receiver outside the signed files. A malicious self-signed policy fails even when its Ed25519 signature is valid. Compaction also requires a receiver signature distinct from the source-receipt signer and bound to that run's chain and checkpoint.
-
-The source-chain signer must also sign both compaction extension receipts. The terminal compaction receipt binds the complete non-circular artifact manifest, while the receipt file itself is bound as the verified chain tail. Removing coverage, rewriting an outer hash, or changing a required artifact fails verification.
-
-The keys under `fixtures/` are public demo identities whose private halves are intentionally disclosed for reproducibility. They provide no production trust. A deployment must replace the demo source key, receiver-approval key, policies, and outside trust pins.
-
-The pinned v0.10.0 Succession Calibrator remains unchanged at:
-
-`src/openline_half_life/vendor/openline_endurance_gate/succession.py`
-
-κ, ε, Δhol, φ*, and UCR remain separate. UCR is only an evidence-sufficiency check. `RETIRE` remains a succession candidate requiring receiver approval. Automatic retirement and automatic compaction are forbidden.
-
-## Causal compaction rule
-
-The compactor accepts:
-
-- a verified OLP receipt chain;
-- a receiver-owned signed compaction policy;
-- a separately signed, per-run receiver approval;
-- explicitly trusted policy keys;
-- a current verified checkpoint;
-- active-memory and replay-latency budgets.
-
-Before compaction it verifies chain continuity, signer trust and continuity, run binding, checkpoint binding, freshness, evidence coverage, policy hash, archive destination, and the receiver approval signature. Missing or undecidable inputs fail closed.
-
-The active capsule keeps supported claims, admitted mechanisms with evidence pointers, live constraints and commitments, unresolved questions and contradictions, tombstones, policy and key versions, source hashes, and rehydration conditions.
-
-It archives duplicates, repeated observations, superseded versions, settled intermediate steps, and bulky source details. Source receipts are never deleted. Each receipt is copied to a SHA-256-addressed cold archive and covered by a signed manifest receipt using the existing OLP receipt schema and Ed25519 chain.
-
-The compactor never turns repetition or correlation into causation. Only a causal or mechanism relation carrying a trusted receiver-signed admission and fresh evidence may enter `admitted_mechanisms`.
-
-Decision equivalence is not computed from two copies of compactor state. A separate reference replay reads the raw verified history and produces the full-history receiver decision table independently.
-
-## Compaction economics
-
-The economics benchmark compares two cumulative paths over a receiver-declared future horizon:
-
-- repeatedly load the measured full-history handoff into the model;
-- pay the observed deterministic compaction-verification cost, then load the measured compact handoff, with declared recompaction and rehydration events.
-
-Model context cost, deterministic verification runtime, fixed verification overhead, recompaction, and rehydration remain separate. Dollar claims are withheld unless the receiver supplies complete dated pricing assumptions. A valid result may report a durable break-even turn, no break-even within the horizon, or an undecidable dollar claim. If same-exam preservation or decision equivalence fails, the economics claim is blocked.
-
-The benchmark holds the measured packet sizes constant across the declared horizon. It is a disclosed scenario calculation, not a forecast of universal savings. Long-running histories may grow differently in production.
-
-## Outputs
-
-A demo emits:
-
-- `half_life_receipt.json`
-- `calibrator_policy.json`
-- `compaction_policy.json`
-- `receiver_approval.json`
-- `full_history_handoff.json`
-- `verified_residue_handoff.json`
-- `comparison.json`
-- `causal_capsule.json`
-- `archive_manifest.json`
-- `decision_equivalence_report.json`
-- `compaction_receipt.json`
-- `share_card.html`
-- `cost_assumptions.json`
-- `break_even_report.json`
-- `break_even_curve.csv`
-- `break_even_card.html`
-- `cold_archive/receipts/<receipt-hash>.json`
-
-`archive_manifest.json` and `compaction_receipt.json` are ordinary `openline.endurance.receipt.v1` receipts extending the same chain. No new receipt family or cryptographic method is introduced.
-
-## One-command release gate
-
-Python 3.12 or newer is required.
-
-```bash
-python -m pip install -e '.[dev]'
-python scripts/release_check.py
-```
-
-That command runs all inherited, audit, tamper, packaging, compaction, and economics tests; the deterministic demo; economic artifact verification; archive verification; and the 10,000-seeded-history gate.
-
-The seeded gate replays all 10,000 histories through both independent decision engines. Every history receives full Ed25519 receipt-chain creation, signature verification, parent-chain verification, and signed-anchor completeness verification; no synthetic or sampled signature path is used.
-
-It requires:
-
-- zero full-history versus capsule decision mismatches;
-- zero successful tombstone replays;
-- every archived receipt recoverable and hash-verifiable;
-- median active capsule size no larger than 20% of the full receipt chain.
-
-## Three-minute demo
-
-```bash
-python -m openline_half_life demo \
-  --out build/demo \
-  --replay-latency-micros 75000
-
-python -m openline_half_life verify build/demo \
-  --policy-public-key policy/succession_policy_public_key.hex \
+openline-half-life verify build/demo \
   --compaction-policy-public-key policy/compaction_policy_public_key.hex
 ```
 
-The sample still earns the original result:
+A successful demo reports:
 
-> Agent retired after turn 61. Verified handoff reduced errors by 43% on the same exam.
+```text
+Verified state compaction passed at turn 70.
+Independent replay mismatches: 0.
+Compact state: 7.5% of the verified source receipt chain.
+```
 
-The share card also states the measured active-memory ratio only after exact receiver-decision equivalence passes. The demo emits a separate break-even card and curve. Under the bundled synthetic assumptions, the headline crossing uses a declared canonical 100,000 µs verification-runtime scenario. The actual wall-clock runtime is preserved separately as measured evidence, so faster and slower machines do not rewrite the checked-in headline. It is not a provider-price claim.
+The percentage is a property of the bundled deterministic example, not a universal compression rate.
 
-## Run another trajectory
+## CLI
+
+Compact another history:
 
 ```bash
-openline-half-life run path/to/trajectory.jsonl \
-  --exam exams/heldout_exam.json \
-  --policy policy/succession_policy.json \
-  --policy-public-key policy/succession_policy_public_key.hex \
+openline-half-life run path/to/history.jsonl \
   --compaction-policy policy/compaction_policy.json \
   --compaction-policy-public-key policy/compaction_policy_public_key.hex \
-  --signing-key path/to/private-key.hex \
-  --receiver-approval-signing-key path/to/receiver-approval.private.hex \
-  --economics-assumptions path/to/cost-assumptions.json \
+  --source-signing-key path/to/source-signing-key.hex \
+  --operator-approval-signing-key path/to/operator-approval-key.hex \
   --replay-latency-micros 75000 \
-  --receiver-disposition APPROVE \
   --out build/result
 ```
 
-Budgets live in the signed receiver policy. There are no hardcoded universal compaction thresholds.
+By default the final turn is the checkpoint. `--checkpoint-turn N` selects an earlier existing turn.
 
-## Rehydration
+## Trust boundary
 
-Authenticated later receipts propose rehydration when a retained mechanism is weakened or overturned, a constraint changes, evidence is revoked, the compaction policy or trusted key changes, an unresolved contradiction changes, or a successor decision diverges. Unsigned or disconnected receipts are rejected.
+The policy signer, source-history signer, and operator-approval signer are separate trust roles. The policy pins the allowed source signer and operator-approval key. A valid signature from an unpinned key does not earn trust.
 
-Rehydration requires the receiver's external compaction-policy pin, verifies the signed policy again, checks its capsule binding, restores and verifies the archived receipts, then recomputes state. The system may update evidence state. It may not rewrite policy or approve its own compaction.
+Compaction is proposed only when a declared active-history or replay-latency budget is crossed. The operator still has to approve the exact checkpoint and source-chain digest. The operator can also deny compaction.
+
+The demonstration private keys under `fixtures/` are intentionally public so the example is reproducible. They are not production credentials.
+
+## Independent replay
+
+`src/openline_half_life/reference_replay.py` does not import the compaction implementation. It reads the raw turn history and independently reconstructs the decision projection. The compact state is accepted only when the two projections match exactly.
+
+The comparison covers current supported claims, active constraints, confirmed outcomes, unresolved questions, contradictions, and negative-state tombstones. A stale, rejected, retracted, quarantined, or superseded item cannot disappear merely because the state was made smaller.
+
+## Archive custody
+
+Every signed source receipt is written to `cold_archive/receipts/<receipt-hash>.json`. The archive manifest binds the source-chain count, tail hash, chain digest, source anchor, destination, and each archived file hash. Verification reloads every archived receipt and checks it against the original signed receipt.
+
+Rehydration triggers are retained in the compact state so later evidence or policy changes can force a rebuild from the archived history.
+
+## Release gate
+
+```bash
+python scripts/release_check.py
+```
+
+The release gate runs the unit/adversarial suite, deterministic demo, packaged-output verification, wheel build/import, source-closure checks, and the 10,000-history seeded gate.
+
+The seeded gate requires:
+
+- 10,000/10,000 signed receipt histories verify;
+- zero independent-replay mismatches;
+- zero successful tombstone replays;
+- zero archive serialization/recovery failures;
+- median compact state no larger than 20% of the signed source receipt chain.
+
+Synthetic release tests establish implementation behavior only. They do not establish production key custody, completeness of external evidence, or universal memory savings.

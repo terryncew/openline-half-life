@@ -1,92 +1,15 @@
 # Changelog
 
-## 0.3.0rc4 — Setuptools floor compatibility
+## 0.4.0rc1
 
-- Restores the table-form MIT license metadata accepted by the declared `setuptools>=68` build-backend floor.
-- Adds a packaging-floor CI job that pins setuptools 68.1.2, performs a no-build-isolation editable install, and reruns the outside-checkout wheel demo test.
-- Keeps public active-state copy derived from the reference run (9%); the separate 10,000-history median remains release-gate evidence, not launch copy.
-- Supersedes rc3, which built in newer authoring environments but failed metadata generation at the declared setuptools floor.
+- Narrows the maintained product to verified state compaction.
+- Removes the old model-replacement scoring path from the active package, CLI, policy, fixtures, tests, and documentation.
+- Uses the final verified turn, or an explicitly selected earlier turn, as the compaction checkpoint.
+- Requires an operator-owned signed compaction policy, a separately signed checkpoint approval, a pinned source signer, and a pinned approval signer.
+- Keeps supported claims, live constraints, confirmed outcomes, unresolved questions, contradictions, tombstones, evidence references, source bindings, and rehydration conditions.
+- Requires independent replay from the raw history before accepting compact state.
+- Keeps all source receipts in a hash-addressed archive and verifies every archived receipt on reload.
+- Preserves the 10,000-history cryptographic equivalence, tombstone, and archive-recovery release gate.
+- Removes the old headline model-replacement demo and related generated artifacts from the maintained release tree.
 
-## 0.3.0rc3 — Launch build
-
-- Reframes Half-Life under OpenLine's cross-platform save-file promise: verified job-state continuity across models.
-- Replaces the quadratic durable-break-even scan with a single backward pass and adds a 50,000-turn performance regression.
-- Rejects complete pricing that silently prices deterministic verification or fixed verification overhead at zero.
-- Adds a human-readable CLI receipt for `demo` and `run`; `--json` preserves the full machine output.
-- Adds continuity hooks and `Terrynce White · OpenLine Protocol` attribution to both generated cards.
-- Adds a deterministic GitHub Pages launch surface built from the reference run, plus positioning and launch-copy documents.
-- Adds PyPI trusted-publishing and published-package smoke-test workflows; actual publication remains a separate credentialed release action.
-
-## 0.3.0rc2 review candidate
-
-- Separates observed wall-clock compaction runtime from the receiver-declared canonical economic scenario.
-- Uses a declared 100,000 µs initial verification runtime for the bundled synthetic headline, making the break-even turn reproducible across machines.
-- Retains actual observed runtime as signed measured evidence without allowing it to rewrite the share card or release headline.
-- Adds a regression proving that changing observed runtime cannot change the canonical curve or break-even turn.
-- Supersedes rc1, whose package contained inconsistent break-even headlines because each run used local wall-clock timing.
-- Remains untagged pending fresh Python 3.12 GitHub Actions.
-
-
-## 0.3.0rc1 review candidate
-
-- Adds a deterministic Compaction Economics benchmark using measured full-history and compact handoff sizes plus observed compaction-verification runtime.
-- Emits `cost_assumptions.json`, `break_even_report.json`, `break_even_curve.csv`, and `break_even_card.html`, all bound into the existing signed artifact manifest and receipt chain.
-- Separates model-input cost, deterministic verification cost, fixed overhead, recompaction, and rehydration; no new score, receipt family, or cryptographic method is introduced.
-- Reports durable break-even, no break-even, missing-pricing undecidability, or a blocked safety result. Dollar claims require complete dated receiver-supplied assumptions.
-- Uses one shared graph scale and marks the measured crossing, preventing visually misleading separately normalized curves.
-- Preserves the pinned v0.10.0 Succession Calibrator, receiver-pinned policy verification, exact decision equivalence, full 10,000-history Ed25519 verification, and the prohibition on automatic retirement.
-- Remains an untagged review candidate pending fresh GitHub Actions.
-
-## 0.2.0rc5 review candidate
-
-- Fix clean CI wheel construction by installing the declared setuptools build backend in the development environment used by the offline `--no-build-isolation` packaging test.
-- Preserve full Ed25519 creation and verification across all 10,000 seeded histories.
-- Supersedes rc4, which passed the compaction gate but failed the clean packaging test because the build backend was only available in the authoring environment.
-
-## 0.2.0rc4 review candidate
-
-- Removes the sampled cryptographic fast path from the 10,000-history release gate. Every seeded history now receives full Ed25519 chain creation, signature verification, parent continuity verification, and signed-anchor completeness verification.
-- Adds a regression that requires the cryptographically verified history count to equal the seeded history count.
-- Keeps the 10,000-history decision-equivalence, tombstone-replay, archive-recovery, and 20% median-size gates unchanged.
-
-## 0.2.0rc3 review candidate
-
-- Binds the complete required artifact manifest into the signed terminal compaction receipt and requires exact outer-manifest coverage, preventing unsigned hash coverage from being removed or rewritten.
-- Requires both extension receipts to use the verified source-chain signer and rejects signer discontinuity before archive output is written.
-- Requires an external receiver policy pin during archive rehydration, re-verifies the policy envelope and semantics, and checks policy, capsule, source-chain, checkpoint, and manifest bindings before recomputation.
-- Adds permanent regressions for missing artifact coverage, rewritten outer hashes, extension-signer mismatch, missing recovery pins, and altered recovery policy.
-
-## 0.2.0rc2 security review candidate
-
-- Replaces the command-line approval word with a separately signed, per-run receiver approval bound to the checkpoint, source-chain digest, compaction policy, and archive destination.
-- Rechecks source-signer trust in the public verifier and binds the receiver approval into the capsule, compaction receipt, artifact bundle, and final verification result.
-- Replaces self-comparison with an independent full-history replay engine; a defect in compaction state can no longer certify a copy of itself.
-- Rejects future-dated claim or constraint verification, unsigned rehydration triggers, source-signed mechanism self-admission, unsafe manifest paths, symlink escapes, and weakened signed policy semantics.
-- Implements authenticated cold-archive restoration and recomputation.
-- Adds seven adversarial regression tests and removes artificial summary padding from the seeded size gate. All 10,000 histories receive independent semantic replay; a deterministic 1-in-100 sample also receives full Ed25519 chain creation and verification.
-
-## 0.2.0rc1 review candidate
-
-- Adds `causal_compactor.py` with receiver-pinned compaction-policy verification, pressure proposals, exact decision-equivalence checks, compact causal capsules, tombstones, and fail-closed receiver approval.
-- Archives every source receipt in SHA-256-addressed cold storage and signs the complete manifest using the existing OLP receipt schema and Ed25519 chain.
-- Preserves explicit admitted mechanisms while refusing to promote repetition or correlation to causation.
-- Adds automatic rehydration proposals for mechanism failure, constraint change, evidence revocation, policy/key change, contradiction change, or decision mismatch.
-- Extends the demo, verified-residue handoff, receipt bundle, verifier, share card, CLI, package data, and CI without changing the pinned v0.10.0 Succession Calibrator.
-- Adds hostile tests for forged policy keys, tampering, stale replay, tombstone replay, causal promotion, contradiction loss, policy/key changes, archive omissions, premature compaction, decision mismatch, and automatic retirement.
-- Adds a deterministic 10,000-seeded-history gate requiring zero decision mismatches, zero tombstone replays, full archive recovery, and median active size at or below 20% of the full chain.
-- Remains an untagged review candidate.
-
-## 0.1.1
-
-- Requires a receiver-owned policy signer pin for policy loading, assessment, pipeline execution, and output verification; the release policy private key is not distributed.
-- Recomputes the complete unsigned policy body with the pinned v0.10.0 fitter, preventing a trusted signature from blessing altered thresholds.
-- Binds the exact signed calibrator policy into the receipt bundle as `calibrator_policy.json`.
-- Rejects evidence-ID rebinding when an existing ID is presented with a different SHA-256 artifact.
-- Resolves outcomes by latest observation, honors explicit retractions, and requires fresh evidence for confirmed outcomes.
-- Makes failed comparisons produce an explicit failed share card and a non-zero CLI exit code.
-- Recomputes comparison semantics during verification instead of trusting the stored `passed` field.
-- Packages demo fixtures, exam, policy, policy public key, and signing fixture inside the wheel so `demo` works outside a source checkout.
-
-## 0.1.0
-
-- Initial deterministic full-history versus verified-residue succession benchmark.
+Earlier research and release artifacts remain available in Git history.

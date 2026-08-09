@@ -4,17 +4,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "openline-half-life"
-version = "0.3.0rc4"
-description = "A cross-platform save-file harness for verified AI-agent continuity across models."
+version = "0.4.0rc1"
+description = "Verified state compaction with independent replay and recoverable archives."
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 license = {text = "MIT"}
 authors = [{name = "Terrynce White"}]
 dependencies = ["cryptography>=42"]
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "setuptools>=68", "build>=1.2", "twine>=6"]
-providers = []
+dev = ["pytest>=8", "setuptools>=68", "build>=1.2"]
 
 [project.scripts]
 openline-half-life = "openline_half_life.cli:main"
@@ -23,22 +22,17 @@ openline-half-life = "openline_half_life.cli:main"
 where = ["src"]
 include = ["openline_half_life*"]
 
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-addopts = "-q"
-
 [tool.setuptools.package-data]
 openline_half_life = [
   "data/fixtures/*.jsonl",
   "data/fixtures/*.hex",
-  "data/exams/*.json",
   "data/policy/*.json",
   "data/policy/*.hex",
-  "data/economics/*.json",
 ]
 
-[project.urls]
-Homepage = "https://terryncew.github.io/openline-half-life/"
-Repository = "https://github.com/terryncew/openline-half-life"
-Issues = "https://github.com/terryncew/openline-half-life/issues"
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
 
+[project.urls]
+Repository = "https://github.com/terryncew/openline-half-life"

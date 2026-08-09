@@ -6,68 +6,50 @@
     "source_receipt_deletion_authorized": false
   },
   "automatic_compaction_authorized": false,
-  "automatic_retirement_authorized": false,
-  "causal_admission": {
-    "allowed_relation_kinds": [
-      "causes",
-      "mechanism"
-    ],
-    "explicit_admission_required": true,
-    "fresh_evidence_required": true,
-    "repetition_or_correlation_is_not_causation": true
-  },
-  "claim_boundary": "Receiver-owned compaction policy. It declares memory and latency budgets, does not create a health score, does not infer causation, does not authorize automatic retirement, and cannot approve its own compaction.",
+  "claim_boundary": "Compaction is allowed only under operator-owned policy, a separately signed approval, complete source-chain verification, recoverable archive custody, and independent decision replay.",
   "decision_equivalence_required": true,
   "keep": [
-    "admitted_mechanisms_and_evidence_pointers",
-    "checkpoint_and_source_chain_hashes",
+    "confirmed_outcomes",
     "currently_supported_claims",
-    "live_constraints_and_commitments",
-    "policy_and_trusted_key_versions",
+    "evidence_references",
+    "live_constraints",
     "rehydration_conditions",
+    "source_and_policy_bindings",
     "tombstones",
-    "unresolved_questions_and_contradictions"
+    "unresolved_questions"
   ],
   "merge": [
     "exact_duplicates",
-    "repeated_observations_represented_by_admitted_state",
-    "settled_intermediate_steps_that_cannot_change_policy_decisions",
+    "settled_intermediate_steps",
     "superseded_versions"
   ],
-  "payload_hash": "4354abb073b9e4ae859320c8b5a47a663515dcb7c3ca9493dcae6e64447c8235",
-  "policy_version": "0.2",
-  "receipt_gate_dispositions": [
-    "COMMIT",
-    "DENY",
-    "QUARANTINE"
-  ],
-  "receiver_approval_required": true,
+  "operator_approval_required": true,
+  "payload_hash": "e6b6f19e7f29ac3e0bdd0e9e6ac98815db42482da319a49d95f2685de30ef86e",
+  "policy_version": "0.4",
   "rehydration_conditions": [
-    "mechanism_weakened_or_overturned",
     "constraint_changed",
     "evidence_revoked",
     "compaction_policy_changed",
     "trusted_key_changed",
-    "unresolved_contradiction_changed",
-    "successor_decision_mismatch"
+    "unresolved_state_changed",
+    "decision_mismatch"
   ],
-  "schema": "openline.half-life.compaction-policy.v1",
+  "schema": "openline.half-life.compaction-policy.v2",
   "self_approval_forbidden": true,
   "signature": {
     "algorithm": "Ed25519",
-    "public_key": "34b4d9043156cb6dcf0beb0a2949b7559c940d2bcb6dbe8c53a9b30278e3a746",
-    "value": "bb184ac51a39d24ca349e6d3e4d9e6a405b9ff4712f9a34d0f8ffbfc00e4ff09861b4a7c28b503a2a1026d242e62b7721bb0c2b6da8d4ad29eff7e334144f40e"
+    "public_key": "a09aa5f47a6759802ff955f8dc2d2a14a5c99d23be97f864127ff9383455a4f0",
+    "value": "5bca10988da8bfda2abeacde3ac339c8d5bcc88fedc5665d696f92360d1e857388d8ee2ba7b7c4b059225541622c890c9621c1e0c6d58cb91a501930f1ddca01"
   },
   "trigger": {
     "active_receipt_bytes_budget": 25000,
     "replay_latency_micros_budget": 50000,
-    "rule": "propose_when_either_receiver_budget_is_crossed"
+    "rule": "propose_when_either_budget_is_crossed"
   },
-  "trusted_key_version": "receiver-compaction-key-v2",
-  "trusted_receiver_approval_public_keys": [
-    "c6822637c7d310ec57627be00ba259d253749f4aaf644470cffbe53a35f73242"
+  "trusted_operator_approval_public_keys": [
+    "17cb79fb2b4120f2b1ec65e4198d6e08b28e813feb01e4a400839b85e18080ce"
   ],
-  "trusted_source_receipt_signer_keys_b64": [
-    "11l5O7wTooGagnx2rbb7qKSa7gB/SfLQmS2ZuCWtLEg="
+  "trusted_source_signer_keys_b64": [
+    "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
   ]
 }

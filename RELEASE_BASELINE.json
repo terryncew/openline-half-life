@@ -1,0 +1,22 @@
+{
+  "schema": "openline.half-life.release-baseline.v1",
+  "incumbent": {
+    "version": "0.3.0rc4",
+    "archive_sha256": "547ca995c2c99bf846ef440b0a25bd742f235c4f2bdee7d44139a48d7705b7c6",
+    "verified_capabilities": [
+      "signed source-history verification",
+      "operator-owned compaction policy",
+      "separate operator approval",
+      "independent decision replay",
+      "hash-addressed source archive",
+      "tombstone replay prevention",
+      "rehydration from retained history",
+      "10,000-history cryptographic release gate"
+    ]
+  },
+  "candidate": {
+    "version": "0.4.0rc1",
+    "change_type": "subtractive replacement",
+    "promotion_rule": "Preserve the compaction and recovery guarantees while removing unrelated model-replacement scoring and reducing the active dependency and policy surface."
+  }
+}
