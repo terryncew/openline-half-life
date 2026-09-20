@@ -1,0 +1,13 @@
+{
+  "checkpoint_turn": 6,
+  "confirmed_outcomes": [],
+  "contradictions": [],
+  "current_constraints": [],
+  "evidence_references": [],
+  "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+  "run_id": "candidate-admission-demo",
+  "schema": "openline.half-life.candidate-state.v1",
+  "supported_claims": [],
+  "tombstones": [],
+  "unresolved_questions": []
+}
