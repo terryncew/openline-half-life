@@ -24,7 +24,7 @@ def main() -> int:
             continue
         data = path.read_bytes()
         entries.append({"path": rel.as_posix(), "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()})
-    manifest = {"schema": "openline.half-life.release-manifest.v1", "version": "0.4.0rc2", "entries": entries}
+    manifest = {"schema": "openline.half-life.release-manifest.v1", "version": "0.4.0rc3", "entries": entries}
     (ROOT / "RELEASE_MANIFEST.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps({"entry_count": len(entries), "manifest_sha256": hashlib.sha256((ROOT / "RELEASE_MANIFEST.json").read_bytes()).hexdigest()}, sort_keys=True))
     return 0

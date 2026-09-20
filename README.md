@@ -53,6 +53,30 @@ openline-half-life run path/to/history.jsonl \
 
 By default the final turn is the checkpoint. `--checkpoint-turn N` selects an earlier existing turn.
 
+Admit an externally produced compact-state candidate:
+
+```bash
+openline-half-life admit path/to/history.jsonl \
+  --candidate path/to/candidate.json \
+  --manifest path/to/candidate_manifest.json \
+  --compaction-policy policy/compaction_policy.json \
+  --compaction-policy-public-key policy/compaction_policy_public_key.hex \
+  --source-signing-key path/to/source-signing-key.hex \
+  --operator-approval-signing-key path/to/operator-approval-key.hex \
+  --replay-latency-micros 75000 \
+  --out build/admission
+```
+
+## External candidate admission
+
+The compactor that produced a compact state and the authority that admits it need not be the same system. An arbitrary external producer can propose a compact state; Half-Life admits it only when its own independent replay says the receiver-required projection survived.
+
+The candidate is untrusted input. Admission runs the same decision-equivalence replay used for internally derived states, against the same protected projection: current supported claims, active constraints, confirmed outcomes, unresolved questions, contradictions, and negative-state tombstones. A candidate that drops a constraint, resurrects a superseded claim, loses a tombstone, or contradicts the replay is rejected, and nothing is admitted: no admitted state is produced, no archive entry is written, no receipt is signed. The CLI exits nonzero and writes only a deterministic rejection report (`admission_rejection.json`) with the reason codes and the exact mismatches.
+
+Admission never repairs a candidate into correctness. The admitted compact state projects byte-for-byte like the candidate did; Half-Life adds only its own trusted metadata (archive custody, operator approval, source bindings, rehydration conditions, the admission receipt). The admission receipt binds the candidate content hash, the manifest hash, the compact-state hash, the decision-equivalence report, the source-chain digest, the archive manifest, and the artifact hashes, so a third party can verify the admission without trusting the producer.
+
+`openline-half-life verify` detects an admission output directory (by the presence of `admission_receipt.json`) and verifies it with the same independent checks: candidate and manifest integrity, checkpoint and source bindings, compact-state bindings, equivalence-report integrity with re-derivation of both decision hashes, archive reload, receipt and bundle tamper.
+
 ## Trust boundary
 
 The policy signer, source-history signer, and operator-approval signer are separate trust roles. The policy pins the allowed source signer and operator-approval key. A valid signature from an unpinned key does not earn trust.

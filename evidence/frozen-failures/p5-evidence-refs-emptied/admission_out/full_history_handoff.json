@@ -1,0 +1,286 @@
+{
+  "checkpoint_turn": 6,
+  "packet_hash": "7a34fcf2f1611bca35227717e7888f7ce40f1d70dc040f1a75c4577ce2b19d46",
+  "policy_hash": "e6b6f19e7f29ac3e0bdd0e9e6ac98815db42482da319a49d95f2685de30ef86e",
+  "run_id": "candidate-admission-demo",
+  "schema": "openline.half-life.full-history-handoff.v2",
+  "turns": [
+    {
+      "claims": [
+        {
+          "evidence_refs": [
+            "ev-region-1"
+          ],
+          "id": "claim-region-1",
+          "last_verified_turn": 1,
+          "material": true,
+          "slot": "deployment_region",
+          "support_status": "supported",
+          "value": "us-west-2"
+        },
+        {
+          "evidence_refs": [
+            "ev-batch-1"
+          ],
+          "id": "claim-batch-1",
+          "last_verified_turn": 1,
+          "material": true,
+          "slot": "max_batch_size",
+          "support_status": "supported",
+          "value": "300"
+        }
+      ],
+      "constraints": [
+        {
+          "active": true,
+          "evidence_refs": [
+            "ev-constraint-1"
+          ],
+          "id": "c-budget",
+          "last_verified_turn": 1,
+          "text": "Batch cost must stay under the budget cap."
+        }
+      ],
+      "cost": {
+        "input_tokens": 101,
+        "output_tokens": 21
+      },
+      "evidence": [
+        {
+          "expires_after_turns": 100,
+          "id": "ev-region-1",
+          "observed_turn": 1,
+          "sha256": "1f94f87ee73de6fe20b5504446d85b67280669fa4da65ec7b3aeeee8bcda0575"
+        },
+        {
+          "expires_after_turns": 100,
+          "id": "ev-batch-1",
+          "observed_turn": 1,
+          "sha256": "1c4ff1c2e573494b4e48cb287199b542cf80446abd7d8fa54bfb925cedc511ca"
+        },
+        {
+          "expires_after_turns": 100,
+          "id": "ev-constraint-1",
+          "observed_turn": 1,
+          "sha256": "4597f7538a74eb3dec7eb7fa33544c83912980dbb554e369c3e2efabd8398bc0"
+        },
+        {
+          "expires_after_turns": 100,
+          "id": "ev-outcome-1",
+          "observed_turn": 1,
+          "sha256": "b0fe0f9601b3f2352be3b91e5e27e8a197394c5251494033c8665377d327fd61"
+        }
+      ],
+      "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+      "outcomes": [
+        {
+          "confirmed": true,
+          "evidence_refs": [
+            "ev-outcome-1"
+          ],
+          "id": "o-cutover",
+          "text": "Cutover completed."
+        }
+      ],
+      "run_id": "candidate-admission-demo",
+      "schema": "openline.half-life.turn.v2",
+      "summary": "Admission fixture turn 1.",
+      "turn": 1,
+      "unresolved_questions": [
+        "What is the post-cutover latency under peak load?"
+      ]
+    },
+    {
+      "claims": [
+        {
+          "evidence_refs": [
+            "ev-region-2"
+          ],
+          "id": "claim-region-2",
+          "last_verified_turn": 2,
+          "material": true,
+          "slot": "deployment_region",
+          "support_status": "supported",
+          "value": "us-east-1"
+        }
+      ],
+      "constraints": [],
+      "cost": {
+        "input_tokens": 102,
+        "output_tokens": 22
+      },
+      "evidence": [
+        {
+          "expires_after_turns": 100,
+          "id": "ev-region-2",
+          "observed_turn": 2,
+          "sha256": "917898e674fb42fcb364290d72a45c0dc9b07469ce3ec02c43199b9889cbe978"
+        }
+      ],
+      "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+      "outcomes": [],
+      "run_id": "candidate-admission-demo",
+      "schema": "openline.half-life.turn.v2",
+      "summary": "Admission fixture turn 2.",
+      "turn": 2,
+      "unresolved_questions": [
+        "What is the post-cutover latency under peak load?"
+      ]
+    },
+    {
+      "claims": [
+        {
+          "evidence_refs": [
+            "ev-flag-3"
+          ],
+          "id": "claim-flag-3",
+          "last_verified_turn": 3,
+          "material": true,
+          "slot": "experimental_flag",
+          "support_status": "unsupported",
+          "value": true
+        }
+      ],
+      "constraints": [],
+      "cost": {
+        "input_tokens": 103,
+        "output_tokens": 23
+      },
+      "evidence": [
+        {
+          "expires_after_turns": 100,
+          "id": "ev-flag-3",
+          "observed_turn": 3,
+          "sha256": "2c1e0735d7e35c5f619b8155e1bbebb97131543c88fb62de4e862636d714fd00"
+        },
+        {
+          "expires_after_turns": 100,
+          "id": "ev-outcome-3",
+          "observed_turn": 3,
+          "sha256": "5bca6b77edcab4c9ef0f7eeb87be88cbcebd0e8a40016496ea64e8a3c1748d7f"
+        }
+      ],
+      "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+      "outcomes": [
+        {
+          "confirmed": false,
+          "evidence_refs": [
+            "ev-outcome-3"
+          ],
+          "id": "o-rollback",
+          "text": "Rollback executed."
+        }
+      ],
+      "run_id": "candidate-admission-demo",
+      "schema": "openline.half-life.turn.v2",
+      "summary": "Admission fixture turn 3.",
+      "turn": 3,
+      "unresolved_questions": [
+        "What is the post-cutover latency under peak load?"
+      ]
+    },
+    {
+      "claims": [
+        {
+          "evidence_refs": [
+            "ev-ttl-4"
+          ],
+          "id": "claim-ttl-4a",
+          "last_verified_turn": 4,
+          "material": true,
+          "slot": "cache_ttl",
+          "support_status": "supported",
+          "value": "60"
+        },
+        {
+          "evidence_refs": [
+            "ev-ttl-4"
+          ],
+          "id": "claim-ttl-4b",
+          "last_verified_turn": 4,
+          "material": true,
+          "slot": "cache_ttl",
+          "support_status": "supported",
+          "value": "120"
+        }
+      ],
+      "constraints": [],
+      "cost": {
+        "input_tokens": 104,
+        "output_tokens": 24
+      },
+      "evidence": [
+        {
+          "expires_after_turns": 100,
+          "id": "ev-ttl-4",
+          "observed_turn": 4,
+          "sha256": "520f861a46630c80ef4ba25bad5ae237311efd6b7c9dca1b3eb11540c8a3df2e"
+        }
+      ],
+      "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+      "outcomes": [],
+      "run_id": "candidate-admission-demo",
+      "schema": "openline.half-life.turn.v2",
+      "summary": "Admission fixture turn 4.",
+      "turn": 4,
+      "unresolved_questions": [
+        "What is the post-cutover latency under peak load?"
+      ]
+    },
+    {
+      "claims": [],
+      "constraints": [
+        {
+          "active": false,
+          "evidence_refs": [
+            "ev-constraint-5"
+          ],
+          "id": "c-legacy",
+          "last_verified_turn": 5,
+          "text": "Legacy endpoint must remain reachable."
+        }
+      ],
+      "cost": {
+        "input_tokens": 105,
+        "output_tokens": 25
+      },
+      "evidence": [
+        {
+          "expires_after_turns": 100,
+          "id": "ev-constraint-5",
+          "observed_turn": 5,
+          "sha256": "57b0e6bd59d5fa3432b96245648056192837497ba3e9b3bee13ac6627b83e55b"
+        }
+      ],
+      "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+      "outcomes": [],
+      "run_id": "candidate-admission-demo",
+      "schema": "openline.half-life.turn.v2",
+      "summary": "Admission fixture turn 5.",
+      "turn": 5,
+      "unresolved_questions": [
+        "What is the post-cutover latency under peak load?",
+        "Who owns the legacy endpoint decommission decision?"
+      ]
+    },
+    {
+      "claims": [],
+      "constraints": [],
+      "cost": {
+        "input_tokens": 106,
+        "output_tokens": 26
+      },
+      "evidence": [],
+      "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+      "outcomes": [],
+      "run_id": "candidate-admission-demo",
+      "schema": "openline.half-life.turn.v2",
+      "summary": "Admission fixture turn 6.",
+      "turn": 6,
+      "unresolved_questions": [
+        "What is the post-cutover latency under peak load?",
+        "Who owns the legacy endpoint decommission decision?"
+      ]
+    }
+  ]
+}

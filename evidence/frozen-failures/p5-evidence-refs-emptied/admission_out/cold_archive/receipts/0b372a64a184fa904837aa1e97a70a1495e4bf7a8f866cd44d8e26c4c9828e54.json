@@ -1,0 +1,14 @@
+{
+  "index": 6,
+  "kind": "compaction_policy_binding",
+  "parent_hash": "094c4e13ae0a3d85bbd90033bf2bece67558f9e5c635250175cc6d6dba6364e9",
+  "payload": {
+    "policy_hash": "e6b6f19e7f29ac3e0bdd0e9e6ac98815db42482da319a49d95f2685de30ef86e",
+    "policy_public_key": "a09aa5f47a6759802ff955f8dc2d2a14a5c99d23be97f864127ff9383455a4f0",
+    "run_id": "candidate-admission-demo"
+  },
+  "receipt_hash": "0b372a64a184fa904837aa1e97a70a1495e4bf7a8f866cd44d8e26c4c9828e54",
+  "schema": "openline.half-life.receipt.v2",
+  "signature": "i4tyrs5fVjqjmlDDWO6rOmc7t0uUcX5VxX9BU4UlWceI5sO62j4Fh6pK37yWZUIF3G0OrdY/klZDFeX19K4VCA==",
+  "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+}

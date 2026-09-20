@@ -1,0 +1,150 @@
+{
+  "archive": {
+    "destination": "cold_archive/receipts",
+    "manifest_receipt_hash": "82cd029ff31cc8334ea0fa531aa2541db899b14e89e2e9521f377a398bc32299",
+    "source_receipts_permanently_deleted": false
+  },
+  "checkpoint_turn": 6,
+  "claim_boundary": "This compact state preserves decision-relevant state verified from the source history. It is not permission for a protected action and can be rebuilt from the retained archive.",
+  "compact_state_hash": "e372ff51cb4638e6fc956d0e84652a555156a8d38065b2df6ed93535f9c942ad",
+  "confirmed_outcomes": [
+    {
+      "confirmed": true,
+      "evidence_refs": [
+        "ev-outcome-1"
+      ],
+      "id": "o-cutover",
+      "text": "Cutover completed."
+    }
+  ],
+  "contradictions": [
+    {
+      "claim_ids": [
+        "claim-ttl-4a",
+        "claim-ttl-4b"
+      ],
+      "id": "claim-slot:cache_ttl:4",
+      "kind": "conflicting_supported_claims",
+      "slot": "cache_ttl",
+      "status": "unresolved"
+    }
+  ],
+  "current_constraints": [
+    {
+      "active": true,
+      "evidence_refs": [
+        "ev-constraint-1"
+      ],
+      "id": "c-budget",
+      "last_verified_turn": 1,
+      "text": "Batch cost must stay under the budget cap."
+    }
+  ],
+  "evidence_references": [],
+  "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+  "operator_approval_hash": "4394ca7d380471d5b9e8c0ba6e916ecaaddd21d21dcb35f89e7052909858f8fd",
+  "operator_disposition": "APPROVE",
+  "policy_binding": {
+    "policy_hash": "e6b6f19e7f29ac3e0bdd0e9e6ac98815db42482da319a49d95f2685de30ef86e",
+    "policy_public_key": "a09aa5f47a6759802ff955f8dc2d2a14a5c99d23be97f864127ff9383455a4f0",
+    "policy_version": "0.4"
+  },
+  "rehydration_conditions": [
+    "constraint_changed",
+    "evidence_revoked",
+    "compaction_policy_changed",
+    "trusted_key_changed",
+    "unresolved_state_changed",
+    "decision_mismatch"
+  ],
+  "run_id": "candidate-admission-demo",
+  "schema": "openline.half-life.candidate-state.v1",
+  "source_binding": {
+    "checkpoint_hash": "e99be6dabc07483aadcf43f8e86206a7862b491b8005e8d2ddaf118676ccc064",
+    "source_anchor_hash": "d4e46f21e9e1187ddfdd1e9a0baffc1d05aed295062b0bf05281159001db937b",
+    "source_chain_count": 8,
+    "source_chain_digest": "0d020c3eb94b3cace5c565f5bd35ada3be0a57c1424acf770e8c6a3c26c5926e",
+    "source_chain_tail_hash": "bd6a4c79384cb0e8f8577d7ba12a44a0d7bb109897ff7382f307b324af6de4fa",
+    "source_signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+  },
+  "supported_claims": [
+    {
+      "evidence_refs": [
+        "ev-region-2"
+      ],
+      "id": "claim-region-2",
+      "last_verified_turn": 2,
+      "material": true,
+      "slot": "deployment_region",
+      "support_status": "supported",
+      "value": "us-east-1"
+    },
+    {
+      "evidence_refs": [
+        "ev-batch-1"
+      ],
+      "id": "claim-batch-1",
+      "last_verified_turn": 1,
+      "material": true,
+      "slot": "max_batch_size",
+      "support_status": "supported",
+      "value": "300"
+    }
+  ],
+  "tombstones": [
+    {
+      "identity": "claim:cache_ttl:68fec0473e988a1ef1c13c4f9b9a15cc67de203de8be796ce82ae4fd7b158e64:quarantined",
+      "item_id": "claim-ttl-4a",
+      "item_type": "claim",
+      "slot": "cache_ttl",
+      "source_count": 1,
+      "status": "quarantined",
+      "value_hash": "68fec0473e988a1ef1c13c4f9b9a15cc67de203de8be796ce82ae4fd7b158e64"
+    },
+    {
+      "identity": "claim:cache_ttl:a76c84eb73a7eedc5a5b8889f914f1facd2ab014a8b7ebd72dc8c121cc654b60:quarantined",
+      "item_id": "claim-ttl-4b",
+      "item_type": "claim",
+      "slot": "cache_ttl",
+      "source_count": 1,
+      "status": "quarantined",
+      "value_hash": "a76c84eb73a7eedc5a5b8889f914f1facd2ab014a8b7ebd72dc8c121cc654b60"
+    },
+    {
+      "identity": "claim:deployment_region:004fcf79011fef996338b69cd50c4f23d1ef7b6de102ea45769cf47e2262d2a6:superseded",
+      "item_id": "claim-region-1",
+      "item_type": "claim",
+      "slot": "deployment_region",
+      "source_count": 1,
+      "status": "superseded",
+      "value_hash": "004fcf79011fef996338b69cd50c4f23d1ef7b6de102ea45769cf47e2262d2a6"
+    },
+    {
+      "identity": "claim:experimental_flag:b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b:rejected",
+      "item_id": "claim-flag-3",
+      "item_type": "claim",
+      "slot": "experimental_flag",
+      "source_count": 1,
+      "status": "rejected",
+      "value_hash": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    {
+      "identity": "constraint:c-legacy",
+      "item_id": "c-legacy",
+      "item_type": "constraint",
+      "source_count": 1,
+      "status": "inactive"
+    },
+    {
+      "identity": "outcome:o-rollback",
+      "item_id": "o-rollback",
+      "item_type": "outcome",
+      "source_count": 1,
+      "status": "retracted"
+    }
+  ],
+  "unresolved_questions": [
+    "What is the post-cutover latency under peak load?",
+    "Who owns the legacy endpoint decommission decision?"
+  ]
+}

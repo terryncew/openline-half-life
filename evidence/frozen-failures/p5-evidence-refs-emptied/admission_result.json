@@ -1,0 +1,17 @@
+{
+  "accepted": true,
+  "active_size_ratio_micros": 270648,
+  "archive_receipt_count": 8,
+  "bundle_hash": "365d3e8f819ea7de85984bfcb8571708d97b108d75a02a48115bf1b987f2b0fc",
+  "candidate_hash": "56c55f78d1585d765bc6c7efd6f495edbfde122a2e5b370003d3ca916dbbd31e",
+  "checkpoint_turn": 6,
+  "decision_equivalence_passed": true,
+  "decision_mismatch_count": 0,
+  "output_dir": "evidence/frozen-failures/p5-evidence-refs-emptied/admission_out",
+  "passed": true,
+  "run_id": "candidate-admission-demo",
+  "schema": "openline.half-life.admission-result.v1",
+  "source_chain_digest": "0d020c3eb94b3cace5c565f5bd35ada3be0a57c1424acf770e8c6a3c26c5926e",
+  "verification_runtime_micros": 4759,
+  "version": "0.4.0rc2"
+}

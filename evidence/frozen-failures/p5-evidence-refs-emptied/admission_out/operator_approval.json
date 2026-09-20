@@ -1,0 +1,18 @@
+{
+  "archive_destination": "cold_archive/receipts",
+  "automatic_compaction_authorized": false,
+  "checkpoint_hash": "e99be6dabc07483aadcf43f8e86206a7862b491b8005e8d2ddaf118676ccc064",
+  "compaction_policy_hash": "e6b6f19e7f29ac3e0bdd0e9e6ac98815db42482da319a49d95f2685de30ef86e",
+  "disposition": "APPROVE",
+  "payload_hash": "4394ca7d380471d5b9e8c0ba6e916ecaaddd21d21dcb35f89e7052909858f8fd",
+  "run_id": "candidate-admission-demo",
+  "schema": "openline.half-life.operator-compaction-approval.v1",
+  "signature": {
+    "algorithm": "Ed25519",
+    "public_key": "17cb79fb2b4120f2b1ec65e4198d6e08b28e813feb01e4a400839b85e18080ce",
+    "value": "9f8a6fefdea4e98cc9366650c0966de9bd577c2ffcab5227f8a921d5b9fdd597e18f76da09860b3622595719d57a263a1b5a57705e2ea65a90aae440249e7b07"
+  },
+  "source_chain_count": 8,
+  "source_chain_digest": "0d020c3eb94b3cace5c565f5bd35ada3be0a57c1424acf770e8c6a3c26c5926e",
+  "source_chain_tail_hash": "bd6a4c79384cb0e8f8577d7ba12a44a0d7bb109897ff7382f307b324af6de4fa"
+}

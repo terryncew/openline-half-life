@@ -1,0 +1,9 @@
+{
+  "candidate_hash": "5885282419b84faf5539fc0b35b199ef59bf1af4721315f472bc1840a3251839",
+  "checkpoint_hash": "e99be6dabc07483aadcf43f8e86206a7862b491b8005e8d2ddaf118676ccc064",
+  "checkpoint_turn": 6,
+  "producer_label": "evidence-closure-fixture-producer",
+  "run_id": "candidate-admission-demo",
+  "schema": "openline.half-life.candidate-manifest.v1",
+  "source_turns_hash": "75dd52833f47e841f199671ec1b7f9e80d26e92b11dd8d550d79621ee95ef252"
+}

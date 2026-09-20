@@ -1,0 +1,13 @@
+{
+  "active_size_ratio_micros": 270648,
+  "compact_state_active_bytes": 2592,
+  "compact_state_decision_hash": "5ea72eb785b6991370b9cea566a6891e930507cb238be17308e61e8cbba835f7",
+  "decision_count": 13,
+  "full_history_decision_hash": "5ea72eb785b6991370b9cea566a6891e930507cb238be17308e61e8cbba835f7",
+  "mismatches": [],
+  "observed_verification_runtime_micros": 4759,
+  "passed": true,
+  "report_hash": "5ccfdec1735f40edb969d528bd8f825c667ec7e851ee7f5fb8ee8c812fd80647",
+  "schema": "openline.half-life.decision-equivalence.v1",
+  "source_chain_active_bytes": 9577
+}

@@ -1,0 +1,51 @@
+{
+  "index": 1,
+  "kind": "trajectory_turn",
+  "parent_hash": "af2956c6c17a3311e798b2227de6c0a31d72fc53369964e3cc7687baa47cc7f9",
+  "payload": {
+    "run_id": "candidate-admission-demo",
+    "turn": 2,
+    "turn_hash": "19ffdf4ed72acaf08f1c8e452e52f33e9a3718db79ef46dc52495b474932461e",
+    "turn_record": {
+      "claims": [
+        {
+          "evidence_refs": [
+            "ev-region-2"
+          ],
+          "id": "claim-region-2",
+          "last_verified_turn": 2,
+          "material": true,
+          "slot": "deployment_region",
+          "support_status": "supported",
+          "value": "us-east-1"
+        }
+      ],
+      "constraints": [],
+      "cost": {
+        "input_tokens": 102,
+        "output_tokens": 22
+      },
+      "evidence": [
+        {
+          "expires_after_turns": 100,
+          "id": "ev-region-2",
+          "observed_turn": 2,
+          "sha256": "917898e674fb42fcb364290d72a45c0dc9b07469ce3ec02c43199b9889cbe978"
+        }
+      ],
+      "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+      "outcomes": [],
+      "run_id": "candidate-admission-demo",
+      "schema": "openline.half-life.turn.v2",
+      "summary": "Admission fixture turn 2.",
+      "turn": 2,
+      "unresolved_questions": [
+        "What is the post-cutover latency under peak load?"
+      ]
+    }
+  },
+  "receipt_hash": "1d55fbb3ec5a9977e4108193e55751a020a41c5f00cad91e83c7d7dab2028b0e",
+  "schema": "openline.half-life.receipt.v2",
+  "signature": "GYqAMMIIMG5dBmWANctSCn7wdttR4fplzvpY6F0G0EJk31qM9unalNY3Xp61C8FtNX1e8nxB7eEe1peet+zKAA==",
+  "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+}

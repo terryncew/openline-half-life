@@ -1,0 +1,9 @@
+{
+  "candidate_hash": "98d17877eeb393d022bcde023277b6e432827c956630360930fb56a62763371f",
+  "checkpoint_hash": "00d663d6a6468e135899469b4fc95c3a2c317b0af308e660030e40d22767baca",
+  "checkpoint_turn": 6,
+  "producer_label": "fixture-producer-003",
+  "run_id": "context-admit-003",
+  "schema": "openline.half-life.candidate-manifest.v1",
+  "source_turns_hash": "e4a90450688928c886fea3357ebdee352b4ff83c5cfd2fa1c55aa7859aac3e16"
+}

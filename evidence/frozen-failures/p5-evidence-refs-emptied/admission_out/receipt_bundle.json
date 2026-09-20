@@ -1,0 +1,533 @@
+{
+  "admission_receipt": {
+    "index": 9,
+    "kind": "candidate_admission",
+    "parent_hash": "82cd029ff31cc8334ea0fa531aa2541db899b14e89e2e9521f377a398bc32299",
+    "payload": {
+      "archive_manifest_receipt_hash": "82cd029ff31cc8334ea0fa531aa2541db899b14e89e2e9521f377a398bc32299",
+      "artifact_hashes": {
+        "archive_manifest.json": "32c15baf7b573667277ceb64fb064e30a1f8af0300f627ab2ea5784c210a800f",
+        "candidate.json": "1810c07ceb2a3ea2adee0c824eaa531fdc29233ecf2ac994e6fe7d0221fed022",
+        "candidate_manifest.json": "e9b02f7864c885e55ac5341b2dda91c82b18ecf5a83d17b487e01e0a1f0f34e6",
+        "checkpoint.json": "d7c73603158e1f894efdc3dd599a585c3a969ec03061e3e255482e571d57690d",
+        "compact_state.json": "536bfbd1de3941737f932f3f1ff07e589f8ef28b8903b4acf8a7436b84a646d7",
+        "compaction_policy.json": "1cff9e5a276080c86fde7fc167764fbabb9c795d6dca62282fbb907cd75c466a",
+        "decision_equivalence_report.json": "4e8e157ad739ae04eff1c14504aaf62d2a24f913e5f906c77e3072bfaac5915f",
+        "full_history_handoff.json": "9c0d51f0be8f52c6716eb4b342d308a2b94a17a2270b8ee1da3d1063e5fc71cf",
+        "operator_approval.json": "0f98209475b9b7a673d50f3f69fc6627ae829b3face1d0a47477cbd722be9bce"
+      },
+      "candidate_hash": "56c55f78d1585d765bc6c7efd6f495edbfde122a2e5b370003d3ca916dbbd31e",
+      "candidate_manifest_hash": "e9b02f7864c885e55ac5341b2dda91c82b18ecf5a83d17b487e01e0a1f0f34e6",
+      "checkpoint_hash": "e99be6dabc07483aadcf43f8e86206a7862b491b8005e8d2ddaf118676ccc064",
+      "checkpoint_turn": 6,
+      "compact_state_hash": "e372ff51cb4638e6fc956d0e84652a555156a8d38065b2df6ed93535f9c942ad",
+      "decision_equivalence_report_hash": "5ccfdec1735f40edb969d528bd8f825c667ec7e851ee7f5fb8ee8c812fd80647",
+      "input_hashes": {
+        "candidate_manifest_sha256": "e9b02f7864c885e55ac5341b2dda91c82b18ecf5a83d17b487e01e0a1f0f34e6",
+        "candidate_sha256": "1810c07ceb2a3ea2adee0c824eaa531fdc29233ecf2ac994e6fe7d0221fed022",
+        "trajectory_sha256": "64da15274885aaa17692889c827660acbddf938da8b20988b4e8649a62b108cc"
+      },
+      "operator_approval_hash": "4394ca7d380471d5b9e8c0ba6e916ecaaddd21d21dcb35f89e7052909858f8fd",
+      "operator_approval_public_key": "17cb79fb2b4120f2b1ec65e4198d6e08b28e813feb01e4a400839b85e18080ce",
+      "operator_disposition": "APPROVE",
+      "policy_hash": "e6b6f19e7f29ac3e0bdd0e9e6ac98815db42482da319a49d95f2685de30ef86e",
+      "policy_public_key": "a09aa5f47a6759802ff955f8dc2d2a14a5c99d23be97f864127ff9383455a4f0",
+      "pressure_reason_codes": [
+        "REPLAY_LATENCY_BUDGET_EXCEEDED"
+      ],
+      "producer_label": "perturbation-attack-p5",
+      "run_id": "candidate-admission-demo",
+      "schema": "openline.half-life.candidate-admission.v1",
+      "source_chain_count": 8,
+      "source_chain_digest": "0d020c3eb94b3cace5c565f5bd35ada3be0a57c1424acf770e8c6a3c26c5926e",
+      "source_chain_tail_hash": "bd6a4c79384cb0e8f8577d7ba12a44a0d7bb109897ff7382f307b324af6de4fa",
+      "source_receipts_permanently_deleted": false
+    },
+    "receipt_hash": "9ed0d5bcd3b2d8ed45429d41807b3e89833d547601ba4f357ed6c41b5e1acba4",
+    "schema": "openline.half-life.receipt.v2",
+    "signature": "ozNRqKfzLTTFRpoUSRziVVz/4lgIaLOqL/l/gbujlkNMMWlII73dh5B++HSK0lXpKbRMWzGmR9OJWEZvtgNUDw==",
+    "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+  },
+  "archive_manifest_receipt": {
+    "index": 8,
+    "kind": "archive_manifest",
+    "parent_hash": "bd6a4c79384cb0e8f8577d7ba12a44a0d7bb109897ff7382f307b324af6de4fa",
+    "payload": {
+      "archive_destination": "cold_archive/receipts",
+      "entries": [
+        {
+          "file_sha256": "1d3b42c0654ba153ced65c65a1be93a29bba4284a48850aa4744bf95fcbd4cd0",
+          "path": "cold_archive/receipts/af2956c6c17a3311e798b2227de6c0a31d72fc53369964e3cc7687baa47cc7f9.json",
+          "receipt_hash": "af2956c6c17a3311e798b2227de6c0a31d72fc53369964e3cc7687baa47cc7f9"
+        },
+        {
+          "file_sha256": "fc91db967794891db27bbb30473b89357c7d2508344defec9ca399a8a19fc0c2",
+          "path": "cold_archive/receipts/1d55fbb3ec5a9977e4108193e55751a020a41c5f00cad91e83c7d7dab2028b0e.json",
+          "receipt_hash": "1d55fbb3ec5a9977e4108193e55751a020a41c5f00cad91e83c7d7dab2028b0e"
+        },
+        {
+          "file_sha256": "62d7e6d64a650112d66b858acf45418b14336ca630e8d61907feec41669abff5",
+          "path": "cold_archive/receipts/c76fa87c18c84411b6a34acb61458cfe8c8d4c70546a812dd7308935a77ebac0.json",
+          "receipt_hash": "c76fa87c18c84411b6a34acb61458cfe8c8d4c70546a812dd7308935a77ebac0"
+        },
+        {
+          "file_sha256": "9b304d369a88970a7bfdc8d66a7b440260931b463beb76c82bff0065a604d19f",
+          "path": "cold_archive/receipts/a212fb83fe8df6aa3b9d06e8374e4beffbde64a44826f801112af23909968fc4.json",
+          "receipt_hash": "a212fb83fe8df6aa3b9d06e8374e4beffbde64a44826f801112af23909968fc4"
+        },
+        {
+          "file_sha256": "7fb25528d4d0a4a9227a0cab19b0c277255692d42f19f82f10692905778c9ddc",
+          "path": "cold_archive/receipts/f3b2f4fc231233808179db4ff1e238709fc294ea3b61f7febfd1d48fed1c9c4c.json",
+          "receipt_hash": "f3b2f4fc231233808179db4ff1e238709fc294ea3b61f7febfd1d48fed1c9c4c"
+        },
+        {
+          "file_sha256": "71c09e7b22e8ce0972237f4e0ac436383026a10c23d8ea89a0053130886d2bea",
+          "path": "cold_archive/receipts/094c4e13ae0a3d85bbd90033bf2bece67558f9e5c635250175cc6d6dba6364e9.json",
+          "receipt_hash": "094c4e13ae0a3d85bbd90033bf2bece67558f9e5c635250175cc6d6dba6364e9"
+        },
+        {
+          "file_sha256": "6613bc26a4399c4eae1506e7333f4b783796f8e9e64c3ad1a5a2ec39735aa59d",
+          "path": "cold_archive/receipts/0b372a64a184fa904837aa1e97a70a1495e4bf7a8f866cd44d8e26c4c9828e54.json",
+          "receipt_hash": "0b372a64a184fa904837aa1e97a70a1495e4bf7a8f866cd44d8e26c4c9828e54"
+        },
+        {
+          "file_sha256": "12f584068c762ba9bb2387088941f5cc2d330619829b3e5035cb9dedd937e71d",
+          "path": "cold_archive/receipts/bd6a4c79384cb0e8f8577d7ba12a44a0d7bb109897ff7382f307b324af6de4fa.json",
+          "receipt_hash": "bd6a4c79384cb0e8f8577d7ba12a44a0d7bb109897ff7382f307b324af6de4fa"
+        }
+      ],
+      "run_id": "candidate-admission-demo",
+      "schema": "openline.half-life.archive-manifest.v1",
+      "source_anchor_hash": "d4e46f21e9e1187ddfdd1e9a0baffc1d05aed295062b0bf05281159001db937b",
+      "source_chain_count": 8,
+      "source_chain_digest": "0d020c3eb94b3cace5c565f5bd35ada3be0a57c1424acf770e8c6a3c26c5926e",
+      "source_chain_tail_hash": "bd6a4c79384cb0e8f8577d7ba12a44a0d7bb109897ff7382f307b324af6de4fa",
+      "source_receipts_permanently_deleted": false
+    },
+    "receipt_hash": "82cd029ff31cc8334ea0fa531aa2541db899b14e89e2e9521f377a398bc32299",
+    "schema": "openline.half-life.receipt.v2",
+    "signature": "1XX/iBkqtWX3SrELeLJTdS9sS0C4Mn+qH4Zp3rAhAI5kg/T2ODd92GdCGHxfoVYm4H1w1gU1nNniH0oIYb18Dg==",
+    "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+  },
+  "artifact_hashes": {
+    "admission_receipt.json": "cda1a1b34241086317151e96f6dee51885fd94bec7d5d6b7b7d517056b11be24",
+    "archive_manifest.json": "32c15baf7b573667277ceb64fb064e30a1f8af0300f627ab2ea5784c210a800f",
+    "candidate.json": "1810c07ceb2a3ea2adee0c824eaa531fdc29233ecf2ac994e6fe7d0221fed022",
+    "candidate_manifest.json": "e9b02f7864c885e55ac5341b2dda91c82b18ecf5a83d17b487e01e0a1f0f34e6",
+    "checkpoint.json": "d7c73603158e1f894efdc3dd599a585c3a969ec03061e3e255482e571d57690d",
+    "compact_state.json": "536bfbd1de3941737f932f3f1ff07e589f8ef28b8903b4acf8a7436b84a646d7",
+    "compaction_policy.json": "1cff9e5a276080c86fde7fc167764fbabb9c795d6dca62282fbb907cd75c466a",
+    "decision_equivalence_report.json": "4e8e157ad739ae04eff1c14504aaf62d2a24f913e5f906c77e3072bfaac5915f",
+    "full_history_handoff.json": "9c0d51f0be8f52c6716eb4b342d308a2b94a17a2270b8ee1da3d1063e5fc71cf",
+    "operator_approval.json": "0f98209475b9b7a673d50f3f69fc6627ae829b3face1d0a47477cbd722be9bce"
+  },
+  "bundle_hash": "365d3e8f819ea7de85984bfcb8571708d97b108d75a02a48115bf1b987f2b0fc",
+  "input_hashes": {
+    "candidate_manifest_sha256": "e9b02f7864c885e55ac5341b2dda91c82b18ecf5a83d17b487e01e0a1f0f34e6",
+    "candidate_sha256": "1810c07ceb2a3ea2adee0c824eaa531fdc29233ecf2ac994e6fe7d0221fed022",
+    "trajectory_sha256": "64da15274885aaa17692889c827660acbddf938da8b20988b4e8649a62b108cc"
+  },
+  "operator_approval_hash": "4394ca7d380471d5b9e8c0ba6e916ecaaddd21d21dcb35f89e7052909858f8fd",
+  "policy_hash": "e6b6f19e7f29ac3e0bdd0e9e6ac98815db42482da319a49d95f2685de30ef86e",
+  "schema": "openline.half-life.admission-receipt-bundle.v1",
+  "source_anchor": {
+    "anchor_hash": "d4e46f21e9e1187ddfdd1e9a0baffc1d05aed295062b0bf05281159001db937b",
+    "chain_digest": "0d020c3eb94b3cace5c565f5bd35ada3be0a57c1424acf770e8c6a3c26c5926e",
+    "expected_count": 8,
+    "expected_tail_hash": "bd6a4c79384cb0e8f8577d7ba12a44a0d7bb109897ff7382f307b324af6de4fa",
+    "schema": "openline.half-life.anchor.v2",
+    "signature": "oQqter51kWElnlj47Dv0INTXRmrbGL5X9S4l85qPNu0HulwM0Mvbdtz0+aguJ5pP6a0auEtj0llXnWjYa6nZCA==",
+    "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+  },
+  "source_chain": [
+    {
+      "index": 0,
+      "kind": "trajectory_turn",
+      "parent_hash": null,
+      "payload": {
+        "run_id": "candidate-admission-demo",
+        "turn": 1,
+        "turn_hash": "e32bf4a13c7f08199a0e5b23ea394a21c2fb2b877301fa828e49b2ae858414c1",
+        "turn_record": {
+          "claims": [
+            {
+              "evidence_refs": [
+                "ev-region-1"
+              ],
+              "id": "claim-region-1",
+              "last_verified_turn": 1,
+              "material": true,
+              "slot": "deployment_region",
+              "support_status": "supported",
+              "value": "us-west-2"
+            },
+            {
+              "evidence_refs": [
+                "ev-batch-1"
+              ],
+              "id": "claim-batch-1",
+              "last_verified_turn": 1,
+              "material": true,
+              "slot": "max_batch_size",
+              "support_status": "supported",
+              "value": "300"
+            }
+          ],
+          "constraints": [
+            {
+              "active": true,
+              "evidence_refs": [
+                "ev-constraint-1"
+              ],
+              "id": "c-budget",
+              "last_verified_turn": 1,
+              "text": "Batch cost must stay under the budget cap."
+            }
+          ],
+          "cost": {
+            "input_tokens": 101,
+            "output_tokens": 21
+          },
+          "evidence": [
+            {
+              "expires_after_turns": 100,
+              "id": "ev-region-1",
+              "observed_turn": 1,
+              "sha256": "1f94f87ee73de6fe20b5504446d85b67280669fa4da65ec7b3aeeee8bcda0575"
+            },
+            {
+              "expires_after_turns": 100,
+              "id": "ev-batch-1",
+              "observed_turn": 1,
+              "sha256": "1c4ff1c2e573494b4e48cb287199b542cf80446abd7d8fa54bfb925cedc511ca"
+            },
+            {
+              "expires_after_turns": 100,
+              "id": "ev-constraint-1",
+              "observed_turn": 1,
+              "sha256": "4597f7538a74eb3dec7eb7fa33544c83912980dbb554e369c3e2efabd8398bc0"
+            },
+            {
+              "expires_after_turns": 100,
+              "id": "ev-outcome-1",
+              "observed_turn": 1,
+              "sha256": "b0fe0f9601b3f2352be3b91e5e27e8a197394c5251494033c8665377d327fd61"
+            }
+          ],
+          "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+          "outcomes": [
+            {
+              "confirmed": true,
+              "evidence_refs": [
+                "ev-outcome-1"
+              ],
+              "id": "o-cutover",
+              "text": "Cutover completed."
+            }
+          ],
+          "run_id": "candidate-admission-demo",
+          "schema": "openline.half-life.turn.v2",
+          "summary": "Admission fixture turn 1.",
+          "turn": 1,
+          "unresolved_questions": [
+            "What is the post-cutover latency under peak load?"
+          ]
+        }
+      },
+      "receipt_hash": "af2956c6c17a3311e798b2227de6c0a31d72fc53369964e3cc7687baa47cc7f9",
+      "schema": "openline.half-life.receipt.v2",
+      "signature": "YPH1UeikWge++/NdOdG5hDICZO0+hcNuY6XGKKmi8EINS2W79vc0vn370OVvkcr74DN7YB/cR2WCIiGbxYx8CQ==",
+      "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+    },
+    {
+      "index": 1,
+      "kind": "trajectory_turn",
+      "parent_hash": "af2956c6c17a3311e798b2227de6c0a31d72fc53369964e3cc7687baa47cc7f9",
+      "payload": {
+        "run_id": "candidate-admission-demo",
+        "turn": 2,
+        "turn_hash": "19ffdf4ed72acaf08f1c8e452e52f33e9a3718db79ef46dc52495b474932461e",
+        "turn_record": {
+          "claims": [
+            {
+              "evidence_refs": [
+                "ev-region-2"
+              ],
+              "id": "claim-region-2",
+              "last_verified_turn": 2,
+              "material": true,
+              "slot": "deployment_region",
+              "support_status": "supported",
+              "value": "us-east-1"
+            }
+          ],
+          "constraints": [],
+          "cost": {
+            "input_tokens": 102,
+            "output_tokens": 22
+          },
+          "evidence": [
+            {
+              "expires_after_turns": 100,
+              "id": "ev-region-2",
+              "observed_turn": 2,
+              "sha256": "917898e674fb42fcb364290d72a45c0dc9b07469ce3ec02c43199b9889cbe978"
+            }
+          ],
+          "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+          "outcomes": [],
+          "run_id": "candidate-admission-demo",
+          "schema": "openline.half-life.turn.v2",
+          "summary": "Admission fixture turn 2.",
+          "turn": 2,
+          "unresolved_questions": [
+            "What is the post-cutover latency under peak load?"
+          ]
+        }
+      },
+      "receipt_hash": "1d55fbb3ec5a9977e4108193e55751a020a41c5f00cad91e83c7d7dab2028b0e",
+      "schema": "openline.half-life.receipt.v2",
+      "signature": "GYqAMMIIMG5dBmWANctSCn7wdttR4fplzvpY6F0G0EJk31qM9unalNY3Xp61C8FtNX1e8nxB7eEe1peet+zKAA==",
+      "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+    },
+    {
+      "index": 2,
+      "kind": "trajectory_turn",
+      "parent_hash": "1d55fbb3ec5a9977e4108193e55751a020a41c5f00cad91e83c7d7dab2028b0e",
+      "payload": {
+        "run_id": "candidate-admission-demo",
+        "turn": 3,
+        "turn_hash": "c5fe6d28811b2eaa8176596810dde0ca0060cb5ea619d990b7750449de9ccb17",
+        "turn_record": {
+          "claims": [
+            {
+              "evidence_refs": [
+                "ev-flag-3"
+              ],
+              "id": "claim-flag-3",
+              "last_verified_turn": 3,
+              "material": true,
+              "slot": "experimental_flag",
+              "support_status": "unsupported",
+              "value": true
+            }
+          ],
+          "constraints": [],
+          "cost": {
+            "input_tokens": 103,
+            "output_tokens": 23
+          },
+          "evidence": [
+            {
+              "expires_after_turns": 100,
+              "id": "ev-flag-3",
+              "observed_turn": 3,
+              "sha256": "2c1e0735d7e35c5f619b8155e1bbebb97131543c88fb62de4e862636d714fd00"
+            },
+            {
+              "expires_after_turns": 100,
+              "id": "ev-outcome-3",
+              "observed_turn": 3,
+              "sha256": "5bca6b77edcab4c9ef0f7eeb87be88cbcebd0e8a40016496ea64e8a3c1748d7f"
+            }
+          ],
+          "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+          "outcomes": [
+            {
+              "confirmed": false,
+              "evidence_refs": [
+                "ev-outcome-3"
+              ],
+              "id": "o-rollback",
+              "text": "Rollback executed."
+            }
+          ],
+          "run_id": "candidate-admission-demo",
+          "schema": "openline.half-life.turn.v2",
+          "summary": "Admission fixture turn 3.",
+          "turn": 3,
+          "unresolved_questions": [
+            "What is the post-cutover latency under peak load?"
+          ]
+        }
+      },
+      "receipt_hash": "c76fa87c18c84411b6a34acb61458cfe8c8d4c70546a812dd7308935a77ebac0",
+      "schema": "openline.half-life.receipt.v2",
+      "signature": "kBZ2N6QbBAgdpzY+7V4PuJgYrg1TMibfWZlpQEOEj+oNwHHM2Sd6kz3MzyteseX1eVMKybtfFoomqSpDiMhICQ==",
+      "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+    },
+    {
+      "index": 3,
+      "kind": "trajectory_turn",
+      "parent_hash": "c76fa87c18c84411b6a34acb61458cfe8c8d4c70546a812dd7308935a77ebac0",
+      "payload": {
+        "run_id": "candidate-admission-demo",
+        "turn": 4,
+        "turn_hash": "0a1d8b2e966f352a25530a6f51acc50033c3e23f49fa7edbd1ee34cde526bbcb",
+        "turn_record": {
+          "claims": [
+            {
+              "evidence_refs": [
+                "ev-ttl-4"
+              ],
+              "id": "claim-ttl-4a",
+              "last_verified_turn": 4,
+              "material": true,
+              "slot": "cache_ttl",
+              "support_status": "supported",
+              "value": "60"
+            },
+            {
+              "evidence_refs": [
+                "ev-ttl-4"
+              ],
+              "id": "claim-ttl-4b",
+              "last_verified_turn": 4,
+              "material": true,
+              "slot": "cache_ttl",
+              "support_status": "supported",
+              "value": "120"
+            }
+          ],
+          "constraints": [],
+          "cost": {
+            "input_tokens": 104,
+            "output_tokens": 24
+          },
+          "evidence": [
+            {
+              "expires_after_turns": 100,
+              "id": "ev-ttl-4",
+              "observed_turn": 4,
+              "sha256": "520f861a46630c80ef4ba25bad5ae237311efd6b7c9dca1b3eb11540c8a3df2e"
+            }
+          ],
+          "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+          "outcomes": [],
+          "run_id": "candidate-admission-demo",
+          "schema": "openline.half-life.turn.v2",
+          "summary": "Admission fixture turn 4.",
+          "turn": 4,
+          "unresolved_questions": [
+            "What is the post-cutover latency under peak load?"
+          ]
+        }
+      },
+      "receipt_hash": "a212fb83fe8df6aa3b9d06e8374e4beffbde64a44826f801112af23909968fc4",
+      "schema": "openline.half-life.receipt.v2",
+      "signature": "evkGfTBymPzAOr4/RssLe1klIV60Ltsef//TBs5F6w0S/S+CNZfSwbvDdDe34dBy04vIWZ95OTH1hk3UsFp7Dg==",
+      "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+    },
+    {
+      "index": 4,
+      "kind": "trajectory_turn",
+      "parent_hash": "a212fb83fe8df6aa3b9d06e8374e4beffbde64a44826f801112af23909968fc4",
+      "payload": {
+        "run_id": "candidate-admission-demo",
+        "turn": 5,
+        "turn_hash": "ae06a6e8ee9cc0b7f25f8120f1678a8d584ef936df40726779b4ea0dabaa8955",
+        "turn_record": {
+          "claims": [],
+          "constraints": [
+            {
+              "active": false,
+              "evidence_refs": [
+                "ev-constraint-5"
+              ],
+              "id": "c-legacy",
+              "last_verified_turn": 5,
+              "text": "Legacy endpoint must remain reachable."
+            }
+          ],
+          "cost": {
+            "input_tokens": 105,
+            "output_tokens": 25
+          },
+          "evidence": [
+            {
+              "expires_after_turns": 100,
+              "id": "ev-constraint-5",
+              "observed_turn": 5,
+              "sha256": "57b0e6bd59d5fa3432b96245648056192837497ba3e9b3bee13ac6627b83e55b"
+            }
+          ],
+          "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+          "outcomes": [],
+          "run_id": "candidate-admission-demo",
+          "schema": "openline.half-life.turn.v2",
+          "summary": "Admission fixture turn 5.",
+          "turn": 5,
+          "unresolved_questions": [
+            "What is the post-cutover latency under peak load?",
+            "Who owns the legacy endpoint decommission decision?"
+          ]
+        }
+      },
+      "receipt_hash": "f3b2f4fc231233808179db4ff1e238709fc294ea3b61f7febfd1d48fed1c9c4c",
+      "schema": "openline.half-life.receipt.v2",
+      "signature": "pBG2315JQOBbPY34lvkGecgjZBt2Ryaz714IDRqpJZJvACYM32++6XofbY1o/N4LtDIXJZrBBFkcSCLPvQqAAg==",
+      "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+    },
+    {
+      "index": 5,
+      "kind": "trajectory_turn",
+      "parent_hash": "f3b2f4fc231233808179db4ff1e238709fc294ea3b61f7febfd1d48fed1c9c4c",
+      "payload": {
+        "run_id": "candidate-admission-demo",
+        "turn": 6,
+        "turn_hash": "c748cc60c98a9a0602bda02501c824ea5dbafa7b9f7b8edc53c41769b1cc6d33",
+        "turn_record": {
+          "claims": [],
+          "constraints": [],
+          "cost": {
+            "input_tokens": 106,
+            "output_tokens": 26
+          },
+          "evidence": [],
+          "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+          "outcomes": [],
+          "run_id": "candidate-admission-demo",
+          "schema": "openline.half-life.turn.v2",
+          "summary": "Admission fixture turn 6.",
+          "turn": 6,
+          "unresolved_questions": [
+            "What is the post-cutover latency under peak load?",
+            "Who owns the legacy endpoint decommission decision?"
+          ]
+        }
+      },
+      "receipt_hash": "094c4e13ae0a3d85bbd90033bf2bece67558f9e5c635250175cc6d6dba6364e9",
+      "schema": "openline.half-life.receipt.v2",
+      "signature": "ej/qwEWEGnHCj17RaYnjeO/z7K1mjC3ls9DNDk5tAZ1P/uupJjhlnbC4YJQbUDpHAUj2v1tog665L8wFyLE6Bg==",
+      "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+    },
+    {
+      "index": 6,
+      "kind": "compaction_policy_binding",
+      "parent_hash": "094c4e13ae0a3d85bbd90033bf2bece67558f9e5c635250175cc6d6dba6364e9",
+      "payload": {
+        "policy_hash": "e6b6f19e7f29ac3e0bdd0e9e6ac98815db42482da319a49d95f2685de30ef86e",
+        "policy_public_key": "a09aa5f47a6759802ff955f8dc2d2a14a5c99d23be97f864127ff9383455a4f0",
+        "run_id": "candidate-admission-demo"
+      },
+      "receipt_hash": "0b372a64a184fa904837aa1e97a70a1495e4bf7a8f866cd44d8e26c4c9828e54",
+      "schema": "openline.half-life.receipt.v2",
+      "signature": "i4tyrs5fVjqjmlDDWO6rOmc7t0uUcX5VxX9BU4UlWceI5sO62j4Fh6pK37yWZUIF3G0OrdY/klZDFeX19K4VCA==",
+      "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+    },
+    {
+      "index": 7,
+      "kind": "checkpoint",
+      "parent_hash": "0b372a64a184fa904837aa1e97a70a1495e4bf7a8f866cd44d8e26c4c9828e54",
+      "payload": {
+        "checkpoint_hash": "e99be6dabc07483aadcf43f8e86206a7862b491b8005e8d2ddaf118676ccc064",
+        "checkpoint_turn": 6,
+        "run_id": "candidate-admission-demo"
+      },
+      "receipt_hash": "bd6a4c79384cb0e8f8577d7ba12a44a0d7bb109897ff7382f307b324af6de4fa",
+      "schema": "openline.half-life.receipt.v2",
+      "signature": "1mylNnazh6dEQmfk2HSl8Cq4CUCLIj+NeYNs02Ophrcfeg/HrdBquaKS+8m129QBFtAqtW/bRwEZ22ivR5onCQ==",
+      "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+    }
+  ]
+}

@@ -10,8 +10,9 @@ from typing import Any, Mapping
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 
 from . import __version__
+from .candidate_admission import ADMISSION_REJECTION_SCHEMA, AdmissionRejected
 from .compaction import build_policy_body, sign_policy
-from .pipeline import run_pipeline, verify_output_directory
+from .pipeline import admit_pipeline, run_pipeline, verify_admission_output_directory, verify_output_directory
 
 
 def _resource(stack: ExitStack, *parts: str) -> Path:
@@ -26,6 +27,26 @@ def _load_keys(path: Path) -> set[str]:
 def _private_key(path: Path) -> Ed25519PrivateKey:
     text = path.read_text(encoding="ascii").strip()
     return Ed25519PrivateKey.from_private_bytes(bytes.fromhex(text))
+
+
+def _admission_summary(result: Mapping[str, Any]) -> str:
+    ratio = int(result["active_size_ratio_micros"]) / 10_000
+    return "\n".join([
+        f"External candidate admitted at turn {result['checkpoint_turn']}.",
+        f"Independent replay mismatches: {result['decision_mismatch_count']}.",
+        f"Candidate hash: {result['candidate_hash']}.",
+        f"Compact state: {ratio:.1f}% of the verified source receipt chain.",
+        f"Archived receipts recovered: {result['archive_receipt_count']}.",
+        f"Output: {Path(str(result['output_dir'])).resolve()}",
+    ])
+
+
+def _rejection_summary(report: Mapping[str, Any]) -> str:
+    return "\n".join([
+        "Candidate REJECTED; no admitted state was produced.",
+        f"Reason codes: {', '.join(report['reason_codes'])}.",
+        f"Mismatches: {len(report.get('mismatches', []))}.",
+    ])
 
 
 def _summary(result: Mapping[str, Any]) -> str:
@@ -60,6 +81,19 @@ def main(argv: list[str] | None = None) -> int:
     verify.add_argument("output_dir", type=Path)
     verify.add_argument("--compaction-policy-public-key", type=Path, required=True)
 
+    admit = sub.add_parser("admit", help="admit an externally produced compact-state candidate under the existing independent replay boundary")
+    admit.add_argument("trajectory", type=Path)
+    admit.add_argument("--candidate", type=Path, required=True)
+    admit.add_argument("--manifest", type=Path, required=True)
+    admit.add_argument("--compaction-policy", type=Path, required=True)
+    admit.add_argument("--compaction-policy-public-key", type=Path, required=True)
+    admit.add_argument("--source-signing-key", type=Path, required=True)
+    admit.add_argument("--operator-approval-signing-key", type=Path, required=True)
+    admit.add_argument("--replay-latency-micros", type=int, required=True)
+    admit.add_argument("--operator-disposition", choices=["APPROVE", "DENY"], default="APPROVE")
+    admit.add_argument("--out", type=Path, required=True)
+    admit.add_argument("--json", action="store_true")
+
     demo = sub.add_parser("demo", help="run the bundled deterministic compaction example")
     demo.add_argument("--out", type=Path, default=Path("build/demo"))
     demo.add_argument("--replay-latency-micros", type=int, default=75_000)
@@ -82,7 +116,35 @@ def main(argv: list[str] | None = None) -> int:
             operator_disposition=args.operator_disposition,
         )
     elif args.command == "verify":
-        result = verify_output_directory(args.output_dir, expected_policy_public_keys=_load_keys(args.compaction_policy_public_key))
+        output_dir = args.output_dir
+        if (output_dir / "admission_receipt.json").is_file():
+            result = verify_admission_output_directory(output_dir, expected_policy_public_keys=_load_keys(args.compaction_policy_public_key))
+        else:
+            result = verify_output_directory(output_dir, expected_policy_public_keys=_load_keys(args.compaction_policy_public_key))
+    elif args.command == "admit":
+        try:
+            result = admit_pipeline(
+                args.trajectory,
+                args.candidate,
+                args.manifest,
+                args.source_signing_key,
+                args.out,
+                compaction_policy_path=args.compaction_policy,
+                compaction_policy_public_key_path=args.compaction_policy_public_key,
+                operator_approval_signing_key_path=args.operator_approval_signing_key,
+                replay_latency_micros=args.replay_latency_micros,
+                operator_disposition=args.operator_disposition,
+            )
+        except AdmissionRejected as rejected:
+            args.out.mkdir(parents=True, exist_ok=True)
+            rejection_path = args.out / "admission_rejection.json"
+            rejection_path.write_text(json.dumps(rejected.report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+            if args.json:
+                print(json.dumps({**rejected.report, "rejection_path": str(rejection_path)}, indent=2, sort_keys=True))
+            else:
+                print(_rejection_summary(rejected.report))
+                print(f"Rejection report: {rejection_path.resolve()}")
+            return 1
     elif args.command == "build-demo-policy":
         with ExitStack() as stack:
             source_key = _private_key(_resource(stack, "data", "fixtures", "demo_source_signing_key.hex"))
@@ -107,9 +169,12 @@ def main(argv: list[str] | None = None) -> int:
                 operator_approval_signing_key_path=_resource(stack, "data", "fixtures", "demo_operator_approval_key.hex"),
                 replay_latency_micros=args.replay_latency_micros,
             )
-    if args.command in {"run", "demo"} and not args.json:
-        print(_summary(result))
+    if args.command in {"run", "demo", "admit"} and not args.json:
+        if args.command == "admit":
+            print(_admission_summary(result))
+        else:
+            print(_summary(result))
     else:
         print(json.dumps(result, indent=2, sort_keys=True))
-    valid = result.get("passed") is True if args.command in {"run", "demo"} else result.get("valid", True) is True
+    valid = result.get("passed") is True if args.command in {"run", "demo", "admit"} else result.get("valid", True) is True
     return 0 if valid else 1
