@@ -13,6 +13,7 @@ from .candidate_admission import (
     AdmissionRejected,
     candidate_state_hash,
     check_candidate,
+    check_evidence_closure,
     check_manifest,
     verify_candidate_manifest,
 )
@@ -34,7 +35,7 @@ from .compaction import (
     archive_source_chain,
 )
 from .receipts import ReceiptSigner, chain_digest, create_anchor, create_chain, create_receipt, verify_anchor, verify_chain
-from .reference_replay import reference_projection
+from .reference_replay import reference_projection, source_evidence_index
 from .schema import load_trajectory
 from .util import canonical_json, load_json, sha256_bytes, sha256_file, write_json
 
@@ -516,6 +517,23 @@ def admit_pipeline(
             candidate=candidate,
             manifest=manifest,
             mismatches=equivalence["mismatches"],
+        )
+
+    # Evidence closure: every evidence ID cited by the candidate's protected
+    # state must resolve to a carried evidence object identical to the
+    # source-bound evidence. This is independent of the decision-equivalence
+    # match above, which only compares cited IDs, never the evidence objects.
+    closure = check_evidence_closure(candidate, source_evidence_index(turns, checkpoint_turn))
+    if closure["valid"] is not True:
+        raise _reject(
+            ["evidence_closure_failed"],
+            closure["errors"],
+            run_id=run_id,
+            checkpoint_turn=checkpoint_turn,
+            checkpoint_hash=checkpoint["checkpoint_hash"],
+            candidate=candidate,
+            manifest=manifest,
+            mismatches=closure["mismatches"],
         )
 
     # Admission accepted. From here on Half-Life adds only receiver-owned

@@ -25,6 +25,12 @@ from typing import Any, Mapping
 
 from .util import canonical_json, sha256_bytes
 
+# Item collections whose per-item evidence_refs count as protected references
+# the admitted compact state relies on. Matches the internal compactor's
+# used_refs semantics (compaction.py): supported claims, live constraints,
+# confirmed outcomes.
+EVIDENCE_CITING_COLLECTIONS = ("supported_claims", "current_constraints", "confirmed_outcomes")
+
 CANDIDATE_STATE_SCHEMA = "openline.half-life.candidate-state.v1"
 CANDIDATE_MANIFEST_SCHEMA = "openline.half-life.candidate-manifest.v1"
 ADMISSION_RECEIPT_SCHEMA = "openline.half-life.candidate-admission.v1"
@@ -253,3 +259,64 @@ def verify_candidate_manifest(
     if manifest.get("source_turns_hash") != checkpoint.get("source_turns_hash"):
         errors.append("source_turns_binding_mismatch")
     return {"valid": not errors, "errors": errors}
+
+
+def check_evidence_closure(
+    candidate: Mapping[str, Any],
+    source_evidence: Mapping[str, Mapping[str, Any]],
+) -> dict[str, Any]:
+    """Independent evidence-closure check for candidate admission.
+
+    Every evidence ID cited by the candidate's protected state
+    (supported_claims, current_constraints, confirmed_outcomes) must resolve
+    to an evidence object carried in the candidate's top-level
+    `evidence_references` that is content-identical (canonical JSON) to the
+    source-bound evidence from the verified source history.
+
+    The comparison is against the source history, never against the
+    producer's claims and never against Half-Life's own compactor output:
+    ordering and serialization may differ; canonicalization applies.
+
+    Returns {"valid": bool, "errors": [...], "mismatches": [...]}.
+    A failing candidate is rejected, never repaired.
+    """
+    mismatches: list[dict[str, Any]] = []
+
+    cited: set[str] = set()
+    for key in EVIDENCE_CITING_COLLECTIONS:
+        items = candidate.get(key)
+        if not isinstance(items, list):
+            continue
+        for item in items:
+            if isinstance(item, Mapping):
+                for ref in item.get("evidence_refs") or []:
+                    if isinstance(ref, str):
+                        cited.add(ref)
+
+    carried: dict[str, list[str]] = {}
+    evidence_references = candidate.get("evidence_references")
+    if isinstance(evidence_references, list):
+        for item in evidence_references:
+            if isinstance(item, Mapping) and isinstance(item.get("id"), str):
+                carried.setdefault(item["id"], []).append(canonical_json(item))
+
+    for ref in sorted(cited):
+        variants = carried.get(ref)
+        if not variants:
+            mismatches.append({"evidence_id": ref, "reason": "evidence_not_carried"})
+            continue
+        if len(set(variants)) > 1:
+            mismatches.append({"evidence_id": ref, "reason": "evidence_ambiguous"})
+            continue
+        source = source_evidence.get(ref)
+        if source is None:
+            mismatches.append({"evidence_id": ref, "reason": "evidence_not_in_source"})
+            continue
+        if variants[0] != canonical_json(source):
+            mismatches.append({"evidence_id": ref, "reason": "evidence_altered"})
+
+    errors = [
+        f"evidence_closure:{entry['reason']}:{entry['evidence_id']}"
+        for entry in mismatches
+    ]
+    return {"valid": not mismatches, "errors": errors, "mismatches": mismatches}

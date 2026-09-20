@@ -16,10 +16,11 @@ Family (discrete, semantic-preserving; no decorative epsilon scalar):
                              candidate re-manifested at checkpoint_turn=7
                              -> must ADMIT
   P5 emptied evidence refs    candidate with evidence_references=[] (not part
-                             of the projection) -> must ADMIT
+                             of the projection) -> must REFUSE (002 regression:
+                             the 001 falsifier; evidence_closure_failed)
 
-Success: ADMIT with zero decision mismatches for all five. Any REJECT is a
-failed attack, reported exactly as observed.
+Success: ADMIT with zero decision mismatches for P1-P4, REFUSE with
+evidence_closure_failed for P5. Any deviation is reported exactly as observed.
 """
 from __future__ import annotations
 
@@ -29,7 +30,7 @@ from pathlib import Path
 
 import pytest
 
-from openline_half_life.candidate_admission import build_candidate_manifest, candidate_state_hash
+from openline_half_life.candidate_admission import AdmissionRejected, build_candidate_manifest, candidate_state_hash
 from openline_half_life.compaction import build_checkpoint
 from openline_half_life.pipeline import admit_pipeline, verify_admission_output_directory
 from openline_half_life.schema import load_trajectory
@@ -149,9 +150,14 @@ def test_p4_summary_only_later_turn_still_admits(tmp_path):
     _assert_admitted(tmp_path, result)
 
 
-def test_p5_emptied_evidence_refs_still_admit(tmp_path):
+def test_p5_emptied_evidence_refs_now_refused(tmp_path):
+    # 001 froze this as the central falsifier: an emptied evidence_references
+    # collection was admitted as equivalent. Under the evidence-closure
+    # contract it must be refused; the frozen expectation changed accordingly.
     candidate = _good_candidate()
     candidate = {**candidate, "evidence_references": []}
     candidate_path = _write_variant(tmp_path, "p5", (json.dumps(candidate, indent=2, sort_keys=True) + "\n").encode("utf-8"))
     manifest_path = _write_manifest(tmp_path, "p5", candidate, _checkpoint())
-    _assert_admitted(tmp_path, _admit(candidate_path, manifest_path, tmp_path))
+    with pytest.raises(AdmissionRejected) as exc_info:
+        _admit(candidate_path, manifest_path, tmp_path)
+    assert "evidence_closure_failed" in exc_info.value.reason_codes

@@ -30,6 +30,21 @@ def _claim_tombstone_identity(claim: Mapping[str, Any], status: str) -> str:
     return f"claim:{claim['slot']}:{sha256_bytes(canonical_json(claim['value']))}:{status}"
 
 
+def source_evidence_index(turns: Sequence[Mapping[str, Any]], checkpoint_turn: int) -> dict[str, dict[str, Any]]:
+    """Source-bound evidence index at a checkpoint: id -> evidence object.
+
+    Public view of the same index `reference_projection` reasons over
+    (later turns winning). The evidence-closure check compares carried
+    candidate evidence against this index, never against a producer's
+    preservation report.
+    """
+    normalized = [validate_turn(item, expected_turn=index) for index, item in enumerate(turns, 1)]
+    selected = [item for item in normalized if int(item["turn"]) <= checkpoint_turn]
+    if not selected or int(selected[-1]["turn"]) != checkpoint_turn:
+        raise ValueError("checkpoint turn not present")
+    return _evidence_index(selected, checkpoint_turn)
+
+
 def reference_projection(turns: Sequence[Mapping[str, Any]], checkpoint_turn: int) -> dict[str, Any]:
     normalized = [validate_turn(item, expected_turn=index) for index, item in enumerate(turns, 1)]
     selected = [item for item in normalized if int(item["turn"]) <= checkpoint_turn]
