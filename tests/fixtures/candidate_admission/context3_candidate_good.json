@@ -1,0 +1,121 @@
+{
+  "checkpoint_turn": 6,
+  "confirmed_outcomes": [
+    {
+      "confirmed": true,
+      "evidence_refs": [
+        "ev-outcome-1"
+      ],
+      "id": "o-cutover",
+      "text": "Cutover completed."
+    }
+  ],
+  "contradictions": [
+    {
+      "claim_ids": [
+        "claim-flag-3a",
+        "claim-flag-3b"
+      ],
+      "id": "claim-slot:cache_ttl:3",
+      "kind": "conflicting_supported_claims",
+      "slot": "cache_ttl",
+      "status": "unresolved"
+    }
+  ],
+  "current_constraints": [
+    {
+      "active": true,
+      "evidence_refs": [
+        "ev-c-short"
+      ],
+      "id": "c-live",
+      "last_verified_turn": 5,
+      "text": "Batch cost must stay under the budget cap."
+    }
+  ],
+  "evidence_references": [
+    {
+      "expires_after_turns": 100,
+      "id": "ev-batch-1",
+      "observed_turn": 1,
+      "sha256": "1c4ff1c2e573494b4e48cb287199b542cf80446abd7d8fa54bfb925cedc511ca"
+    },
+    {
+      "expires_after_turns": 1,
+      "id": "ev-c-short",
+      "observed_turn": 5,
+      "sha256": "40d5464d8b0f3ee83cdabb3c1a89281ff46d477140edd4406a8d2bef3b6eca84"
+    },
+    {
+      "expires_after_turns": 100,
+      "id": "ev-outcome-1",
+      "observed_turn": 1,
+      "sha256": "b0fe0f9601b3f2352be3b91e5e27e8a197394c5251494033c8665377d327fd61"
+    },
+    {
+      "expires_after_turns": 100,
+      "id": "ev-region-2",
+      "observed_turn": 2,
+      "sha256": "917898e674fb42fcb364290d72a45c0dc9b07469ce3ec02c43199b9889cbe978"
+    }
+  ],
+  "objective": "Discriminate continued-use conditioning on evidence standing.",
+  "run_id": "context-admit-003",
+  "schema": "openline.half-life.candidate-state.v1",
+  "supported_claims": [
+    {
+      "evidence_refs": [
+        "ev-region-2"
+      ],
+      "id": "claim-region-2",
+      "last_verified_turn": 2,
+      "material": true,
+      "slot": "deployment_region",
+      "support_status": "supported",
+      "value": "us-east-1"
+    },
+    {
+      "evidence_refs": [
+        "ev-batch-1"
+      ],
+      "id": "claim-batch-1",
+      "last_verified_turn": 1,
+      "material": true,
+      "slot": "max_batch_size",
+      "support_status": "supported",
+      "value": "300"
+    }
+  ],
+  "tombstones": [
+    {
+      "identity": "claim:cache_ttl:68fec0473e988a1ef1c13c4f9b9a15cc67de203de8be796ce82ae4fd7b158e64:quarantined",
+      "item_id": "claim-flag-3a",
+      "item_type": "claim",
+      "slot": "cache_ttl",
+      "source_count": 1,
+      "status": "quarantined",
+      "value_hash": "68fec0473e988a1ef1c13c4f9b9a15cc67de203de8be796ce82ae4fd7b158e64"
+    },
+    {
+      "identity": "claim:cache_ttl:a76c84eb73a7eedc5a5b8889f914f1facd2ab014a8b7ebd72dc8c121cc654b60:quarantined",
+      "item_id": "claim-flag-3b",
+      "item_type": "claim",
+      "slot": "cache_ttl",
+      "source_count": 1,
+      "status": "quarantined",
+      "value_hash": "a76c84eb73a7eedc5a5b8889f914f1facd2ab014a8b7ebd72dc8c121cc654b60"
+    },
+    {
+      "identity": "claim:deployment_region:004fcf79011fef996338b69cd50c4f23d1ef7b6de102ea45769cf47e2262d2a6:superseded",
+      "item_id": "claim-region-1",
+      "item_type": "claim",
+      "slot": "deployment_region",
+      "source_count": 1,
+      "status": "superseded",
+      "value_hash": "004fcf79011fef996338b69cd50c4f23d1ef7b6de102ea45769cf47e2262d2a6"
+    }
+  ],
+  "unresolved_questions": [
+    "What is the post-cutover latency under peak load?"
+  ]
+}
