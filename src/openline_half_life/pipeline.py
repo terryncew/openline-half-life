@@ -7,6 +7,8 @@ from typing import Any, Mapping
 
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 
+from openline_half_life import __version__
+
 from .candidate_admission import (
     ADMISSION_RECEIPT_SCHEMA,
     ADMISSION_REJECTION_SCHEMA,
@@ -205,7 +207,7 @@ def run_pipeline(
         raise ValueError("generated output failed verification: " + ",".join(verification["errors"]))
     return {
         "schema": "openline.half-life.run-result.v2",
-        "version": "0.4.0rc2",
+        "version": __version__,
         "passed": True,
         "run_id": turns[0]["run_id"],
         "checkpoint_turn": checkpoint_turn,
@@ -633,7 +635,7 @@ def admit_pipeline(
         raise ValueError("generated admission output failed verification: " + ",".join(verification["errors"]))
     return {
         "schema": "openline.half-life.admission-result.v1",
-        "version": "0.4.0rc2",
+        "version": __version__,
         "passed": True,
         "accepted": True,
         "run_id": run_id,

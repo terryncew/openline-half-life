@@ -1,8 +1,11 @@
 # Changelog
 
-## Unreleased
+## 0.4.0rc3
 
 - Adds a compiler-neutral candidate-admission doorway. An externally produced compact-state candidate is admitted only when the existing independent decision replay says the receiver-required projection survived; candidates with corrupted protected state, mutated bytes, an altered manifest binding, or a wrong source binding are rejected deterministically with a rejection report and no admitted artifacts.
+- Enforces evidence closure on admission: every evidence reference relied on by protected carried state must resolve to a carried evidence object whose canonical content is identical to the source-bound evidence from the verified source history. The archive is not a substitute for required carried evidence state. Closure is canonical-content identity, not byte identity with Half-Life's own compiler output.
+- The admission doorway's frozen 001 experiment terminalized FAIL: a candidate that deleted required evidence-reference state while preserving citation IDs was admitted by the first doorway contract. The 001 counterexample remains frozen and visible at `evidence/frozen-failures/`; evidence closure was the repair, verified by the 002 discrimination set.
+- Adds a three-case context-admit discrimination (admit positive control with live constraint plus unresolved contradiction; refuse when either protected item is dropped; invalidate a previously admitted compact context when a required evidence dependency loses standing, with rehydration by re-admission). Continued-use conditioning on dependency standing is available to the receiver, not system-enforced.
 - Adds the `openline-half-life admit` CLI command and an `admission_receipt.json` binding the candidate, manifest, compact state, decision-equivalence report, source-chain digest, archive manifest, and artifact hashes.
 - `openline-half-life verify` detects admission output directories and verifies them independently of the producer.
 - Adds a preregistered perturbation attack (serialization reorder, canonical re-serialization, irrelevant item fields, summary-only later turn, emptied evidence references) that the boundary must survive.

@@ -57,7 +57,7 @@ def manifest_check() -> dict:
 
 
 def main() -> int:
-    checks: dict[str, object] = {"schema": "openline.half-life.release-check.v1", "version": "0.4.0rc2"}
+    checks: dict[str, object] = {"schema": "openline.half-life.release-check.v1", "version": "0.4.0rc3"}
     closure = manifest_check()
     checks["manifest"] = closure
     if not closure["passed"]:
@@ -126,7 +126,7 @@ def main() -> int:
         imported = run([sys.executable, "-c", "import openline_half_life; print(openline_half_life.__version__)"], cwd=tmp, env={"PYTHONPATH": str(site)}) if install and install.returncode == 0 else None
         installed_demo = run([sys.executable, "-m", "openline_half_life", "demo", "--out", str(tmp / "installed-demo"), "--json"], cwd=tmp, env={"PYTHONPATH": str(site)}) if imported and imported.returncode == 0 else None
         checks["wheel"] = {
-            "passed": wheel.returncode == 0 and len(wheels) == 1 and install is not None and install.returncode == 0 and imported is not None and imported.returncode == 0 and imported.stdout.strip() == "0.4.0rc2" and installed_demo is not None and installed_demo.returncode == 0,
+            "passed": wheel.returncode == 0 and len(wheels) == 1 and install is not None and install.returncode == 0 and imported is not None and imported.returncode == 0 and imported.stdout.strip() == "0.4.0rc3" and installed_demo is not None and installed_demo.returncode == 0,
             "build_returncode": wheel.returncode,
             "wheel_count": len(wheels),
             "setuptools_version": setuptools_version,
