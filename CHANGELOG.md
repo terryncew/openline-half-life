@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Adds a compiler-neutral candidate-admission doorway. An externally produced compact-state candidate is admitted only when the existing independent decision replay says the receiver-required projection survived; candidates with corrupted protected state, mutated bytes, an altered manifest binding, or a wrong source binding are rejected deterministically with a rejection report and no admitted artifacts.
+- Adds the `openline-half-life admit` CLI command and an `admission_receipt.json` binding the candidate, manifest, compact state, decision-equivalence report, source-chain digest, archive manifest, and artifact hashes.
+- `openline-half-life verify` detects admission output directories and verifies them independently of the producer.
+- Adds a preregistered perturbation attack (serialization reorder, canonical re-serialization, irrelevant item fields, summary-only later turn, emptied evidence references) that the boundary must survive.
+
 ## 0.4.0rc2
 
 - Fixes release verification after an editable install by excluding standard `*.egg-info/` packaging metadata from source-closure checks.

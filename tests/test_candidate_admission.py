@@ -25,7 +25,7 @@ from openline_half_life.pipeline import (
     verify_admission_output_directory,
 )
 from openline_half_life.schema import load_trajectory
-from openline_half_life.util import load_json, sha256_file
+from openline_half_life.util import load_json
 
 FIXTURES = Path(__file__).parent / "fixtures" / "candidate_admission"
 ROOT = Path(__file__).resolve().parents[1]
