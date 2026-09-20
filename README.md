@@ -77,6 +77,34 @@ Admission never repairs a candidate into correctness. The admitted compact state
 
 `openline-half-life verify` detects an admission output directory (by the presence of `admission_receipt.json`) and verifies it with the same independent checks: candidate and manifest integrity, checkpoint and source bindings, compact-state bindings, equivalence-report integrity with re-derivation of both decision hashes, archive reload, receipt and bundle tamper.
 
+## context-admit
+
+Agents compact context. A compact form can stay syntactically valid after a dependency it relies on changes. Two operations: admit this candidate, and later: is it still current?
+
+```bash
+context-admit admit path/to/history.jsonl \
+  --candidate path/to/candidate.json \
+  --manifest path/to/candidate_manifest.json \
+  --compaction-policy policy/compaction_policy.json \
+  --compaction-policy-public-key policy/compaction_policy_public_key.hex \
+  --source-signing-key path/to/source-signing-key.hex \
+  --operator-approval-signing-key path/to/operator-approval-key.hex \
+  --replay-latency-micros 75000 \
+  --out build/admission
+```
+
+context-admit does not intercept future model calls. A caller must check current standing before reusing an admitted compact context. If current history is missing or cannot be verified, the context is not treated as current.
+
+Before reusing the admitted context:
+
+```bash
+context-admit check build/admission \
+  --history path/to/current_history.jsonl \
+  --compaction-policy-public-key policy/compaction_policy_public_key.hex
+```
+
+`check` prints CURRENT or REHYDRATE_REQUIRED with reason codes. `admit` is a thin wrapper over the `openline-half-life admit` doorway: same independent replay, same evidence closure, same rejection codes. `check` reuses only existing machinery: the admitted package is verified, the current history is validated and bound to the admitted source handoff, and the admitted decision projection is compared against the independent reference projection at the current turn. Rehydration is recover or rebuild the candidate from preserved source and run `admit` again. Exit codes: 0 for accepted/current, 1 for refused/rehydration-required, 2 for apparatus errors. `--json` gives machine-readable output. The discrimination evidence is in `CONTEXT_ADMIT_PREREGISTRATION_003.md`.
+
 ## Trust boundary
 
 The policy signer, source-history signer, and operator-approval signer are separate trust roles. The policy pins the allowed source signer and operator-approval key. A valid signature from an unpinned key does not earn trust.
