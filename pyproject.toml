@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "openline-half-life"
-version = "0.4.0rc3"
+version = "0.4.0rc4"
 description = "Verified state compaction with independent replay and recoverable archives."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -17,6 +17,7 @@ dev = ["pytest>=8", "setuptools>=68"]
 
 [project.scripts]
 openline-half-life = "openline_half_life.cli:main"
+context-admit = "openline_half_life.context_admit:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

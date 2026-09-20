@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0rc4
+
+- Adds the `context-admit` CLI as a thin product adapter over the rc3 candidate-admission doorway. `context-admit admit` wraps the existing admission pipeline (same independent replay, same evidence closure, same rejection codes); the admitted-context artifact is the admission output directory. `context-admit check` is a caller-invoked current-standing check composed only of existing machinery: admitted-package verification, current-history validation and binding to the admitted source handoff, the independent reference projection at the current turn, the existing decision-equivalence comparison, and the existing evidence-closure check. Missing, malformed, incomplete, or unverifiable current history never yields CURRENT; standing is never inferred from the admitted artifact itself.
+- Exit codes: 0 for accepted/current, 1 for refused/rehydration-required, 2 for apparatus errors. `--json` gives machine-readable output. No rehydrate command: rehydration is recover or rebuild the candidate from preserved source and run `admit` again.
+- No compaction, replay, archive, policy, decision-equivalence, or evidence-closure semantics changed. rc3 remains the sealed historical incumbent.
+
 ## 0.4.0rc3
 
 - Adds a compiler-neutral candidate-admission doorway. An externally produced compact-state candidate is admitted only when the existing independent decision replay says the receiver-required projection survived; candidates with corrupted protected state, mutated bytes, an altered manifest binding, or a wrong source binding are rejected deterministically with a rejection report and no admitted artifacts.
