@@ -1,0 +1,33 @@
+{
+  "index": 5,
+  "kind": "trajectory_turn",
+  "parent_hash": "f3b2f4fc231233808179db4ff1e238709fc294ea3b61f7febfd1d48fed1c9c4c",
+  "payload": {
+    "run_id": "candidate-admission-demo",
+    "turn": 6,
+    "turn_hash": "c748cc60c98a9a0602bda02501c824ea5dbafa7b9f7b8edc53c41769b1cc6d33",
+    "turn_record": {
+      "claims": [],
+      "constraints": [],
+      "cost": {
+        "input_tokens": 106,
+        "output_tokens": 26
+      },
+      "evidence": [],
+      "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+      "outcomes": [],
+      "run_id": "candidate-admission-demo",
+      "schema": "openline.half-life.turn.v2",
+      "summary": "Admission fixture turn 6.",
+      "turn": 6,
+      "unresolved_questions": [
+        "What is the post-cutover latency under peak load?",
+        "Who owns the legacy endpoint decommission decision?"
+      ]
+    }
+  },
+  "receipt_hash": "094c4e13ae0a3d85bbd90033bf2bece67558f9e5c635250175cc6d6dba6364e9",
+  "schema": "openline.half-life.receipt.v2",
+  "signature": "ej/qwEWEGnHCj17RaYnjeO/z7K1mjC3ls9DNDk5tAZ1P/uupJjhlnbC4YJQbUDpHAUj2v1tog665L8wFyLE6Bg==",
+  "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+}

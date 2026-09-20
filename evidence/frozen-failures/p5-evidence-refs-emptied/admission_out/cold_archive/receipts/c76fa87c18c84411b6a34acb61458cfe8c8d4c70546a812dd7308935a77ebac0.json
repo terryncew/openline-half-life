@@ -1,0 +1,66 @@
+{
+  "index": 2,
+  "kind": "trajectory_turn",
+  "parent_hash": "1d55fbb3ec5a9977e4108193e55751a020a41c5f00cad91e83c7d7dab2028b0e",
+  "payload": {
+    "run_id": "candidate-admission-demo",
+    "turn": 3,
+    "turn_hash": "c5fe6d28811b2eaa8176596810dde0ca0060cb5ea619d990b7750449de9ccb17",
+    "turn_record": {
+      "claims": [
+        {
+          "evidence_refs": [
+            "ev-flag-3"
+          ],
+          "id": "claim-flag-3",
+          "last_verified_turn": 3,
+          "material": true,
+          "slot": "experimental_flag",
+          "support_status": "unsupported",
+          "value": true
+        }
+      ],
+      "constraints": [],
+      "cost": {
+        "input_tokens": 103,
+        "output_tokens": 23
+      },
+      "evidence": [
+        {
+          "expires_after_turns": 100,
+          "id": "ev-flag-3",
+          "observed_turn": 3,
+          "sha256": "2c1e0735d7e35c5f619b8155e1bbebb97131543c88fb62de4e862636d714fd00"
+        },
+        {
+          "expires_after_turns": 100,
+          "id": "ev-outcome-3",
+          "observed_turn": 3,
+          "sha256": "5bca6b77edcab4c9ef0f7eeb87be88cbcebd0e8a40016496ea64e8a3c1748d7f"
+        }
+      ],
+      "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+      "outcomes": [
+        {
+          "confirmed": false,
+          "evidence_refs": [
+            "ev-outcome-3"
+          ],
+          "id": "o-rollback",
+          "text": "Rollback executed."
+        }
+      ],
+      "run_id": "candidate-admission-demo",
+      "schema": "openline.half-life.turn.v2",
+      "summary": "Admission fixture turn 3.",
+      "turn": 3,
+      "unresolved_questions": [
+        "What is the post-cutover latency under peak load?"
+      ]
+    }
+  },
+  "receipt_hash": "c76fa87c18c84411b6a34acb61458cfe8c8d4c70546a812dd7308935a77ebac0",
+  "schema": "openline.half-life.receipt.v2",
+  "signature": "kBZ2N6QbBAgdpzY+7V4PuJgYrg1TMibfWZlpQEOEj+oNwHHM2Sd6kz3MzyteseX1eVMKybtfFoomqSpDiMhICQ==",
+  "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+}

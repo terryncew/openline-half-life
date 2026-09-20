@@ -1,0 +1,14 @@
+{
+  "index": 7,
+  "kind": "checkpoint",
+  "parent_hash": "0b372a64a184fa904837aa1e97a70a1495e4bf7a8f866cd44d8e26c4c9828e54",
+  "payload": {
+    "checkpoint_hash": "e99be6dabc07483aadcf43f8e86206a7862b491b8005e8d2ddaf118676ccc064",
+    "checkpoint_turn": 6,
+    "run_id": "candidate-admission-demo"
+  },
+  "receipt_hash": "bd6a4c79384cb0e8f8577d7ba12a44a0d7bb109897ff7382f307b324af6de4fa",
+  "schema": "openline.half-life.receipt.v2",
+  "signature": "1mylNnazh6dEQmfk2HSl8Cq4CUCLIj+NeYNs02Ophrcfeg/HrdBquaKS+8m129QBFtAqtW/bRwEZ22ivR5onCQ==",
+  "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+}

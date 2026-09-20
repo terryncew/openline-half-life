@@ -1,0 +1,62 @@
+{
+  "index": 3,
+  "kind": "trajectory_turn",
+  "parent_hash": "c76fa87c18c84411b6a34acb61458cfe8c8d4c70546a812dd7308935a77ebac0",
+  "payload": {
+    "run_id": "candidate-admission-demo",
+    "turn": 4,
+    "turn_hash": "0a1d8b2e966f352a25530a6f51acc50033c3e23f49fa7edbd1ee34cde526bbcb",
+    "turn_record": {
+      "claims": [
+        {
+          "evidence_refs": [
+            "ev-ttl-4"
+          ],
+          "id": "claim-ttl-4a",
+          "last_verified_turn": 4,
+          "material": true,
+          "slot": "cache_ttl",
+          "support_status": "supported",
+          "value": "60"
+        },
+        {
+          "evidence_refs": [
+            "ev-ttl-4"
+          ],
+          "id": "claim-ttl-4b",
+          "last_verified_turn": 4,
+          "material": true,
+          "slot": "cache_ttl",
+          "support_status": "supported",
+          "value": "120"
+        }
+      ],
+      "constraints": [],
+      "cost": {
+        "input_tokens": 104,
+        "output_tokens": 24
+      },
+      "evidence": [
+        {
+          "expires_after_turns": 100,
+          "id": "ev-ttl-4",
+          "observed_turn": 4,
+          "sha256": "520f861a46630c80ef4ba25bad5ae237311efd6b7c9dca1b3eb11540c8a3df2e"
+        }
+      ],
+      "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+      "outcomes": [],
+      "run_id": "candidate-admission-demo",
+      "schema": "openline.half-life.turn.v2",
+      "summary": "Admission fixture turn 4.",
+      "turn": 4,
+      "unresolved_questions": [
+        "What is the post-cutover latency under peak load?"
+      ]
+    }
+  },
+  "receipt_hash": "a212fb83fe8df6aa3b9d06e8374e4beffbde64a44826f801112af23909968fc4",
+  "schema": "openline.half-life.receipt.v2",
+  "signature": "evkGfTBymPzAOr4/RssLe1klIV60Ltsef//TBs5F6w0S/S+CNZfSwbvDdDe34dBy04vIWZ95OTH1hk3UsFp7Dg==",
+  "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+}

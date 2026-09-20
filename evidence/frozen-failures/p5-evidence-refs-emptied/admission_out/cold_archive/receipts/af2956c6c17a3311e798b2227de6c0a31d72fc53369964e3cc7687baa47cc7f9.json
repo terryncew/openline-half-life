@@ -1,0 +1,99 @@
+{
+  "index": 0,
+  "kind": "trajectory_turn",
+  "parent_hash": null,
+  "payload": {
+    "run_id": "candidate-admission-demo",
+    "turn": 1,
+    "turn_hash": "e32bf4a13c7f08199a0e5b23ea394a21c2fb2b877301fa828e49b2ae858414c1",
+    "turn_record": {
+      "claims": [
+        {
+          "evidence_refs": [
+            "ev-region-1"
+          ],
+          "id": "claim-region-1",
+          "last_verified_turn": 1,
+          "material": true,
+          "slot": "deployment_region",
+          "support_status": "supported",
+          "value": "us-west-2"
+        },
+        {
+          "evidence_refs": [
+            "ev-batch-1"
+          ],
+          "id": "claim-batch-1",
+          "last_verified_turn": 1,
+          "material": true,
+          "slot": "max_batch_size",
+          "support_status": "supported",
+          "value": "300"
+        }
+      ],
+      "constraints": [
+        {
+          "active": true,
+          "evidence_refs": [
+            "ev-constraint-1"
+          ],
+          "id": "c-budget",
+          "last_verified_turn": 1,
+          "text": "Batch cost must stay under the budget cap."
+        }
+      ],
+      "cost": {
+        "input_tokens": 101,
+        "output_tokens": 21
+      },
+      "evidence": [
+        {
+          "expires_after_turns": 100,
+          "id": "ev-region-1",
+          "observed_turn": 1,
+          "sha256": "1f94f87ee73de6fe20b5504446d85b67280669fa4da65ec7b3aeeee8bcda0575"
+        },
+        {
+          "expires_after_turns": 100,
+          "id": "ev-batch-1",
+          "observed_turn": 1,
+          "sha256": "1c4ff1c2e573494b4e48cb287199b542cf80446abd7d8fa54bfb925cedc511ca"
+        },
+        {
+          "expires_after_turns": 100,
+          "id": "ev-constraint-1",
+          "observed_turn": 1,
+          "sha256": "4597f7538a74eb3dec7eb7fa33544c83912980dbb554e369c3e2efabd8398bc0"
+        },
+        {
+          "expires_after_turns": 100,
+          "id": "ev-outcome-1",
+          "observed_turn": 1,
+          "sha256": "b0fe0f9601b3f2352be3b91e5e27e8a197394c5251494033c8665377d327fd61"
+        }
+      ],
+      "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+      "outcomes": [
+        {
+          "confirmed": true,
+          "evidence_refs": [
+            "ev-outcome-1"
+          ],
+          "id": "o-cutover",
+          "text": "Cutover completed."
+        }
+      ],
+      "run_id": "candidate-admission-demo",
+      "schema": "openline.half-life.turn.v2",
+      "summary": "Admission fixture turn 1.",
+      "turn": 1,
+      "unresolved_questions": [
+        "What is the post-cutover latency under peak load?"
+      ]
+    }
+  },
+  "receipt_hash": "af2956c6c17a3311e798b2227de6c0a31d72fc53369964e3cc7687baa47cc7f9",
+  "schema": "openline.half-life.receipt.v2",
+  "signature": "YPH1UeikWge++/NdOdG5hDICZO0+hcNuY6XGKKmi8EINS2W79vc0vn370OVvkcr74DN7YB/cR2WCIiGbxYx8CQ==",
+  "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+}

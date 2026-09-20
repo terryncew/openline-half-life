@@ -1,0 +1,50 @@
+{
+  "index": 4,
+  "kind": "trajectory_turn",
+  "parent_hash": "a212fb83fe8df6aa3b9d06e8374e4beffbde64a44826f801112af23909968fc4",
+  "payload": {
+    "run_id": "candidate-admission-demo",
+    "turn": 5,
+    "turn_hash": "ae06a6e8ee9cc0b7f25f8120f1678a8d584ef936df40726779b4ea0dabaa8955",
+    "turn_record": {
+      "claims": [],
+      "constraints": [
+        {
+          "active": false,
+          "evidence_refs": [
+            "ev-constraint-5"
+          ],
+          "id": "c-legacy",
+          "last_verified_turn": 5,
+          "text": "Legacy endpoint must remain reachable."
+        }
+      ],
+      "cost": {
+        "input_tokens": 105,
+        "output_tokens": 25
+      },
+      "evidence": [
+        {
+          "expires_after_turns": 100,
+          "id": "ev-constraint-5",
+          "observed_turn": 5,
+          "sha256": "57b0e6bd59d5fa3432b96245648056192837497ba3e9b3bee13ac6627b83e55b"
+        }
+      ],
+      "objective": "Exercise the compiler-neutral candidate-admission doorway.",
+      "outcomes": [],
+      "run_id": "candidate-admission-demo",
+      "schema": "openline.half-life.turn.v2",
+      "summary": "Admission fixture turn 5.",
+      "turn": 5,
+      "unresolved_questions": [
+        "What is the post-cutover latency under peak load?",
+        "Who owns the legacy endpoint decommission decision?"
+      ]
+    }
+  },
+  "receipt_hash": "f3b2f4fc231233808179db4ff1e238709fc294ea3b61f7febfd1d48fed1c9c4c",
+  "schema": "openline.half-life.receipt.v2",
+  "signature": "pBG2315JQOBbPY34lvkGecgjZBt2Ryaz714IDRqpJZJvACYM32++6XofbY1o/N4LtDIXJZrBBFkcSCLPvQqAAg==",
+  "signer_public_key": "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+}

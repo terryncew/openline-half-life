@@ -1,0 +1,55 @@
+{
+  "archive": {
+    "destination": "cold_archive/receipts",
+    "hash_algorithm": "sha256",
+    "signed_manifest_required": true,
+    "source_receipt_deletion_authorized": false
+  },
+  "automatic_compaction_authorized": false,
+  "claim_boundary": "Compaction is allowed only under operator-owned policy, a separately signed approval, complete source-chain verification, recoverable archive custody, and independent decision replay.",
+  "decision_equivalence_required": true,
+  "keep": [
+    "confirmed_outcomes",
+    "currently_supported_claims",
+    "evidence_references",
+    "live_constraints",
+    "rehydration_conditions",
+    "source_and_policy_bindings",
+    "tombstones",
+    "unresolved_questions"
+  ],
+  "merge": [
+    "exact_duplicates",
+    "settled_intermediate_steps",
+    "superseded_versions"
+  ],
+  "operator_approval_required": true,
+  "payload_hash": "e6b6f19e7f29ac3e0bdd0e9e6ac98815db42482da319a49d95f2685de30ef86e",
+  "policy_version": "0.4",
+  "rehydration_conditions": [
+    "constraint_changed",
+    "evidence_revoked",
+    "compaction_policy_changed",
+    "trusted_key_changed",
+    "unresolved_state_changed",
+    "decision_mismatch"
+  ],
+  "schema": "openline.half-life.compaction-policy.v2",
+  "self_approval_forbidden": true,
+  "signature": {
+    "algorithm": "Ed25519",
+    "public_key": "a09aa5f47a6759802ff955f8dc2d2a14a5c99d23be97f864127ff9383455a4f0",
+    "value": "5bca10988da8bfda2abeacde3ac339c8d5bcc88fedc5665d696f92360d1e857388d8ee2ba7b7c4b059225541622c890c9621c1e0c6d58cb91a501930f1ddca01"
+  },
+  "trigger": {
+    "active_receipt_bytes_budget": 25000,
+    "replay_latency_micros_budget": 50000,
+    "rule": "propose_when_either_budget_is_crossed"
+  },
+  "trusted_operator_approval_public_keys": [
+    "17cb79fb2b4120f2b1ec65e4198d6e08b28e813feb01e4a400839b85e18080ce"
+  ],
+  "trusted_source_signer_keys_b64": [
+    "0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc="
+  ]
+}
